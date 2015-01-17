@@ -8,7 +8,8 @@
 # Based on code from http://www.circuidipity.com/bbb-led.html
 #
 # Use CTRL-C to stop the script. Use unxport.sh to unexport the pin.
-
+# Note that this script sets the direction register of the pin to OUTPUT
+# and then toggles the value between 0 & 1
 GPIO="/sys/class/gpio"
 
 # Sleep time (blink on/off time)
@@ -44,13 +45,16 @@ else
     sleep 1
 fi
 
+# set direction to OUT
+echo out > $GPIOPIN/direction
+
 echo "Use CTRL-C to stop the script. Use unxport.sh to unexport the pin."
 
 while [ true ]; do
     # set GPIO pin to high ('1') - ON
-    echo high > $GPIOPIN/direction
+    echo 1 > $GPIOPIN/value
     sleep $TIME
     # set GPIO pin to low ('0') - OFF
-    echo low > $GPIOPIN/direction
+    echo 0 > $GPIOPIN/value
     sleep $TIME
 done
