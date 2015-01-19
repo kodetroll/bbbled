@@ -6,30 +6,23 @@
 # Author: Kodetroll
 # Date: January 2015
 # Based on code from http://www.circuidipity.com/bbb-led.html
-
-GPIO="/sys/class/gpio"
-
-function usage () {
-    echo "Usage: $0 <GPIO#>"
-}
+UTYPE=1
+. ./functions.sh
 
 # check to see if we are running as sudo (root), if not, bail!
-if ! id | grep -q root; then
-        echo "must be run as root"
-        exit
-fi
-
-if [ -z "$1" ]; then
-    echo "No GPIO pin specified, exiting!"
-    usage
-    exit 0
-fi
+check_root
 
 PIN=$1
-# define the GPIO PIN
-GPIOPIN="$GPIO/gpio$PIN"
+# Check to see if a valid pin# argument has been supplied
+check_pinarg $PIN
 
-# set to high
-echo high > $GPIOPIN/direction
-# set to low
-echo low > $GPIOPIN/direction
+toggle $PIN
+#if digrd $PIN; then
+#    # pin is currently 0, set to 1
+#    digwr $PIN 1
+#else
+#    # pin is currently 1, set to 0
+#    digwr $PIN 0
+#fi
+
+# Done

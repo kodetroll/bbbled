@@ -10,51 +10,35 @@
 # Use CTRL-C to stop the script. Use unxport.sh to unexport the pin.
 # Note that this script sets the direction register of the pin to OUTPUT
 # and then toggles the value between 0 & 1
-GPIO="/sys/class/gpio"
+UTYPE=1
+. ./functions.sh
+
+# check to see if we are running as sudo (root), if not, bail!
+check_root
 
 # Sleep time (blink on/off time)
 TIME=2
 
-function usage () {
-    echo "Usage: $0 <GPIO#>"
-}
-
-# check to see if we are running as sudo (root), if not, bail!
-if ! id | grep -q root; then
-        echo "must be run as root"
-        exit
-fi
-
-if [ -z "$1" ]; then
-    echo "No GPIO pin specified, exiting!"
-    usage
-    exit 0
-fi
-
 PIN=$1
-# define the GPIO PIN
-GPIOPIN="$GPIO/gpio$PIN"
+# Check to see if a valid pin# argument has been supplied
+check_pinarg $PIN
 
 # Check to see if the GPIO pin is already exported
-if [ -d "$GPIOPIN" ]; then
-    echo "GPIO Pin $PIN is already exported!"
-else
-    # if not, then we export the desired GPIO pin
-    echo $PIN > $GPIO/export
-    echo "GPIO Pin $PIN is now exported!"
-    sleep 1
-fi
+if ! check_exported $PIN ; then xport $PIN; fi
 
 # set direction to OUT
-echo out > $GPIOPIN/direction
+setdir 44 out
 
-echo "Use CTRL-C to stop the script. Use unxport.sh to unexport the pin."
+echo "Use CTRL-C to stop the script. Use 'unxport.sh $PIN' to unexport the pin."
 
 while [ true ]; do
     # set GPIO pin to high ('1') - ON
-    echo 1 > $GPIOPIN/value
+    digwr $PIN 1
     sleep $TIME
+
     # set GPIO pin to low ('0') - OFF
-    echo 0 > $GPIOPIN/value
+    digwr $PIN 0
     sleep $TIME
 done
+
+# Done

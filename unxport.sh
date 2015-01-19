@@ -7,24 +7,17 @@
 # Date: January 2015
 # Based on code from http://www.circuidipity.com/bbb-led.html
 #
-# usage: unxport gpio#, e.g. 'unxport 44'
-
-GPIO="/sys/class/gpio"
-
-function usage () {
-    echo "Usage: $0 <GPIO#>"
-}
+UTYPE=1
+. ./functions.sh
 
 # check to see if we are running as sudo (root), if not, bail!
-if ! id | grep -q root; then
-        echo "must be run as root"
-        exit
-fi
+check_root
 
-if [ -z "$1" ]; then
-    echo "No GPIO pin specified, exiting!"
-    usage
-    exit 0
-fi
+PIN=$1
+# Check to see if a valid pin# argument has been supplied
+check_pinarg $PIN
 
-echo $1 > $GPIO/unexport
+# Check to see if the GPIO pin is already exported, if so, then unexport it!
+if check_exported $PIN ; then unxport $PIN; fi
+
+# Done

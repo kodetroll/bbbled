@@ -1,6 +1,6 @@
 #!/bin/bash
-# digitalread.sh - A script to read the value of the specified GPIO pin and
-# print it's value to STDOUT.
+# getdirection.sh - A script to read the direction setting of the specfified
+# GPIO pin and print that value to STDOUT. If not already exported, it will be
 #
 # (C) 2015 KB4OID Labs, a division of Kodetroll Heavy Industries
 #
@@ -17,10 +17,10 @@ PIN=$1
 # Check to see if a valid pin# argument has been supplied
 check_pinarg $PIN
 
-# set to pin to 'input'
-#setdir $PIN in
+# Check to see if the GPIO pin is already exported, if not, export it!
+if ! check_exported $PIN ; then xport $PIN; fi
 
-# read value and print it
-if digrd $PIN; then echo "0"; else echo "1"; fi
+# print the value of direction register
+getdir $PIN
 
 # Done
