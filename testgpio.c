@@ -52,10 +52,10 @@ int main(int argc, char * argv[])
         exit(1);
     }
 
-//    if (gpio_unexport(pin) < 0) {
-//        printf("Error unexporting pin '%d'\n",pin);
-//        exit(1);
-//    }
+    if (gpio_unexport(pin) < 0) {
+        printf("Error unexporting pin '%d'\n",pin);
+        exit(1);
+    }
 
     exit(0);
 }
