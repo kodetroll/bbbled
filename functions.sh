@@ -41,6 +41,10 @@ function usage3 () {
     echo "Usage: $0 <GPIO#> <DIR>"
 }
 
+function usage4 () {
+    echo "Usage: $0 <LED> <STATE>"
+}
+
 # Check to see if the GPIO pin is already exported
 function check_exported() {
     local PIN=$1
@@ -198,6 +202,25 @@ function check_dirarg() {
         exit 1
     fi
 }
+
+# check to see if we have a valid LED specification
+function check_ledarg() {
+    if [ -z "$1" ]; then
+        echo "No LED specified, exiting!"
+        usage ${UTYPE}
+        exit 1
+    fi
+}
+
+# Check to see if a pin state argument has been supplied!
+function check_ledstatearg() {
+    if [ -z "$1" ]; then
+        echo "No LED STATE specified, exiting!"
+        usage ${UTYPE}
+        exit 1
+    fi
+}
+
 
 # check to see if we are running as sudo (root), if not, bail!
 function check_root() {
