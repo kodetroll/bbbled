@@ -41,8 +41,6 @@ Read !STATE! from !NODE!: cat !NODE!
 
 
 
-
-
 P8_3 = GPIO_38
 P8_5 = GPIO_34
 P8_7 = GPIO_66

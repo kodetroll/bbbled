@@ -19,6 +19,7 @@
 #define OFF 0
 
 //	/sys/class/leds/beaglebone\:green\:${LED}/trigger
+//	/sys/class/gpio/...
 char gpio[] = "/sys/class/gpio";
 char sysfs[120];
 char valset[20];
@@ -34,10 +35,10 @@ int write_sysfs_node(char * sysfs, char * value)
         printf("value: '%s'\n",value);
     }
 
-#ifdef USE_FNTL
+#ifdef USE_FCNTL
     fd = open(sysfs, O_WRONLY);
     if (fd < 0) {
-        printf("Error writing node '%s'\n",sysfs);
+        fprintf(stderr, "Error writing node '%s'\n",sysfs);
         return(-1);
     }
     write (fd, &value, strlen(value));
@@ -45,11 +46,11 @@ int write_sysfs_node(char * sysfs, char * value)
 #else
     FILE* f = fopen(sysfs, "w");
     if (f == NULL) {
-        fprintf(stderr, "Unable to open path for writing\n");
+        fprintf(stderr, "Error writing node '%s'\n",sysfs);
         return(-1);
     }
 
-    fprintf(f, value);
+    fprintf(f, "%s", value);
     fprintf(f, "\n");
     fclose(f);
 #endif
