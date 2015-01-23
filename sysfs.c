@@ -12,30 +12,28 @@
 #include <stdlib.h>
 #include <string.h>
 #include <fcntl.h>
+#include "sysfs.h"
 
-//	/sys/class/leds/beaglebone\:green\:${LED}/trigger
 //	/sys/class/gpio/...
+
 char gpio[] = "/sys/class/gpio";
 char sysfs[120];
 char valset[20];
-char response[20];
 
-int VERBOSE = 0;
-
-#define USE_STAT	
+int verbose = QUIET;
 
 int test_sysfs_node(char * sysfs)
 {
-#ifdef USE_STAT	
+#ifdef TEST_USES_STAT	
 	struct stat   buffer;   
 #endif
 
-    if (VERBOSE) {
+    if (verbose) {
 		printf("test_sysfs_node\n");
         printf("sysfs: '%s'\n",sysfs);
     }
 
-#ifdef USE_STAT	
+#ifdef TEST_USES_STAT	
 
   return (stat (sysfs, &buffer) == 0);
 
@@ -53,7 +51,7 @@ int read_sysfs_node(char * sysfs, char * buffer)
 {
     int fd,len;
 	char buf[50];
-    if (VERBOSE) {
+    if (verbose) {
 		printf("read_sysfs_node\n");
         printf("sysfs: '%s'\n",sysfs);
     }
@@ -78,7 +76,7 @@ int read_sysfs_node(char * sysfs, char * buffer)
 //#endif
 	strncpy(buffer,buf,strlen(buf)-1);
 	
-    if (VERBOSE) {
+    if (verbose) {
 		printf("buf: '%s'\n",buf);
 		printf("buffer: '%s'\n",buffer);
 		printf("len: '%d'\n",len);
@@ -90,7 +88,7 @@ int write_sysfs_node(char * sysfs, char * value)
 {
     int fd;
 
-    if (VERBOSE) {
+    if (verbose) {
 		printf("write_sysfs_node\n");
         printf("sysfs: '%s'\n",sysfs);
         printf("value: '%s'\n",value);
@@ -120,7 +118,7 @@ int write_sysfs_node(char * sysfs, char * value)
 
 int gpio_is_exported(int pin)
 {
-    if (VERBOSE) {
+    if (verbose) {
 		printf("gpio_is_exported\n");
         printf("pin: '%d'\n",pin);
     }
@@ -135,7 +133,7 @@ int gpio_is_exported(int pin)
 
 int gpio_export(int pin)
 {
-    if (VERBOSE) {
+    if (verbose) {
 		printf("gpio_export\n");
         printf("pin: '%d'\n",pin);
     }
@@ -143,7 +141,7 @@ int gpio_export(int pin)
     sprintf(sysfs,"%s/export",gpio);
     sprintf(valset,"%d",pin);
 
-    if (VERBOSE) {
+    if (verbose) {
         printf("sysfs: '%s'\n",sysfs);
         printf("valset: '%s'\n",valset);
     }
@@ -158,7 +156,7 @@ int gpio_export(int pin)
 
 int gpio_unexport(int pin)
 {
-    if (VERBOSE) {
+    if (verbose) {
 		printf("gpio_unexport\n");
         printf("pin: '%d'\n",pin);
     }
@@ -166,7 +164,7 @@ int gpio_unexport(int pin)
     sprintf(sysfs,"%s/unexport",gpio);
     sprintf(valset,"%d",pin);
 
-    if (VERBOSE) {
+    if (verbose) {
         printf("sysfs: '%s'\n",sysfs);
         printf("valset: '%s'\n",valset);
     }
@@ -181,7 +179,7 @@ int gpio_unexport(int pin)
 
 int gpio_write_dir(int pin, int state)
 {
-    if (VERBOSE) {
+    if (verbose) {
 		printf("gpio_write_dir\n");
         printf("pin: '%d'\n",pin);
         printf("state: '%d'\n",state);
@@ -193,7 +191,7 @@ int gpio_write_dir(int pin, int state)
 	else
 		sprintf(valset,"in");
 
-    if (VERBOSE) {
+    if (verbose) {
         printf("sysfs: '%s'\n",sysfs);
         printf("valset: '%s'\n",valset);
     }
@@ -208,7 +206,7 @@ int gpio_write_dir(int pin, int state)
 
 int gpio_write(int pin, int state)
 {
-    if (VERBOSE) {
+    if (verbose) {
 		printf("gpio_write\n");
         printf("pin: '%d'\n",pin);
         printf("state: '%d'\n",state);
@@ -217,7 +215,7 @@ int gpio_write(int pin, int state)
     sprintf(sysfs,"%s/gpio%d/value",gpio,pin);
     sprintf(valset,"%d",state);
 
-    if (VERBOSE) {
+    if (verbose) {
         printf("sysfs: '%s'\n",sysfs);
         printf("valset: '%s'\n",valset);
     }
@@ -233,14 +231,14 @@ int gpio_write(int pin, int state)
 int gpio_read_dir(int pin)
 {
 	int state,len;
-    if (VERBOSE) {
+    if (verbose) {
 		printf("gpio_read_dir\n");
         printf("pin: '%d'\n",pin);
     }
 
     sprintf(sysfs,"%s/gpio%d/direction",gpio,pin);
 
-    if (VERBOSE) {
+    if (verbose) {
         printf("sysfs: '%s'\n",sysfs);
     }
 	
@@ -258,11 +256,10 @@ int gpio_read_dir(int pin)
     return(0);
 }
 
-
 int gpio_read(int pin)
 {
 	int state,len;
-    if (VERBOSE) {
+    if (verbose) {
 		printf("gpio_read\n");
         printf("pin: '%d'\n",pin);
     }
@@ -270,7 +267,7 @@ int gpio_read(int pin)
     sprintf(sysfs,"%s/gpio%d/value",gpio,pin);
     //sprintf(valset,"%d",state);
 
-    if (VERBOSE) {
+    if (verbose) {
         printf("sysfs: '%s'\n",sysfs);
     }
 	

@@ -29,9 +29,9 @@ int main(int argc, char * argv[])
     pin = 23;
     state = 1;
 
-    VERBOSE=0;
+    verbose = QUIET;
 
-    if (VERBOSE) {
+    if (verbose) {
         printf("argc: %d\n",argc);
         for (i=0;i<argc;i++)
             printf("argv[%d]: '%s'\n",i,argv[i]);
@@ -42,18 +42,18 @@ int main(int argc, char * argv[])
     if (argc > 2)
         state = atoi(argv[2]);
 
-    if (VERBOSE) {
+    if (verbose) {
         printf("pin: '%d'\n",pin);
         printf("state: '%d'\n",state);
     }
 	
 	// Check if gpio pin is already exported, if not, export it
 	if (gpio_is_exported(pin) == 0) {
-		if (VERBOSE)
+		if (verbose)
 			printf("pin '%d' already exported!\n",pin);
 	} else {
 		// Export
-		if (VERBOSE)
+		if (verbose)
 			printf("Exporting pin '%d'!\n",pin);
 		if (gpio_export(pin) < 0) {
 			printf("Error exporting pin '%d'\n",pin);
@@ -72,17 +72,17 @@ int main(int argc, char * argv[])
         exit(1);
     }
 
-    VERBOSE=1;
-    int l = gpio_read(pin,state);
+    verbose = VERBOSE;
+    int l = gpio_read(pin);
 
 #ifdef UNEXPORT_ON_EXIT
 	
 	// Check if gpio pin is already exported, if so, unmap
 	if (gpio_is_exported(pin) == 0) {
-		if (VERBOSE)
+		if (verbose)
 			printf("pin '%d' already exported!\n",pin);
 	} else {
-		if (VERBOSE)
+		if (verbose)
 			printf("Exporting pin '%d'!\n",pin);
 		if (gpio_unexport(pin) < 0) {
 			printf("Error unexporting pin '%d'\n",pin);

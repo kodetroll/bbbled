@@ -16,7 +16,8 @@
 extern "C" {
 #endif
 
-extern int VERBOSE;
+#define VERBOSE 1
+#define QUIET 0
 
 #define HIGH 1
 #define LOW 0
@@ -26,12 +27,65 @@ extern int VERBOSE;
 #define OUT 1
 #define IN 0
 
-int test_sysfs_node(char * sysfs);
-int read_sysfs_node(char * sysfs, char * buffer);
-int write_sysfs_node(char * sysfs, char * value);
-int gpio_export(int pin);
-int gpio_unexport(int pin);
-int gpio_write_dir(int pin, int state);
-int gpio_write(int pin, int state);
+#define TEST_USES_STAT
 
+/* Parameter to control debug printing */
+extern int verbose;
+
+
+/* Function to test whether sysfs node exists. Returns 0 for 
+ * available, -1 for does not exist. Can use stat() or access()
+ * for the test. Defaults to access(), hoever, defining 
+ * TEST_USES_STAT above will force a compile with stat()
+ * instead.
+ */
+int test_sysfs_node(char * sysfs);
+/* Function to read string from specified sysfs path. String
+ * value of node at path 'sysfs' will be returned in the buffer
+ * pointed to by 'buffer'. Return value is the size of the buffer.
+ * -1 is returned for errors. 
+ */
+int read_sysfs_node(char * sysfs, char * buffer);
+/* Functions to write specified string value to the sysfs node at
+ * the specified sysfs path. Return is 0 for OK, -1 for error during
+ * read or open.
+ */
+int write_sysfs_node(char * sysfs, char * value);
+/* Function to export specified GPIO pin via the mapper. Return is 
+ * -1 for error, 0 for OK. Availibility or existance of the sysfs
+ * node created by the export is not tested before hand.
+ */
+int gpio_export(int pin);
+/* Function un-export specified GPIO pin via the mapper. Return is 
+ * -1 for error, 0 for OK. This works, but seems to lock further use
+ * of the gpio pin.
+ */
+int gpio_unexport(int pin);
+/* Function to set the direction register for the specified pin 
+ * by writing to the '/direction' branch of the sysfs node. 
+ * Value is integer 1 for OUTPUT, 0 for INPUT. Return is -1 for
+ * error during write or open of sysfs node, 0 for OK.
+ */
+int gpio_write_dir(int pin, int state);
+/* Function to set the value of the specified pin by writing to 
+ * the '/value' branch of the sysfs node. Value is integer 1 
+ * for 1 and 0 for 0. Return is -1 for error during write or 
+ * open of sysfs node, 0 for OK.
+ */
+int gpio_write(int pin, int state);
+/* Function to read the value of direction register for the 
+ * specified pin by reading from the '/direction' branch of 
+ * the sysfs node. Value returned is integer 1 for OUTPUT, 
+ * 0 for INPUT. Return is -1 for error during write or open 
+ * of sysfs node.
+ */
+int gpio_read_dir(int pin);
+/* Function to read the value of the specified pin by reading 
+ * from the '/value' branch of the sysfs node. Value returned 
+ * is either 1 or 0 representing the values '0' and '1' read
+ * from the node. -1 is returned for errors during write or 
+ * open of sysfs node.
+ */
+int gpio_read(int pin);
+ 
 #endif	// SYSFS_H
