@@ -64,6 +64,7 @@ int read_sysfs_node(char * sysfs, char * buffer)
         fprintf(stderr, "Error opening node '%s'\n",sysfs);
         return(-1);
     }
+    printf("fd: '%d'\n",fd);
     len = read (fd, &buffer, 56);
     close(fd);
 //#else
