@@ -61,6 +61,11 @@ int main(int argc, char * argv[])
 		}
     }
 	
+    if (gpio_write(pin,OUT) < 0) {
+        printf("Error setting pin '%d' direction\n",pin);
+        exit(1);
+    }
+    
 	// Write desired value to pin
     if (gpio_write(pin,state) < 0) {
         printf("Error writing pin '%d'\n",pin);

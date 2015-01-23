@@ -13,16 +13,12 @@
 #include <string.h>
 #include <fcntl.h>
 
-#define HIGH 1
-#define LOW 0
-#define ON 1
-#define OFF 0
-
 //	/sys/class/leds/beaglebone\:green\:${LED}/trigger
 //	/sys/class/gpio/...
 char gpio[] = "/sys/class/gpio";
 char sysfs[120];
 char valset[20];
+char response[20];
 
 int VERBOSE = 0;
 
@@ -40,6 +36,36 @@ int test_sysfs_node(char * sysfs)
 	} else {
 		return(-1);
 	}
+}
+
+int read_sysfs_node(char * sysfs, char * buffer)
+{
+    int fd,len;
+
+    if (VERBOSE) {
+		printf("read_sysfs_node\n");
+        printf("sysfs: '%s'\n",sysfs);
+    }
+
+#ifdef USE_FCNTL
+    fd = open(sysfs, O_RDONLY);
+    if (fd < 0) {
+        fprintf(stderr, "Error opening node '%s'\n",sysfs);
+        return(-1);
+    }
+    len = read (fd, &buffer, 56);
+    close(fd);
+#else
+    FILE* f = fopen(sysfs, "w");
+    if (f == NULL) {
+        fprintf(stderr, "Error writing node '%s'\n",sysfs);
+        return(-1);
+    }
+
+    len = fread(&buffer,1,56,f);
+    fclose(f);
+#endif
+    return(len);
 }
 
 int write_sysfs_node(char * sysfs, char * value)
@@ -129,6 +155,33 @@ int gpio_unexport(int pin)
 
     if (write_sysfs_node(sysfs, valset) < 0) {
         printf("Error unexporting pin '%d' to node '%s'\n",pin,gpio);
+        return(-1);
+    }
+
+    return(0);
+}
+
+int gpio_write_dir(int pin, int state)
+{
+    if (VERBOSE) {
+		printf("gpio_write_dir\n");
+        printf("pin: '%d'\n",pin);
+        printf("state: '%d'\n",state);
+    }
+
+    sprintf(sysfs,"%s/gpio%d/value",gpio,pin);
+	if (state == 1)
+		sprintf(valset,"out");
+	else
+		sprintf(valset,"in");
+
+    if (VERBOSE) {
+        printf("sysfs: '%s'\n",sysfs);
+        printf("valset: '%s'\n",valset);
+    }
+
+    if (write_sysfs_node(sysfs, valset) < 0) {
+        printf("Error writing to pin '%d' at node '%s'\n",pin,gpio);
         return(-1);
     }
 
