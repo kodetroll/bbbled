@@ -65,7 +65,7 @@ int read_sysfs_node(char * sysfs, char * buffer)
         return(-1);
     }
     printf("fd: '%d'\n",fd);
-    len = read (fd, &buffer, 56);
+    len = read (fd, &buffer, 300);
     close(fd);
 //#else
 //    FILE* f = fopen(sysfs, "w");
