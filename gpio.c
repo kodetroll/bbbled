@@ -43,15 +43,14 @@ int main(int argc, char * argv[])
 
 	if (gpio_is_exported(pin) == 0) {
         printf("pin '%d' already exported!\n",pin);
-        exit(0);
+	} else {
+		printf("Exporting pin '%d'!\n",pin);
+		if (gpio_export(pin) < 0) {
+			printf("Error exporting pin '%d'\n",pin);
+			exit(1);
+		}
     }
-	exit(0);
 	
-    if (gpio_export(pin) < 0) {
-        printf("Error exporting pin '%d'\n",pin);
-        exit(1);
-    }
-
     if (gpio_write(pin,state) < 0) {
         printf("Error writing pin '%d'\n",pin);
         exit(1);
