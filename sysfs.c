@@ -73,7 +73,7 @@ int read_sysfs_node(char * sysfs, char * buffer)
         return(-1);
     }
 
-    len = fread(&buf,1,sizeof(buf),f);
+    len = fread(buf,1,sizeof(buf),f);
     fclose(f);
 #endif
 	strncpy(buffer,buf,strlen(buf)-1);
