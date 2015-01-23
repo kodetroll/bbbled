@@ -22,20 +22,31 @@ char response[20];
 
 int VERBOSE = 0;
 
+#define USE_STAT	
+
 int test_sysfs_node(char * sysfs)
 {
-    int fd;
+#ifdef USE_STAT	
+	struct stat   buffer;   
+#endif
 
     if (VERBOSE) {
 		printf("test_sysfs_node\n");
         printf("sysfs: '%s'\n",sysfs);
     }
 
-	if( access( sysfs, F_OK ) != -1 ) {
-		return(0);
-	} else {
+#ifdef USE_STAT	
+
+  return (stat (sysfs, &buffer) == 0);
+
+#else
+  
+  if (access(sysfs, F_OK ) == -1)
 		return(-1);
-	}
+		
+	return(0);
+#endif
+
 }
 
 int read_sysfs_node(char * sysfs, char * buffer)
