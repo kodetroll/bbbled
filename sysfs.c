@@ -40,23 +40,6 @@ int test_sysfs_node(char * sysfs)
 	} else {
 		return(-1);
 	}
-	
-#ifdef USE_FCNTL
-    fd = open(sysfs, O_WRONLY);
-    if (fd < 0) {
-        fprintf(stderr, "Error writing node '%s'\n",sysfs);
-        return(-1);
-    }	
-    close(fd);
-#else
-    FILE* f = fopen(sysfs, "w");
-    if (f == NULL) {
-        fprintf(stderr, "Error writing node '%s'\n",sysfs);
-        return(-1);
-    }
-    fclose(f);
-#endif
-    return(0);
 }
 
 int write_sysfs_node(char * sysfs, char * value)
