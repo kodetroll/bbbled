@@ -29,7 +29,7 @@ int main(int argc, char * argv[])
     pin = 23;
     state = 1;
 
-    VERBOSE=1;
+    VERBOSE=0;
 
     if (VERBOSE) {
         printf("argc: %d\n",argc);
