@@ -249,7 +249,9 @@ int gpio_read_dir(int pin)
         return(-1);
     }
 
-	printf("valset: '%s'\n",valset);
+    if (verbose) {
+		printf("valset: '%s'\n",valset);
+	}
 	if (strncmp(valset,"out",3) == 0)
 		return(1);
 
@@ -278,7 +280,9 @@ int gpio_read(int pin)
         return(-1);
     }
 
-	printf("valset: '%s'\n",valset);
+    if (verbose) {
+		printf("valset: '%s'\n",valset);
+	}
 	if (strncmp(valset,"1",1) == 0)
 		return(1);
 
