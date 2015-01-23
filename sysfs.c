@@ -52,7 +52,7 @@ int test_sysfs_node(char * sysfs)
 int read_sysfs_node(char * sysfs, char * buffer)
 {
     int fd,len;
-
+	char buf[50];
     if (VERBOSE) {
 		printf("read_sysfs_node\n");
         printf("sysfs: '%s'\n",sysfs);
@@ -65,8 +65,9 @@ int read_sysfs_node(char * sysfs, char * buffer)
         return(-1);
     }
     printf("fd: '%d'\n",fd);
-    len = read (fd, &buffer, 300);
+    len = read (fd, &buf, sizeof(buf));
     close(fd);
+    printf("buf: '%s'\n",buf);
 //#else
 //    FILE* f = fopen(sysfs, "w");
 //    if (f == NULL) {
@@ -77,11 +78,12 @@ int read_sysfs_node(char * sysfs, char * buffer)
 //    len = fread(&buffer,1,56,f);
 //    fclose(f);
 //#endif
-
-    if (VERBOSE) {
+	strncpy(buffer,buf,sizeof(buf));
+	
+//    if (VERBOSE) {
 		printf("buffer: '%s'\n",buffer);
 		printf("len: '%d'\n",len);
-	}
+//	}
     return(len);
 }
 
