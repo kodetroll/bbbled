@@ -212,3 +212,31 @@ int gpio_write(int pin, int state)
     return(0);
 }
 
+int gpio_read(int pin)
+{
+	int state,len;
+    if (VERBOSE) {
+		printf("gpio_write\n");
+        printf("pin: '%d'\n",pin);
+    }
+
+    sprintf(sysfs,"%s/gpio%d/value",gpio,pin);
+    //sprintf(valset,"%d",state);
+
+    if (VERBOSE) {
+        printf("sysfs: '%s'\n",sysfs);
+    }
+	
+	memset(valset,0x00,sizeof(valset));
+	
+    if ((len = read_sysfs_node(sysfs, valset)) < 0) {
+        printf("Error reading pin '%d' at node '%s'\n",pin,gpio);
+        return(-1);
+    }
+
+	printf("valset: '%s'\n",valset);
+
+    return(0);
+}
+
+

@@ -72,6 +72,8 @@ int main(int argc, char * argv[])
         exit(1);
     }
 
+    int l = gpio_read(pin,state);
+
 #ifdef UNEXPORT_ON_EXIT
 	
 	// Check if gpio pin is already exported, if so, unmap
