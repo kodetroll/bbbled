@@ -19,7 +19,8 @@ int main(int argc, char * argv[])
     int pin, state, i;
 
     pin = 23;
-    state = 1;
+    duty = 1;
+    period = 1;
 
     VERBOSE=1;
 
@@ -32,27 +33,16 @@ int main(int argc, char * argv[])
     if (argc > 1)
         pin = atoi(argv[1]);
     if (argc > 2)
-        state = atoi(argv[2]);
+        duty = atoi(argv[2]);
+    if (argc > 3)
+        period = atoi(argv[3]);
 
     if (VERBOSE) {
         printf("pin: '%d'\n",pin);
-        printf("state: '%d'\n",state);
+        printf("duty: '%d'\n",duty);
+        printf("period: '%d'\n",period);
     }
 
-    if (gpio_export(pin) < 0) {
-        printf("Error exporting pin '%d'\n",pin);
-        exit(1);
-    }
-
-    if (gpio_write(pin,state) < 0) {
-        printf("Error writing pin '%d'\n",pin);
-        exit(1);
-    }
-
-//    if (gpio_unexport(pin) < 0) {
-//        printf("Error unexporting pin '%d'\n",pin);
-//        exit(1);
-//    }
 
     exit(0);
 }

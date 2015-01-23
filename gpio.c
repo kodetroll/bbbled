@@ -1,11 +1,17 @@
 /*************************************************************************
- * gpio.c - A c program to test setting gpio pin state using sysfs from
- * userspace on the Beagle Bone Black
+ * gpio.c - A c program to test controlling gpio pin state using sysfs 
+ * from userspace on the Beagle Bone Black
  *
  * (C) 2015 KB4OID Labs, A division of Kodetroll Heavy Industries
  * Author: Kodetroll
  * Date: January 2015
  *
+ * TO control a GPIO Pin via sysfs:
+ * 1) Export the pin: echo PIN# > /sys/class/gpio/export
+ * 2) To set value: echo VALUE > /sys/class/gpio/gpioPIN#/value
+ * 3) To read value: cat /sys/class/gpio/gpioPIN#/value
+ * 4) Unexport the pin: echo PIN# > /sys/class/gpio/unexport
+ * 
  *************************************************************************/
 
 #include <stdio.h>
@@ -40,26 +46,40 @@ int main(int argc, char * argv[])
         printf("pin: '%d'\n",pin);
         printf("state: '%d'\n",state);
     }
-
+	
+	// Check if gpio pin is already exported, if not, export it
 	if (gpio_is_exported(pin) == 0) {
-        printf("pin '%d' already exported!\n",pin);
+		if (VERBOSE)
+			printf("pin '%d' already exported!\n",pin);
 	} else {
-		printf("Exporting pin '%d'!\n",pin);
+		// Export
+		if (VERBOSE)
+			printf("Exporting pin '%d'!\n",pin);
 		if (gpio_export(pin) < 0) {
 			printf("Error exporting pin '%d'\n",pin);
 			exit(1);
 		}
     }
 	
+	// Write desired value to pin
     if (gpio_write(pin,state) < 0) {
         printf("Error writing pin '%d'\n",pin);
         exit(1);
     }
 
 #ifdef UNEXPORT_ON_EXIT
-    if (gpio_unexport(pin) < 0) {
-        printf("Error unexporting pin '%d'\n",pin);
-        exit(1);
+	
+	// Check if gpio pin is already exported, if so, unmap
+	if (gpio_is_exported(pin) == 0) {
+		if (VERBOSE)
+			printf("pin '%d' already exported!\n",pin);
+	} else {
+		if (VERBOSE)
+			printf("Exporting pin '%d'!\n",pin);
+		if (gpio_unexport(pin) < 0) {
+			printf("Error unexporting pin '%d'\n",pin);
+			exit(1);
+		}
     }
 #endif
 
