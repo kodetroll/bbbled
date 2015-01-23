@@ -58,7 +58,7 @@ int read_sysfs_node(char * sysfs, char * buffer)
         printf("sysfs: '%s'\n",sysfs);
     }
 
-#ifdef USE_FCNTL
+//#ifdef USE_FCNTL
     fd = open(sysfs, O_RDONLY);
     if (fd < 0) {
         fprintf(stderr, "Error opening node '%s'\n",sysfs);
@@ -66,16 +66,16 @@ int read_sysfs_node(char * sysfs, char * buffer)
     }
     len = read (fd, &buffer, 56);
     close(fd);
-#else
-    FILE* f = fopen(sysfs, "w");
-    if (f == NULL) {
-        fprintf(stderr, "Error writing node '%s'\n",sysfs);
-        return(-1);
-    }
-
-    len = fread(&buffer,1,56,f);
-    fclose(f);
-#endif
+//#else
+//    FILE* f = fopen(sysfs, "w");
+//    if (f == NULL) {
+//        fprintf(stderr, "Error writing node '%s'\n",sysfs);
+//        return(-1);
+//    }
+//
+//    len = fread(&buffer,1,56,f);
+//    fclose(f);
+//#endif
 
     if (VERBOSE) {
 		printf("buffer: '%s'\n",buffer);
