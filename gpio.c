@@ -73,17 +73,18 @@ int main(int argc, char * argv[])
     }
 
     verbose = VERBOSE;
+    
     int l = gpio_read(pin);
 
 #ifdef UNEXPORT_ON_EXIT
 	
 	// Check if gpio pin is already exported, if so, unmap
-	if (gpio_is_exported(pin) == 0) {
+	if (gpio_is_exported(pin) != 0) {
 		if (verbose)
-			printf("pin '%d' already exported!\n",pin);
+			printf("pin '%d' already unexported!\n",pin);
 	} else {
 		if (verbose)
-			printf("Exporting pin '%d'!\n",pin);
+			printf("Un-exporting pin '%d'!\n",pin);
 		if (gpio_unexport(pin) < 0) {
 			printf("Error unexporting pin '%d'\n",pin);
 			exit(1);
