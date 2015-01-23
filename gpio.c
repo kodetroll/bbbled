@@ -72,6 +72,7 @@ int main(int argc, char * argv[])
         exit(1);
     }
 
+    VERBOSE=1;
     int l = gpio_read(pin,state);
 
 #ifdef UNEXPORT_ON_EXIT
