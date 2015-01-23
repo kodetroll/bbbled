@@ -65,6 +65,11 @@ int read_sysfs_node(char * sysfs, char * buffer)
     len = fread(&buffer,1,56,f);
     fclose(f);
 #endif
+
+    if (VERBOSE) {
+		printf("buffer: '%s'\n",buffer);
+		printf("len: '%d'\n",len);
+	}
     return(len);
 }
 
