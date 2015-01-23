@@ -35,6 +35,12 @@ int test_sysfs_node(char * sysfs)
         printf("sysfs: '%s'\n",sysfs);
     }
 
+	if( access( sysfs, F_OK ) != -1 ) {
+		return(0);
+	} else {
+		return(-1);
+	}
+	
 #ifdef USE_FCNTL
     fd = open(sysfs, O_WRONLY);
     if (fd < 0) {
