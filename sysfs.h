@@ -8,19 +8,20 @@
  *
  *************************************************************************/
 
-//#include <stdio.h>
-//#include <stdlib.h>
-//#include <string.h>
-//#include <fcntl.h>
 
-//	/sys/class/leds/beaglebone\:green\:${LED}/trigger
-//extern char gpio[] = "/sys/class/gpio";
-//extern char sysfs[120];
-//extern char valset[20];
+#ifndef SYSFS_H
+#define SYSFS_H
+
+#ifdef  __cplusplus
+extern "C" {
+#endif
 
 extern int VERBOSE;
+
+int test_sysfs_node(char * sysfs);
 int write_sysfs_node(char * sysfs, char * value);
 int gpio_export(int pin);
 int gpio_unexport(int pin);
 int gpio_write(int pin, int state);
 
+#endif	// SYSFS_H

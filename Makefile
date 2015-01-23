@@ -9,23 +9,23 @@ CC=gcc
 CC=gcc
 CFLAGS=-I.
 DEPS = sysfs.h
-OBJ = sysfs.o testgpio.o 
+OBJ = sysfs.o gpio.o 
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-all: testgpio
+all: gpio
 
-testgpio: $(OBJ)
+gpio: $(OBJ)
 	gcc -o $@ $^ $(CFLAGS)
 
-#hex2asc: $(OBJASC)
+#pwm: $(OBJPWM)
 #	gcc -o $@ $^ $(CFLAGS)
 
 .PHONY: clean
 
 cleanall:
-	rm -f testgpio *.o *~ core  
+	rm -f gpio *.o *~ core  
 clean:
 	rm -f *.o *~ core  
 

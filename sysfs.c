@@ -26,11 +26,39 @@ char valset[20];
 
 int VERBOSE = 0;
 
+int test_sysfs_node(char * sysfs)
+{
+    int fd;
+
+    if (VERBOSE) {
+		printf("test_sysfs_node\n");
+        printf("sysfs: '%s'\n",sysfs);
+    }
+
+#ifdef USE_FCNTL
+    fd = open(sysfs, O_WRONLY);
+    if (fd < 0) {
+        fprintf(stderr, "Error writing node '%s'\n",sysfs);
+        return(-1);
+    }	
+    close(fd);
+#else
+    FILE* f = fopen(sysfs, "w");
+    if (f == NULL) {
+        fprintf(stderr, "Error writing node '%s'\n",sysfs);
+        return(-1);
+    }
+    fclose(f);
+#endif
+    return(0);
+}
+
 int write_sysfs_node(char * sysfs, char * value)
 {
     int fd;
 
     if (VERBOSE) {
+		printf("write_sysfs_node\n");
         printf("sysfs: '%s'\n",sysfs);
         printf("value: '%s'\n",value);
     }
@@ -57,9 +85,25 @@ int write_sysfs_node(char * sysfs, char * value)
     return(0);
 }
 
+int gpio_is_exported(int pin)
+{
+    if (VERBOSE) {
+		printf("gpio_is_exported\n");
+        printf("pin: '%d'\n",pin);
+    }
+
+    sprintf(sysfs,"%s/gpio%d",gpio,pin);
+
+    if (test_sysfs_node(sysfs) != 0) {
+		return(-1);
+	}
+	return(0);
+}
+
 int gpio_export(int pin)
 {
     if (VERBOSE) {
+		printf("gpio_export\n");
         printf("pin: '%d'\n",pin);
     }
 
@@ -82,6 +126,7 @@ int gpio_export(int pin)
 int gpio_unexport(int pin)
 {
     if (VERBOSE) {
+		printf("gpio_unexport\n");
         printf("pin: '%d'\n",pin);
     }
 
@@ -104,6 +149,7 @@ int gpio_unexport(int pin)
 int gpio_write(int pin, int state)
 {
     if (VERBOSE) {
+		printf("gpio_write\n");
         printf("pin: '%d'\n",pin);
         printf("state: '%d'\n",state);
     }
