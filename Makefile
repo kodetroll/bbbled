@@ -18,7 +18,7 @@ OBJPWM = sysfs.o pwm_test.o
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-all: gpio_write gpio_test
+all: gpio_write gpio_test pwm_test
 
 gpio: $(OBJ)
 	gcc -o $@ $^ $(CFLAGS)
