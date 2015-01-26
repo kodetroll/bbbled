@@ -37,7 +37,7 @@ extern "C" {
 #define SYSFS_GPIO "/sys/class/gpio"
 #define SYSFS_DEV "/sys/devices"
 #define SYSFS_OCP "/sys/devices/ocp."
-#define SYSFS_CAPE "/sys/devices/capemgr."
+#define SYSFS_CAPE "/sys/devices/bone_capemgr."
 
 
 #define ERROR_OK 0
