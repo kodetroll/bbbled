@@ -61,6 +61,14 @@ int main(int argc, char * argv[])
 	}
 
 	printf("Name: '%s'\n",name);
+	
+	int cm = get_capemgr_num();
+	
+	printf("Cape Num: '%d'\n",cm);
+
+	int ocp = get_ocp_num();
+	
+	printf("OCP Num: '%d'\n",ocp);
 
 	printf("Exiting!\n");
 

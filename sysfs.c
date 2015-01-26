@@ -385,10 +385,10 @@ int get_pin_conn(int pin)
 {
 	int conn;
     
-    if (verbose) {
-		printf("get_pin_conn\n");
-        printf("pin: '%d'\n",pin);
-    }
+//    if (verbose) {
+//		printf("get_pin_conn\n");
+//        printf("pin: '%d'\n",pin);
+//    }
 	
 	switch(pin)
 	{
@@ -467,8 +467,8 @@ int get_pin_conn(int pin)
 			break;
 	}
     
-    if (verbose)
-        printf("conn: '%d'\n",conn);
+//    if (verbose)
+//        printf("conn: '%d'\n",conn);
 
 	return(conn);
 }
@@ -477,10 +477,10 @@ int get_pin_num(int pin)
 {
 	int bank,pinnum;
 	
-    if (verbose) {
-		printf("get_pin_num\n");
-        printf("pin: '%d'\n",pin);
-    }
+//    if (verbose) {
+//		printf("get_pin_num\n");
+//        printf("pin: '%d'\n",pin);
+//    }
 
 	switch(pin)
 	{
@@ -552,8 +552,8 @@ int get_pin_num(int pin)
 		default: pinnum=0; break;
 	}
 
-    if (verbose)
-        printf("pinnum: '%d'\n",pinnum);
+//    if (verbose)
+//        printf("pinnum: '%d'\n",pinnum);
 
 	return(pinnum);
 }
@@ -608,6 +608,36 @@ int get_capemgr_num(void)
     }
 
     sprintf(sysfs,SYSFS_CAPE);
+
+    if (verbose) {
+		printf("sysfs: '%s'\n",sysfs);
+	}
+
+	if ((dp = opendir(sysfs)) == NULL) {
+        printf("Error opening sysfs node '%s'\n",sysfs);
+        return(-1);
+    }
+	
+	while(NULL != (dptr = readdir(dp)) ) {
+		printf(" [%s] ",dptr->d_name);
+	}
+
+	// Close the directory stream
+	closedir(dp);        
+	return(0);
+}
+
+int get_ocp_num(void)
+{
+	int state,len;
+	DIR *dp = NULL;
+	struct dirent *dptr = NULL;
+	
+    if (verbose) {
+		printf("get_ocp_num\n");
+    }
+
+    sprintf(sysfs,SYSFS_OCP);
 
     if (verbose) {
 		printf("sysfs: '%s'\n",sysfs);
