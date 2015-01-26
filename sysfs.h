@@ -33,9 +33,12 @@ extern "C" {
 
 #define IS_EXPORTED 0
 
+#define SYSFS_CLASS "/sys/class"
 #define SYSFS_GPIO "/sys/class/gpio"
-#define SYSFS_OCP "/sys/class/ocp"
-#define SYSFS_CAPE "/sys/class/capemgr"
+#define SYSFS_DEV "/sys/devices"
+#define SYSFS_OCP "/sys/devices/ocp"
+#define SYSFS_CAPE "/sys/devices/capemgr"
+
 
 #define ERROR_OK 0
 

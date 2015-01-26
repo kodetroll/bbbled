@@ -607,7 +607,7 @@ int get_capemgr_num(void)
 		printf("get_capemgr_num\n");
     }
 
-    sprintf(sysfs,SYSFS_CAPE);
+    sprintf(sysfs,SYSFS_DEV);
 
     if (verbose) {
 		printf("sysfs: '%s'\n",sysfs);
@@ -637,7 +637,7 @@ int get_ocp_num(void)
 		printf("get_ocp_num\n");
     }
 
-    sprintf(sysfs,SYSFS_OCP);
+    sprintf(sysfs,SYSFS_DEV);
 
     if (verbose) {
 		printf("sysfs: '%s'\n",sysfs);
