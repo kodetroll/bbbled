@@ -87,7 +87,7 @@ int main(int argc, char * argv[])
 	printf("pwm_pin: '%d'\n",pwm_pin);
 	
 	long period = 1000000;
-	long duty = 500000;
+	long duty = 990000;
 	
 	printf("Setting period to '%ld' on '%s'\n",period,name);
 	
