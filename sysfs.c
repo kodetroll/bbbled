@@ -16,7 +16,7 @@
 
 //	/sys/class/gpio/...
 
-char gpio[] = "/sys/class/gpio";
+//char gpio[] = "/sys/class/gpio";
 char sysfs[120];
 char valset[20];
 
@@ -123,7 +123,8 @@ int gpio_is_exported(int pin)
         printf("pin: '%d'\n",pin);
     }
 
-    sprintf(sysfs,"%s/gpio%d",gpio,pin);
+    //sprintf(sysfs,"%s/gpio%d",gpio,pin);
+    sprintf(sysfs,SYSFS_GPIO "/gpio%d",pin);
 
     if (test_sysfs_node(sysfs) != 0) {
 		return(-1);
@@ -138,7 +139,9 @@ int gpio_export(int pin)
         printf("pin: '%d'\n",pin);
     }
 
-    sprintf(sysfs,"%s/export",gpio);
+    //sprintf(sysfs,"%s/export",gpio);
+    sprintf(sysfs,SYSFS_GPIO "/export");
+    
     sprintf(valset,"%d",pin);
 
     if (verbose) {
@@ -147,7 +150,7 @@ int gpio_export(int pin)
     }
 
     if (write_sysfs_node(sysfs, valset) < 0) {
-        printf("Error exporting pin '%d' to node '%s'\n",pin,gpio);
+        printf("Error exporting pin '%d' to node '%s/export'\n",pin,SYSFS_GPIO);
         return(-1);
     }
 
@@ -161,7 +164,8 @@ int gpio_unexport(int pin)
         printf("pin: '%d'\n",pin);
     }
 
-    sprintf(sysfs,"%s/unexport",gpio);
+    //sprintf(sysfs,"%s/unexport",gpio);
+    sprintf(sysfs,SYSFS_GPIO "/unexport");
     sprintf(valset,"%d",pin);
 
     if (verbose) {
@@ -170,7 +174,7 @@ int gpio_unexport(int pin)
     }
 
     if (write_sysfs_node(sysfs, valset) < 0) {
-        printf("Error unexporting pin '%d' to node '%s'\n",pin,gpio);
+        printf("Error unexporting pin '%d' to node '%s/unexport'\n",pin,SYSFS_GPIO);
         return(-1);
     }
 
@@ -185,7 +189,8 @@ int gpio_write_dir(int pin, int state)
         printf("state: '%d'\n",state);
     }
 
-    sprintf(sysfs,"%s/gpio%d/value",gpio,pin);
+    //sprintf(sysfs,"%s/gpio%d/value",gpio,pin);
+    sprintf(sysfs,SYSFS_GPIO "/gpio%d/direction",pin);
 	if (state == 1)
 		sprintf(valset,"out");
 	else
@@ -197,7 +202,7 @@ int gpio_write_dir(int pin, int state)
     }
 
     if (write_sysfs_node(sysfs, valset) < 0) {
-        printf("Error writing to pin '%d' at node '%s'\n",pin,gpio);
+        printf("Error writing to pin '%d' at node '%s'\n",pin,SYSFS_GPIO);
         return(-1);
     }
 
@@ -212,7 +217,9 @@ int gpio_write(int pin, int state)
         printf("state: '%d'\n",state);
     }
 
-    sprintf(sysfs,"%s/gpio%d/value",gpio,pin);
+    //sprintf(sysfs,"%s/gpio%d/value",gpio,pin);
+    sprintf(sysfs,SYSFS_GPIO "/gpio%d/value",pin);
+    
     sprintf(valset,"%d",state);
 
     if (verbose) {
@@ -221,7 +228,7 @@ int gpio_write(int pin, int state)
     }
 
     if (write_sysfs_node(sysfs, valset) < 0) {
-        printf("Error writing to pin '%d' at node '%s'\n",pin,gpio);
+        printf("Error writing to pin '%d' at node '%s'\n",pin,SYSFS_GPIO);
         return(-1);
     }
 
@@ -236,7 +243,9 @@ int gpio_read_dir(int pin)
         printf("pin: '%d'\n",pin);
     }
 
-    sprintf(sysfs,"%s/gpio%d/direction",gpio,pin);
+    //sprintf(sysfs,"%s/gpio%d/direction",gpio,pin);
+    sprintf(sysfs,SYSFS_GPIO "/gpio%d/direction",pin);
+    
 
     if (verbose) {
         printf("sysfs: '%s'\n",sysfs);
@@ -245,7 +254,7 @@ int gpio_read_dir(int pin)
 	memset(valset,0x00,sizeof(valset));
 	
     if ((len = read_sysfs_node(sysfs, valset)) < 0) {
-        printf("Error reading pin '%d' at node '%s'\n",pin,gpio);
+        printf("Error reading pin '%d' at node '%s'\n",pin,SYSFS_GPIO);
         return(-1);
     }
 
@@ -266,7 +275,7 @@ int gpio_read(int pin)
         printf("pin: '%d'\n",pin);
     }
 
-    sprintf(sysfs,"%s/gpio%d/value",gpio,pin);
+    sprintf(sysfs,SYSFS_GPIO "/gpio%d/value",pin);
     //sprintf(valset,"%d",state);
 
     if (verbose) {
@@ -276,7 +285,7 @@ int gpio_read(int pin)
 	memset(valset,0x00,sizeof(valset));
 	
     if ((len = read_sysfs_node(sysfs, valset)) < 0) {
-        printf("Error reading pin '%d' at node '%s'\n",pin,gpio);
+        printf("Error reading pin '%d' at node '%s'\n",pin,SYSFS_GPIO);
         return(-1);
     }
 

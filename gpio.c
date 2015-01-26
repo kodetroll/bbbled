@@ -76,7 +76,7 @@ int main(int argc, char * argv[])
     
 	int l = gpio_read(pin);
 	
-	printf("l: '%d'\n",l);
+	printf("%d\n",l);
 
 #ifdef UNEXPORT_ON_EXIT
 	

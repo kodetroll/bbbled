@@ -29,6 +29,8 @@ extern "C" {
 
 #define TEST_USES_STAT
 
+#define SYSFS_GPIO "/sys/class/gpio"
+
 /* Parameter to control debug printing */
 extern int verbose;
 
