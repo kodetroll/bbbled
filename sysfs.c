@@ -296,12 +296,13 @@ int gpio_read(int pin)
 int get_pin_bank(int pin)
 {
 	int bank;
+    
     if (verbose) {
 		printf("get_pin_bank\n");
         printf("pin: '%d'\n",pin);
     }
 	
-	int bank = pin/PIN_BANK_SIZE;
+	bank = pin/PIN_BANK_SIZE;
 
     if (verbose)
         printf("bank: '%d'\n",bank);
@@ -322,12 +323,13 @@ int get_pin_num(int pin)
 		printf("get_pin_bank\n");
         printf("pin: '%d'\n",pin);
     }
+
 	bank = get_pin_bank(pin);
 
     if (verbose)
         printf("bank: '%d'\n",bank);
 	
-	int pinnum = pin - (bank * PIN_BANK_SIZE);
+	pinnum = pin - (bank * PIN_BANK_SIZE);
 	
     if (verbose)
         printf("pinnum: '%d'\n",pinnum);
@@ -342,14 +344,15 @@ int get_pin_num(int pin)
 
 int get_pwm_pin_name(int pin, char* name)
 {
-
+	int bank,pinnum;
+	
     if (verbose) {
 		printf("get_pwm_pin_name\n");
         printf("pin: '%d'\n",pin);
         printf("name: '%s'\n",name);
     }
 	
-	int bank = get_pin_bank(pin);
+	bank = get_pin_bank(pin);
 
     if (verbose)
         printf("bank: '%d'\n",bank);
@@ -359,7 +362,7 @@ int get_pwm_pin_name(int pin, char* name)
 		exit(-1);
 	}
 	
-	int pinnum = get_pin_num(pin);
+	pinnum = get_pin_num(pin);
 	
     if (verbose)
         printf("pinnum: '%d'\n",pinnum);
@@ -386,13 +389,13 @@ int get_capemgr_num(void)
 	
     if (verbose) {
 		printf("get_capemgr_num\n");
-        printf("pin: '%d'\n",pin);
     }
 
     sprintf(sysfs,SYSFS_CAPE);
 
     if (verbose) {
 		printf("sysfs: '%s'\n",sysfs);
+	}
 
 	if ((dp = opendir(sysfs)) == NULL) {
         printf("Error opening sysfs node '%s'\n",sysfs);
@@ -405,6 +408,7 @@ int get_capemgr_num(void)
 
 	// Close the directory stream
 	closedir(dp);        
+	return(0);
 }
 
 int pwm_read_duty(int pin)
@@ -414,26 +418,6 @@ int pwm_read_duty(int pin)
 		printf("pwm_read_duty\n");
         printf("pin: '%d'\n",pin);
     }
-
-    //sprintf(sysfs,"%s/gpio%d/direction",gpio,pin);
-    sprintf(sysfs,SYSFS_GPIO "/gpio%d/direction",pin);
-  
-    if (verbose) {
-        printf("sysfs: '%s'\n",sysfs);
-    }
-	
-	memset(valset,0x00,sizeof(valset));
-	
-    if ((len = read_sysfs_node(sysfs, valset)) < 0) {
-        printf("Error reading pin '%d' at node '%s'\n",pin,SYSFS_GPIO);
-        return(-1);
-    }
-
-    if (verbose) {
-		printf("valset: '%s'\n",valset);
-	}
-	if (strncmp(valset,"out",3) == 0)
-		return(1);
 
     return(0);
 }
