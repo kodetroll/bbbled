@@ -137,6 +137,8 @@ int get_capemgr_num(void);
  * open of sysfs node.
  */
 int get_ocp_num(void);
+
+char* get_ocp_path(void);
  
 /* Function to search and return the current pwm pin instance
  * number expressed in the '/sys/devices/ocp.N' branch of sysfs. 

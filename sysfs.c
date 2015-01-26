@@ -678,6 +678,24 @@ int get_ocp_num(void)
 
 }
 
+char* get_ocp_path(void)
+{
+
+	int ocp = get_ocp_num();
+	
+    if (verbose) {
+		printf("get_ocp_path\n");
+    }
+
+    sprintf(valset,SYSFS_OCP "%d",ocp);
+
+    if (verbose) {
+		printf("sysfs: '%s'\n",valset);
+	}
+
+	return(valset);
+}
+
 int get_pwm_pin_num(char * pin_name)
 {
 	int n = -1;
@@ -686,13 +704,14 @@ int get_pwm_pin_num(char * pin_name)
 	char * ptr;
 	struct dirent *dptr = NULL;
 	
-	int ocp = get_ocp_num();
-	
     if (verbose) {
 		printf("get_pwm_pin_num\n");
+		printf("pin_name: '%s'\n",pin_name);
     }
 
-    sprintf(sysfs,SYSFS_OCP "%d",ocp);
+//	int ocp = get_ocp_num();
+	
+    sprintf(sysfs,"%s",get_ocp_path());
 
     if (verbose) {
 		printf("sysfs: '%s'\n",sysfs);
@@ -703,6 +722,10 @@ int get_pwm_pin_num(char * pin_name)
         return(-1);
     }
 	sprintf(tmp,"%s","pwm_test_%s",pin_name);
+	
+    if (verbose) {
+		printf("tmp: '%s'\n",tmp);
+	}
 	
 	while(NULL != (dptr = readdir(dp)) ) {
 		printf(" [%s] ",dptr->d_name);
