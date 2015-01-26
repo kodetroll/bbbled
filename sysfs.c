@@ -622,10 +622,10 @@ int get_capemgr_num(void)
 	sprintf(tmp,"%s","bone_capemgr.");
 	
 	while(NULL != (dptr = readdir(dp)) ) {
-		printf(" [%s] ",dptr->d_name);
+		//printf(" [%s] ",dptr->d_name);
 		if (strncmp(dptr->d_name,tmp,strlen(tmp)) == 0) {
 			ptr = strtok(dptr->d_name,".");
-			printf("ptr: '%s'\n",ptr);
+			//printf("ptr: '%s'\n",ptr);
 			ptr = strtok(NULL,".");
 			if (ptr != NULL)
 				n = atoi(ptr);
@@ -639,8 +639,10 @@ int get_capemgr_num(void)
 
 int get_ocp_num(void)
 {
-	int state,len;
+	int n = -1;
 	DIR *dp = NULL;
+	char tmp[20];
+	char * ptr;
 	struct dirent *dptr = NULL;
 	
     if (verbose) {
@@ -657,14 +659,23 @@ int get_ocp_num(void)
         printf("Error opening sysfs node '%s'\n",sysfs);
         return(-1);
     }
+	sprintf(tmp,"%s","ocp.");
 	
 	while(NULL != (dptr = readdir(dp)) ) {
-		printf(" [%s] ",dptr->d_name);
+		//printf(" [%s] ",dptr->d_name);
+		if (strncmp(dptr->d_name,tmp,strlen(tmp)) == 0) {
+			ptr = strtok(dptr->d_name,".");
+			//printf("ptr: '%s'\n",ptr);
+			ptr = strtok(NULL,".");
+			if (ptr != NULL)
+				n = atoi(ptr);
+		}				
 	}
 
 	// Close the directory stream
 	closedir(dp);        
-	return(0);
+	return(n);
+
 }
 
 int pwm_read_duty(int pin)
