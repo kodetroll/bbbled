@@ -689,7 +689,7 @@ int get_pwm_pin_num(char * pin_name)
 	int ocp = get_ocp_num();
 	
     if (verbose) {
-		printf("get_ocp_num\n");
+		printf("get_pwm_pin_num\n");
     }
 
     sprintf(sysfs,SYSFS_OCP "%d",ocp);
@@ -705,10 +705,10 @@ int get_pwm_pin_num(char * pin_name)
 	sprintf(tmp,"%s","pwm_test_%s",pin_name);
 	
 	while(NULL != (dptr = readdir(dp)) ) {
-		//printf(" [%s] ",dptr->d_name);
+		printf(" [%s] ",dptr->d_name);
 		if (strncmp(dptr->d_name,tmp,strlen(tmp)) == 0) {
 			ptr = strtok(dptr->d_name,".");
-			//printf("ptr: '%s'\n",ptr);
+			printf("ptr: '%s'\n",ptr);
 			ptr = strtok(NULL,".");
 			if (ptr != NULL)
 				n = atoi(ptr);
