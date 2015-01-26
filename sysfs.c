@@ -715,7 +715,7 @@ char* get_pwm_pin_path(char * pin_name)
 		printf("pin: '%d'\n",pin_num);
 	}
 	
-	sprintf(valset,"%s/bone_pwm_%s.%d",sysfs,pin_name,pin_num);	
+	sprintf(valset,"%s/pwm_test_%s.%d",sysfs,pin_name,pin_num);	
 	
     if (verbose) {
 		printf("valset: '%s'\n",valset);
