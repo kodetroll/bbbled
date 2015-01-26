@@ -721,7 +721,7 @@ int get_pwm_pin_num(char * pin_name)
         printf("Error opening sysfs node '%s'\n",sysfs);
         return(-1);
     }
-	sprintf(tmp,"%s","pwm_test_%s",pin_name);
+	sprintf(tmp,"pwm_test_%s",pin_name);
 	
     if (verbose) {
 		printf("tmp: '%s'\n",tmp);
