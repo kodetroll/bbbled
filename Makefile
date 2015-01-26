@@ -11,7 +11,7 @@ CFLAGS=-I.
 DEPS = sysfs.h
 #OBJ = sysfs.o gpio.o 
 OBJWR = sysfs.o gpio_write.o 
-OBJWR = sysfs.o gpio_test.o 
+OBJTEST = sysfs.o gpio_test.o 
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
