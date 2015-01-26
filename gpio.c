@@ -1,5 +1,5 @@
 /*************************************************************************
- * gpio.c - A c program to test controlling gpio pin state using sysfs 
+ * gpio.c - A c program to test controlling gpio pin state using sysfs
  * from userspace on the Beagle Bone Black
  *
  * (C) 2015 KB4OID Labs, A division of Kodetroll Heavy Industries
@@ -11,7 +11,7 @@
  * 2) To set value: echo VALUE > /sys/class/gpio/gpioPIN#/value
  * 3) To read value: cat /sys/class/gpio/gpioPIN#/value
  * 4) Unexport the pin: echo PIN# > /sys/class/gpio/unexport
- * 
+ *
  *************************************************************************/
 
 #include <stdio.h>
@@ -24,29 +24,29 @@
 
 int main(int argc, char * argv[])
 {
-    int pin, state, i;
+	int pin, state, i;
 
-    pin = 23;
-    state = 1;
+	pin = 23;
+	state = 1;
 
-    verbose = QUIET;
+	verbose = QUIET;
 
-    if (verbose) {
-        printf("argc: %d\n",argc);
-        for (i=0;i<argc;i++)
-            printf("argv[%d]: '%s'\n",i,argv[i]);
-    }
+	if (verbose) {
+		printf("argc: %d\n",argc);
+		for (i=0;i<argc;i++)
+			printf("argv[%d]: '%s'\n",i,argv[i]);
+	}
 
-    if (argc > 1)
-        pin = atoi(argv[1]);
-    if (argc > 2)
-        state = atoi(argv[2]);
+	if (argc > 1)
+		pin = atoi(argv[1]);
+	if (argc > 2)
+		state = atoi(argv[2]);
 
-    if (verbose) {
-        printf("pin: '%d'\n",pin);
-        printf("state: '%d'\n",state);
-    }
-	
+	if (verbose) {
+		printf("pin: '%d'\n",pin);
+		printf("state: '%d'\n",state);
+	}
+
 	// Check if gpio pin is already exported, if not, export it
 	if (gpio_is_exported(pin) == 0) {
 		if (verbose)
@@ -59,22 +59,24 @@ int main(int argc, char * argv[])
 			printf("Error exporting pin '%d'\n",pin);
 			exit(1);
 		}
-    }
+	}
 	
-    if (gpio_write(pin,OUT) < 0) {
-        printf("Error setting pin '%d' direction\n",pin);
-        exit(1);
-    }
+	if (gpio_write(pin,OUT) < 0) {
+		printf("Error setting pin '%d' direction\n",pin);
+		exit(1);
+	}
     
 	// Write desired value to pin
-    if (gpio_write(pin,state) < 0) {
-        printf("Error writing pin '%d'\n",pin);
-        exit(1);
-    }
+	if (gpio_write(pin,state) < 0) {
+		printf("Error writing pin '%d'\n",pin);
+		exit(1);
+	}
 
-    //verbose = VERBOSE;
+	//verbose = VERBOSE;
     
-    int l = gpio_read(pin);
+	int l = gpio_read(pin);
+	
+	printf("l: '%d'\n",l);
 
 #ifdef UNEXPORT_ON_EXIT
 	
@@ -89,9 +91,9 @@ int main(int argc, char * argv[])
 			printf("Error unexporting pin '%d'\n",pin);
 			exit(1);
 		}
-    }
+	}
 #endif
 
-    exit(0);
+	exit(0);
 }
 
