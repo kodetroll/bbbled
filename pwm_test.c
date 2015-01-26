@@ -70,6 +70,20 @@ int main(int argc, char * argv[])
 	
 	printf("OCP Num: '%d'\n",ocp);
 
+	if (request_pwm(cm) < ERROR_OK) {
+		printf("Error requesting pwm functions!\n");
+		exit(1);
+	}
+
+	if (request_pwm_pin(cm,name) < ERROR_OK) {
+		printf("Error requestuing pwm pin name!\n");
+		exit(1);
+	}
+	
+	int pwm_pin = get_pwm_pin_num(name);
+	
+	printf("pwm_pin: '%d'\n",pwm_pin);
+	
 	printf("Exiting!\n");
 
 	exit(0);

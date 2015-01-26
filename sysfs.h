@@ -36,8 +36,8 @@ extern "C" {
 #define SYSFS_CLASS "/sys/class"
 #define SYSFS_GPIO "/sys/class/gpio"
 #define SYSFS_DEV "/sys/devices"
-#define SYSFS_OCP "/sys/devices/ocp"
-#define SYSFS_CAPE "/sys/devices/capemgr"
+#define SYSFS_OCP "/sys/devices/ocp."
+#define SYSFS_CAPE "/sys/devices/capemgr."
 
 
 #define ERROR_OK 0
@@ -138,7 +138,27 @@ int get_capemgr_num(void);
  */
 int get_ocp_num(void);
  
-/* Function to search and return the current ocp number
+/* Function to search and return the current pwm pin instance
+ * number expressed in the '/sys/devices/ocp.N' branch of sysfs. 
+ * Value returned is enumerated value after the '/pwm_test_' 
+ * sysfs node. -1 is returned for errors during write or 
+ * open of sysfs node. (ocp# lookup is performed internally)
+ */
+int get_pwm_pin_num(char * pin_name);
+
+/* Function to request PWM from the '/slots' node of the 
+ * specified capmgr sysfs node. -1 is returned for 
+ * errors during write or open of sysfs node.
+ */
+int request_pwm(int capemgrnum);
+
+/* Function to request PWM from the '/slots' node of the 
+ * specified capmgr sysfs node. -1 is returned for 
+ * errors during write or open of sysfs node.
+ */
+int request_pwm_pin(int capemgrnum, char * pwm_pin_name);
+
+/* Function to search and return the pwm pin name
  * expressed in the '/sys/devices' branch of sysfs. 
  * Value returned is enumerated value after the '/ocp.' 
  * sysfs node. -1 is returned for errors during write or 
@@ -146,11 +166,6 @@ int get_ocp_num(void);
  */
 int get_pwm_num(int ocpnum,int pin);
 
-/* Function to request PWM from the '/slots' node of the 
- * specified capmgr sysfs node. -1 is returned for 
- * errors during write or open of sysfs node.
- */
-int request_pwm(int capemgrnum);
 
 /* Function to read the duty cycle value of the specified pin 
  * by reading from the '/duty' branch of the sysfs pwm node. 

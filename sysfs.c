@@ -678,6 +678,96 @@ int get_ocp_num(void)
 
 }
 
+int get_pwm_pin_num(char * pin_name)
+{
+	int n = -1;
+	DIR *dp = NULL;
+	char tmp[20];
+	char * ptr;
+	struct dirent *dptr = NULL;
+	
+	int ocp = get_ocp_num();
+	
+    if (verbose) {
+		printf("get_ocp_num\n");
+    }
+
+    sprintf(sysfs,SYSFS_OCP "%d",ocp);
+
+    if (verbose) {
+		printf("sysfs: '%s'\n",sysfs);
+	}
+
+	if ((dp = opendir(sysfs)) == NULL) {
+        printf("Error opening sysfs node '%s'\n",sysfs);
+        return(-1);
+    }
+	sprintf(tmp,"%s","pwm_test_%s",pin_name);
+	
+	while(NULL != (dptr = readdir(dp)) ) {
+		//printf(" [%s] ",dptr->d_name);
+		if (strncmp(dptr->d_name,tmp,strlen(tmp)) == 0) {
+			ptr = strtok(dptr->d_name,".");
+			//printf("ptr: '%s'\n",ptr);
+			ptr = strtok(NULL,".");
+			if (ptr != NULL)
+				n = atoi(ptr);
+		}				
+	}
+
+	// Close the directory stream
+	closedir(dp);        
+	return(n);
+
+}
+
+int request_pwm(int capemgrnum)
+{
+    if (verbose) {
+		printf("request_pwm\n");
+        printf("capemgrnum: '%d'\n",capemgrnum);
+    }
+    
+    sprintf(sysfs,SYSFS_CAPE "%d/slots",capemgrnum);
+	sprintf(valset,"%s","am33xx_pwm");
+	
+    if (verbose) {
+		printf("sysfs: '%s'\n",sysfs);
+		printf("valset: '%s'\n",valset);
+	}
+
+    if (write_sysfs_node(sysfs, valset) < 0) {
+        printf("Error requesting '%s' at node '%s'\n",valset,sysfs);
+        return(-1);
+    }
+
+    return(0);	
+}
+
+int request_pwm_pin(int capemgrnum, char * pwm_pin_name)
+{
+    if (verbose) {
+		printf("request_pwm_pin\n");
+        printf("capemgrnum: '%d'\n",capemgrnum);
+        printf("pwm_pin_name: '%s'\n",pwm_pin_name);
+	}
+    
+    sprintf(sysfs,SYSFS_CAPE "%d/slots",capemgrnum);
+    sprintf(valset,"bone_pwm_%s",pwm_pin_name);
+
+    if (verbose) {
+		printf("sysfs: '%s'\n",sysfs);
+		printf("valset: '%s'\n",valset);
+	}
+
+    if (write_sysfs_node(sysfs, valset) < 0) {
+        printf("Error requesting '%s' at node '%s'\n",valset,sysfs);
+        return(-1);
+    }
+
+    return(0);	
+}
+
 int pwm_read_duty(int pin)
 {
 	int state,len;
