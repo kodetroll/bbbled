@@ -599,8 +599,10 @@ int get_pwm_pin_name(int pin, char* name)
 
 int get_capemgr_num(void)
 {
-	int state,len;
+	int n = -1;
 	DIR *dp = NULL;
+	char tmp[20];
+	char * ptr;
 	struct dirent *dptr = NULL;
 	
     if (verbose) {
@@ -617,14 +619,21 @@ int get_capemgr_num(void)
         printf("Error opening sysfs node '%s'\n",sysfs);
         return(-1);
     }
+	sprintf(tmp,"%s","bone_capemgr.");
 	
 	while(NULL != (dptr = readdir(dp)) ) {
 		printf(" [%s] ",dptr->d_name);
+		if (strncmp(dptr->d_name,tmp,strlen(tmp)) == 0) {
+			ptr = strtok(dptr->d_name,".");
+			printf("ptr: '%s'\n",ptr);
+			if (ptr != NULL)
+				n = atoi(ptr);
+		}				
 	}
 
 	// Close the directory stream
 	closedir(dp);        
-	return(0);
+	return(n);
 }
 
 int get_ocp_num(void)
