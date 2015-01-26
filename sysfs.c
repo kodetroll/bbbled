@@ -12,8 +12,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <fcntl.h>
-#include "sysfs.h"
+#include <sys/types.h>
+#include <dirent.h>
 
+#include "sysfs.h"
+ 
 //	/sys/class/gpio/...
 
 //char gpio[] = "/sys/class/gpio";
@@ -123,7 +126,6 @@ int gpio_is_exported(int pin)
         printf("pin: '%d'\n",pin);
     }
 
-    //sprintf(sysfs,"%s/gpio%d",gpio,pin);
     sprintf(sysfs,SYSFS_GPIO "/gpio%d",pin);
 
     if (test_sysfs_node(sysfs) != 0) {
@@ -139,7 +141,6 @@ int gpio_export(int pin)
         printf("pin: '%d'\n",pin);
     }
 
-    //sprintf(sysfs,"%s/export",gpio);
     sprintf(sysfs,SYSFS_GPIO "/export");
     
     sprintf(valset,"%d",pin);
@@ -164,7 +165,6 @@ int gpio_unexport(int pin)
         printf("pin: '%d'\n",pin);
     }
 
-    //sprintf(sysfs,"%s/unexport",gpio);
     sprintf(sysfs,SYSFS_GPIO "/unexport");
     sprintf(valset,"%d",pin);
 
@@ -189,7 +189,6 @@ int gpio_write_dir(int pin, int state)
         printf("state: '%d'\n",state);
     }
 
-    //sprintf(sysfs,"%s/gpio%d/value",gpio,pin);
     sprintf(sysfs,SYSFS_GPIO "/gpio%d/direction",pin);
 	if (state == 1)
 		sprintf(valset,"out");
@@ -217,7 +216,6 @@ int gpio_write(int pin, int state)
         printf("state: '%d'\n",state);
     }
 
-    //sprintf(sysfs,"%s/gpio%d/value",gpio,pin);
     sprintf(sysfs,SYSFS_GPIO "/gpio%d/value",pin);
     
     sprintf(valset,"%d",state);
@@ -243,10 +241,8 @@ int gpio_read_dir(int pin)
         printf("pin: '%d'\n",pin);
     }
 
-    //sprintf(sysfs,"%s/gpio%d/direction",gpio,pin);
     sprintf(sysfs,SYSFS_GPIO "/gpio%d/direction",pin);
-    
-
+   
     if (verbose) {
         printf("sysfs: '%s'\n",sysfs);
     }
@@ -276,7 +272,6 @@ int gpio_read(int pin)
     }
 
     sprintf(sysfs,SYSFS_GPIO "/gpio%d/value",pin);
-    //sprintf(valset,"%d",state);
 
     if (verbose) {
         printf("sysfs: '%s'\n",sysfs);
@@ -298,4 +293,148 @@ int gpio_read(int pin)
     return(0);
 }
 
+int get_pin_bank(int pin)
+{
+	int bank;
+    if (verbose) {
+		printf("get_pin_bank\n");
+        printf("pin: '%d'\n",pin);
+    }
+	
+	int bank = pin/PIN_BANK_SIZE;
+
+    if (verbose)
+        printf("bank: '%d'\n",bank);
+
+	if (bank < 0 || bank > 5) {
+		printf("Pin # '%d' Invalid, Bank '%d' out of range!\n",pin,bank);
+		exit(-1);
+	}
+
+	return(bank);
+}
+
+int get_pin_num(int pin)
+{
+	int bank,pinnum;
+	
+    if (verbose) {
+		printf("get_pin_bank\n");
+        printf("pin: '%d'\n",pin);
+    }
+	bank = get_pin_bank(pin);
+
+    if (verbose)
+        printf("bank: '%d'\n",bank);
+	
+	int pinnum = pin - (bank * PIN_BANK_SIZE);
+	
+    if (verbose)
+        printf("pinnum: '%d'\n",pinnum);
+
+	if (pinnum < 0 || pinnum > 31) {
+		printf("Pin # '%d' Invalid, pinnum '%d' out of range!\n",pin,pinnum);
+		exit(-1);
+	}
+
+	return(pinnum);
+}
+
+int get_pwm_pin_name(int pin, char* name)
+{
+
+    if (verbose) {
+		printf("get_pwm_pin_name\n");
+        printf("pin: '%d'\n",pin);
+        printf("name: '%s'\n",name);
+    }
+	
+	int bank = get_pin_bank(pin);
+
+    if (verbose)
+        printf("bank: '%d'\n",bank);
+
+	if (bank < 0 || bank > 5) {
+		printf("Pin # '%d' Invalid, Bank '%d' out of range!\n",pin,bank);
+		exit(-1);
+	}
+	
+	int pinnum = get_pin_num(pin);
+	
+    if (verbose)
+        printf("pinnum: '%d'\n",pinnum);
+
+	if (pinnum < 0 || pinnum > 31) {
+		printf("Pin # '%d' Invalid, pinnum '%d' out of range!\n",pin,pinnum);
+		exit(-1);
+	}
+
+	sprintf(name,"P%d_%d",bank,pinnum);
+
+    if (verbose) {
+        printf("name: '%s'\n",name);
+    }
+	
+	return(0);
+}
+
+int get_capemgr_num(void)
+{
+	int state,len;
+	DIR *dp = NULL;
+	struct dirent *dptr = NULL;
+	
+    if (verbose) {
+		printf("get_capemgr_num\n");
+        printf("pin: '%d'\n",pin);
+    }
+
+    sprintf(sysfs,SYSFS_CAPE);
+
+    if (verbose) {
+		printf("sysfs: '%s'\n",sysfs);
+
+	if ((dp = opendir(sysfs)) == NULL) {
+        printf("Error opening sysfs node '%s'\n",sysfs);
+        return(-1);
+    }
+	
+	while(NULL != (dptr = readdir(dp)) ) {
+		printf(" [%s] ",dptr->d_name);
+	}
+
+	// Close the directory stream
+	closedir(dp);        
+}
+
+int pwm_read_duty(int pin)
+{
+	int state,len;
+    if (verbose) {
+		printf("pwm_read_duty\n");
+        printf("pin: '%d'\n",pin);
+    }
+
+    //sprintf(sysfs,"%s/gpio%d/direction",gpio,pin);
+    sprintf(sysfs,SYSFS_GPIO "/gpio%d/direction",pin);
+  
+    if (verbose) {
+        printf("sysfs: '%s'\n",sysfs);
+    }
+	
+	memset(valset,0x00,sizeof(valset));
+	
+    if ((len = read_sysfs_node(sysfs, valset)) < 0) {
+        printf("Error reading pin '%d' at node '%s'\n",pin,SYSFS_GPIO);
+        return(-1);
+    }
+
+    if (verbose) {
+		printf("valset: '%s'\n",valset);
+	}
+	if (strncmp(valset,"out",3) == 0)
+		return(1);
+
+    return(0);
+}
 
