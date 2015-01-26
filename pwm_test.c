@@ -80,6 +80,8 @@ int main(int argc, char * argv[])
 		exit(1);
 	}
 	
+	verbose = VERBOSE;	
+	
 	int pwm_pin = get_pwm_pin_num(name);
 	
 	printf("pwm_pin: '%d'\n",pwm_pin);
