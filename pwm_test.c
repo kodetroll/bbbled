@@ -86,6 +86,23 @@ int main(int argc, char * argv[])
 	
 	printf("pwm_pin: '%d'\n",pwm_pin);
 	
+	long period = 1000000;
+	long duty = 500000;
+	
+	printf("Setting period to '%ld' on '%s'\n",period,name);
+	
+	if (pwm_write_period(name,period) < ERROR_OK) {
+		printf("Error setting pwm period for '%s'!\n",name);
+		exit(1);
+	}
+	
+	printf("Setting duty to '%ld' on '%s'\n",period,name);
+	
+	if (pwm_write_duty(name,duty) < ERROR_OK) {
+		printf("Error setting pwm duty for '%s'!\n",name);
+		exit(1);
+	}
+
 	printf("Exiting!\n");
 
 	exit(0);
