@@ -626,6 +626,7 @@ int get_capemgr_num(void)
 		if (strncmp(dptr->d_name,tmp,strlen(tmp)) == 0) {
 			ptr = strtok(dptr->d_name,".");
 			printf("ptr: '%s'\n",ptr);
+			ptr = strtok(NULL,".");
 			if (ptr != NULL)
 				n = atoi(ptr);
 		}				
