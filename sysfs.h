@@ -29,7 +29,11 @@ extern "C" {
 
 #define TEST_USES_STAT
 
+#define IS_EXPORTED 0
+
 #define SYSFS_GPIO "/sys/class/gpio"
+
+#define ERROR_OK 0
 
 /* Parameter to control debug printing */
 extern int verbose;
