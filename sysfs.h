@@ -139,6 +139,9 @@ int get_capemgr_num(void);
 int get_ocp_num(void);
 
 char* get_ocp_path(void);
+
+char* get_pwm_pin_path(char * pin_name);
+
  
 /* Function to search and return the current pwm pin instance
  * number expressed in the '/sys/devices/ocp.N' branch of sysfs. 
@@ -168,6 +171,19 @@ int request_pwm_pin(int capemgrnum, char * pwm_pin_name);
  */
 int get_pwm_num(int ocpnum,int pin);
 
+/* Function to write the duty cycle value to the specified pin 
+ * by writing to the '/duty' branch of the sysfs pwm node. 
+ * Value returned is 0 for succesful, -1 is returned for 
+ * errors during write or open of sysfs node.
+ */
+int pwm_write_duty(char* name, long period);
+
+/* Function to write the period value to the specified pin 
+ * by writing to the '/period' branch of the sysfs pwm node. 
+ * Value returned is 0 for succesful, -1 is returned for 
+ * errors during write or open of sysfs node.
+ */
+int pwm_write_period(char* name, long period);
 
 /* Function to read the duty cycle value of the specified pin 
  * by reading from the '/duty' branch of the sysfs pwm node. 
@@ -175,6 +191,14 @@ int get_pwm_num(int ocpnum,int pin);
  * based on the current value of 'period'. -1 is returned for 
  * errors during write or open of sysfs node.
  */
-int pwm_read_duty(int pin);
+long pwm_read_duty(char* name);
+
+/* Function to read the period value of the specified pin 
+ * by reading from the '/period' branch of the sysfs pwm node. 
+ * Value returned is timer value representing the duty cycle
+ * based on the current value of 'period'. -1 is returned for 
+ * errors during write or open of sysfs node.
+ */
+long pwm_read_period(char* name);
 
 #endif	// SYSFS_H

@@ -696,6 +696,34 @@ char* get_ocp_path(void)
 	return(valset);
 }
 
+char* get_pwm_pin_path(char * pin_name)
+{
+    if (verbose) {
+		printf("get_pwm_pin_path\n");
+		printf("pin_name: '%s'\n",pin_name);
+    }
+
+	sprintf(sysfs,"%s",get_ocp_path());
+
+    if (verbose) {
+		printf("sysfs: '%s'\n",sysfs);
+	}
+	
+	int pin_num = get_pwm_pin_num(pin_name);
+	
+    if (verbose) {
+		printf("pin: '%d'\n",pin_num);
+	}
+	
+	sprintf(valset,"%s/bone_pwm_%s.%d",sysfs,pin_name,pin_num);	
+	
+    if (verbose) {
+		printf("valset: '%s'\n",valset);
+	}
+
+	return(valset);
+}
+
 int get_pwm_pin_num(char * pin_name)
 {
 	int n = -1;
@@ -791,13 +819,122 @@ int request_pwm_pin(int capemgrnum, char * pwm_pin_name)
     return(0);	
 }
 
-int pwm_read_duty(int pin)
+int pwm_write_period(char* name, long period)
 {
-	int state,len;
+	// OCP/pwm_test_PINNAME.pin
+	//echo ${DUTY} > ${PWM}/duty
     if (verbose) {
-		printf("pwm_read_duty\n");
-        printf("pin: '%d'\n",pin);
+		printf("pwm_write_period\n");
+        printf("name: '%s'\n",name);
+        printf("period: '%ld'\n",period);
     }
 
+	sprintf(sysfs,"%s/period",get_pwm_pin_path(name));
+	sprintf(valset,"%ld",period);
+	
+    if (verbose) {
+		printf("sysfs: '%s'\n",sysfs);
+		printf("valset: '%s'\n",valset);
+	}
+	
+    if (write_sysfs_node(sysfs, valset) < 0) {
+        printf("Error writing '%s' to node '%s'\n",valset,sysfs);
+        return(-1);
+    }
+	
     return(0);
+}
+
+int pwm_write_duty(char* name, long duty)
+{
+	// OCP/pwm_test_PINNAME.pin
+	//echo ${DUTY} > ${PWM}/duty
+    if (verbose) {
+		printf("pwm_write_duty\n");
+        printf("name: '%s'\n",name);
+        printf("duty: '%ld'\n",duty);
+    }
+
+	sprintf(sysfs,"%s/duty",get_pwm_pin_path(name));
+	sprintf(valset,"%ld",duty);
+	
+    if (verbose) {
+		printf("sysfs: '%s'\n",sysfs);
+		printf("valset: '%s'\n",valset);
+	}
+	
+    if (write_sysfs_node(sysfs, valset) < 0) {
+        printf("Error writing '%s' to node '%s'\n",valset,sysfs);
+        return(-1);
+    }
+	
+    return(0);
+}
+
+long pwm_read_period(char* name)
+{
+	int len;
+	
+    if (verbose) {
+		printf("pwm_read_period\n");
+        printf("name: '%s'\n",name);
+    }
+
+	sprintf(sysfs,"%s/period",get_pwm_pin_path(name));
+	
+    if (verbose) {
+		printf("sysfs: '%s'\n",sysfs);
+	}
+		
+	memset(valset,0x00,sizeof(valset));
+	
+    if ((len = read_sysfs_node(sysfs, valset)) < 0) {
+        printf("Error reading node '%s'\n",sysfs);
+        return(-1);
+    }
+
+    if (verbose) {
+		printf("valset: '%s'\n",valset);
+	}
+
+	long period = atol(valset);
+
+	if (verbose)
+		printf("period: '%ld'\n",period);
+    
+    return(period);
+}
+
+long pwm_read_duty(char* name)
+{
+	int len;
+	
+    if (verbose) {
+		printf("pwm_read_duty\n");
+        printf("name: '%s'\n",name);
+    }
+
+	sprintf(sysfs,"%s/duty",get_pwm_pin_path(name));
+	
+    if (verbose) {
+		printf("sysfs: '%s'\n",sysfs);
+	}
+		
+	memset(valset,0x00,sizeof(valset));
+	
+    if ((len = read_sysfs_node(sysfs, valset)) < 0) {
+        printf("Error reading node '%s'\n",sysfs);
+        return(-1);
+    }
+
+    if (verbose) {
+		printf("valset: '%s'\n",valset);
+	}
+
+	long duty = atol(valset);
+
+	if (verbose)
+		printf("duty: '%ld'\n",duty);
+    
+    return(duty);
 }
