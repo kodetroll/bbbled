@@ -315,12 +315,12 @@ int get_pin_bank(int pin)
 	return(bank);
 }
 
-int get_pin_num(int pin)
+int get_old_pin_num(int pin)
 {
 	int bank,pinnum;
 	
     if (verbose) {
-		printf("get_pin_bank\n");
+		printf("get_old_pin_num\n");
         printf("pin: '%d'\n",pin);
     }
 
@@ -342,12 +342,12 @@ int get_pin_num(int pin)
 	return(pinnum);
 }
 
-int get_pwm_pin_name(int pin, char* name)
+int get_old_pin_name(int pin, char* name)
 {
 	int bank,pinnum;
 	
     if (verbose) {
-		printf("get_pwm_pin_name\n");
+		printf("get_old_pin_name\n");
         printf("pin: '%d'\n",pin);
         printf("name: '%s'\n",name);
     }
@@ -362,7 +362,7 @@ int get_pwm_pin_name(int pin, char* name)
 		exit(-1);
 	}
 	
-	pinnum = get_pin_num(pin);
+	pinnum = get_old_pin_num(pin);
 	
     if (verbose)
         printf("pinnum: '%d'\n",pinnum);
@@ -373,6 +373,222 @@ int get_pwm_pin_name(int pin, char* name)
 	}
 
 	sprintf(name,"P%d_%d",bank,pinnum);
+
+    if (verbose) {
+        printf("name: '%s'\n",name);
+    }
+	
+	return(0);
+}
+
+int get_pin_conn(int pin)
+{
+	int conn;
+    
+    if (verbose) {
+		printf("get_pin_conn\n");
+        printf("pin: '%d'\n",pin);
+    }
+	
+	switch(pin)
+	{
+		case 8:
+		case 9:
+		case 10:
+		case 11:
+		case 22:
+		case 23:
+		case 26:
+		case 27:
+		case 32:
+		case 33:
+		case 34:
+		case 35:
+		case 36:
+		case 37:
+		case 38:
+		case 39:
+		case 44:
+		case 45:
+		case 46:
+		case 47:
+		case 61:
+		case 62:
+		case 63:
+		case 65:
+		case 66:
+		case 67:
+		case 68:
+		case 69:
+		case 70:
+		case 71:
+		case 72:
+		case 73:
+		case 74:
+		case 75:
+		case 76:
+		case 77:
+		case 78:
+		case 79:
+		case 80:
+		case 81:
+		case 86:
+		case 87:
+		case 88:
+		case 89:
+			conn = 8;
+			break;
+		
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+		case 7:
+		case 14:
+		case 15:
+		case 20:
+		case 30:
+		case 31:
+		case 48:
+		case 49:
+		case 50:
+		case 51:
+		case 60:
+		case 110:
+		case 111:
+		case 112:
+		case 113:
+		case 115:
+		case 117:
+			conn = 9;
+			break;
+		default:
+			conn = 0;
+			break;
+	}
+    
+    if (verbose)
+        printf("conn: '%d'\n",conn);
+
+	return(conn);
+}
+
+int get_pin_num(int pin)
+{
+	int bank,pinnum;
+	
+    if (verbose) {
+		printf("get_pin_num\n");
+        printf("pin: '%d'\n",pin);
+    }
+
+	switch(pin)
+	{
+		case 2: pinnum = 22; break;
+		case 3: pinnum = 21; break;
+		case 4: pinnum = 18; break;
+		case 5: pinnum = 17; break;
+		case 7: pinnum = 42; break;
+		case 8: pinnum = 35; break;
+		case 9: pinnum = 33; break;
+		case 10: pinnum = 31; break;
+		case 11: pinnum = 32; break;
+		case 14: pinnum = 26; break;
+		case 15: pinnum = 24; break;
+		case 20: pinnum = 41; break;
+		case 22: pinnum = 19; break;
+		case 23: pinnum = 13; break;
+		case 26: pinnum = 14; break;
+		case 27: pinnum = 17; break;
+		case 30: pinnum = 11; break;
+		case 31: pinnum = 13; break;
+		case 32: pinnum = 25; break;
+		case 33: pinnum = 24; break;
+		case 34: pinnum = 5; break;
+		case 35: pinnum = 6; break;
+		case 36: pinnum = 23; break;
+		case 37: pinnum = 22; break;
+		case 38: pinnum = 3; break;
+		case 39: pinnum = 4; break;
+		case 44: pinnum = 12; break;
+		case 45: pinnum = 11; break;
+		case 46: pinnum = 16; break;
+		case 47: pinnum = 15; break;
+		case 48: pinnum = 15; break;
+		case 49: pinnum = 23; break;
+		case 50: pinnum = 14; break;
+		case 51: pinnum = 16; break;
+		case 60: pinnum = 12; break;
+		case 61: pinnum = 26; break;
+		case 62: pinnum = 21; break;
+		case 63: pinnum = 20; break;
+		case 65: pinnum = 18; break;
+		case 66: pinnum = 7; break;
+		case 67: pinnum = 8; break;
+		case 68: pinnum = 10; break;
+		case 69: pinnum = 9; break;
+		case 70: pinnum = 45; break;
+		case 71: pinnum = 46; break;
+		case 72: pinnum = 43; break;
+		case 73: pinnum = 44; break;
+		case 74: pinnum = 41; break;
+		case 75: pinnum = 42; break;
+		case 76: pinnum = 39; break;
+		case 77: pinnum = 40; break;
+		case 78: pinnum = 37; break;
+		case 79: pinnum = 38; break;
+		case 80: pinnum = 36; break;
+		case 81: pinnum = 34; break;
+		case 86: pinnum = 27; break;
+		case 87: pinnum = 29; break;
+		case 88: pinnum = 28; break;
+		case 89: pinnum = 30; break;
+		case 110: pinnum = 31; break;
+		case 111: pinnum = 29; break;
+		case 112: pinnum = 30; break;
+		case 113: pinnum = 28; break;
+		case 115: pinnum = 27; break;
+		case 117: pinnum = 25; break;
+		default: pinnum=0; break;
+	}
+
+    if (verbose)
+        printf("pinnum: '%d'\n",pinnum);
+
+	return(pinnum);
+}
+
+int get_pwm_pin_name(int pin, char* name)
+{
+	int conn,pinnum;
+	
+    if (verbose) {
+		printf("get_pwm_pin_name\n");
+        printf("pin: '%d'\n",pin);
+        //printf("name: '%s'\n",name);
+    }
+	
+	conn = get_pin_conn(pin);
+
+    if (verbose)
+        printf("conn: '%d'\n",conn);
+
+	if (conn < 8 || conn > 9) {
+		printf("Pin # '%d' Invalid, conn '%d' out of range!\n",pin,conn);
+		exit(-1);
+	}
+	
+	pinnum = get_pin_num(pin);
+	
+    if (verbose)
+        printf("pinnum: '%d'\n",pinnum);
+
+	if (pinnum < 0 || pinnum > 46) {
+		printf("Pin # '%d' Invalid, pinnum '%d' out of range!\n",pin,pinnum);
+		exit(-1);
+	}
+
+	sprintf(name,"P%d_%d",conn,pinnum);
 
     if (verbose) {
         printf("name: '%s'\n",name);
@@ -421,4 +637,3 @@ int pwm_read_duty(int pin)
 
     return(0);
 }
-

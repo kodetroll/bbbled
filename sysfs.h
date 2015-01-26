@@ -109,6 +109,12 @@ int gpio_read(int pin);
 
 int get_pin_bank(int pin);
 
+int get_old_pin_num(int pin);
+
+int get_old_pin_name(int pin, char* name);
+
+int get_pin_conn(int pin);
+
 int get_pin_num(int pin);
 
 int get_pwm_pin_name(int pin, char* name);
