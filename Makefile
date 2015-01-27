@@ -13,12 +13,13 @@ DEPS = sysfs.h
 OBJWR = sysfs.o gpio_write.o 
 OBJTEST = sysfs.o gpio_test.o 
 OBJPWM = sysfs.o pwm_test.o 
+OBJFADE = sysfs.o fader.o 
 
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-all: gpio_write gpio_test pwm_test
+all: gpio_write gpio_test pwm_test fader
 
 gpio: $(OBJ)
 	gcc -o $@ $^ $(CFLAGS)
@@ -32,10 +33,13 @@ gpio_test: $(OBJTEST)
 pwm_test: $(OBJPWM)
 	gcc -o $@ $^ $(CFLAGS)
 
+fader: $(OBJFADE)
+	gcc -o $@ $^ $(CFLAGS)
+
 .PHONY: clean
 
 cleanall:
-	rm -f gpio_write gpio_test pwm_test *.o *~ core  
+	rm -f fader gpio_write gpio_test pwm_test *.o *~ core  
 clean:
 	rm -f *.o *~ core  
 
