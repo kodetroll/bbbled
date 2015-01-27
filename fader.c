@@ -18,9 +18,12 @@
 #include <fcntl.h>
 #include "sysfs.h"
 
+int init_pwm(char * name);
+int idle_pwm(char * name, int dutycycle);
+
 int init_pwm(char * name) 
 {
-
+	verbose=VERBOSE;
 	if (verbose)
 		printf("Enumerating CapeMgr Number!\n");
 	
