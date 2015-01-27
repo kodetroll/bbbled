@@ -42,6 +42,7 @@ extern "C" {
 
 
 #define ERROR_OK 0
+#define ERROR -1
 
 /* Parameter to control debug printing */
 extern int verbose;
