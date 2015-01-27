@@ -137,10 +137,12 @@ int main(int argc, char * argv[])
 		for (dutycycle=0;dutycycle<100;dutycycle++) {
 			if (pwm_write_duty_cycle(name,dutycycle) < ERROR_OK)
 				printf("Error setting pwm duty cycle for '%s'!\n",name);
+			usleep(10000);
 		}
 		for (dutycycle=100;dutycycle>0;dutycycle--) {
 			if (pwm_write_duty_cycle(name,dutycycle) < ERROR_OK)
 				printf("Error setting pwm duty cycle for '%s'!\n",name);
+			usleep(10000);
 		}
 	}
 
