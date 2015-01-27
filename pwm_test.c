@@ -58,11 +58,10 @@ int main(int argc, char * argv[])
 	if (argc > 2)
 		dutycycle = atoi(argv[2]);
 
-	// If debugging, show the pin# and state.
-	//if (verbose) {
-		printf("pin: '%d'\n",pin);
-		printf("dutycycle: '%d'\n",dutycycle);
-	//}
+	printf("GPIO pin #: '%d'\n",pin);
+	printf("dutycycle(%%): '%d'\n",dutycycle);
+
+	printf("Calculating PWM Pin Name from GPIO Pin Number!\n");
 
 	if (get_pwm_pin_name(pin,name) < ERROR_OK) {
 		printf("Error getting pwm pin name!\n");
@@ -90,7 +89,7 @@ int main(int argc, char * argv[])
 		exit(1);
 	}
 
-	printf("Requesting PWM Pin Function on Pin: '%s'!\n",name);
+	printf("Requesting PWM Pin Function for Pin: '%s'!\n",name);
 
 	if (request_pwm_pin(cm,name) < ERROR_OK) {
 		printf("Error requestuing pwm pin name!\n");
@@ -115,7 +114,7 @@ int main(int argc, char * argv[])
 		exit(1);
 	}
 	
-	printf("Setting duty to '%ld' on '%s'\n",period,name);
+	printf("Setting duty to '%ld' on '%s'\n",duty,name);
 	
 	if (pwm_write_duty(name,duty) < ERROR_OK) {
 		printf("Error setting pwm duty for '%s'!\n",name);

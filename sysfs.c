@@ -668,10 +668,17 @@ int request_pwm_pin(int capemgrnum, char * pwm_pin_name)
 		printf("valset: '%s'\n",valset);
 	}
 
-    if (write_sysfs_node(sysfs, valset) < 0) {
-        printf("Error requesting '%s' at node '%s'\n",valset,sysfs);
-        return(-1);
-    }
+	if (test_sysfs_node(get_pwm_pin_path(pwm_pin_name)) != ERROR_OK) {
+		if (verbose)
+			printf("PWM Pin is not currently active, requesting!\n");
+		if (write_sysfs_node(sysfs, valset) < 0) {
+			printf("Error requesting '%s' at node '%s'\n",valset,sysfs);
+			return(-1);
+		}
+	} else {
+		if (verbose)
+			printf("PWM Pin is already currently active!\n");
+	}
 
     return(0);	
 }
