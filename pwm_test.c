@@ -13,8 +13,11 @@
  * 4) request pwm pin from capemgr.N/slots 'echo ${PWMPIN} > $SLOTS'
  * 5) Find pwm pin from ocp.O
  *
- * This program will set dir to input, read the specified pin, 
- * set dir to output, set then reset the output, then read the pin.
+ * This program will request pwm, then map the pwm pin. Then it will set
+ * the period and duty cycle to starting values. Next it sets the duty
+ * cycle to 10 percent or whatever cli args requested. Then it runs a 
+ * pwm fade cycle as fast as possible. LED looks like its blinking rather
+ * than fading.
  * 
  *************************************************************************/
 
