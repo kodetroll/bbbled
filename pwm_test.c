@@ -112,7 +112,7 @@ int main(int argc, char * argv[])
 		exit(1);
 	}
 	
-	verbose = VERBOSE;	
+//	verbose = VERBOSE;	
 
 	if (dutycycle < 0)
 		dutycycle = 10; 	// in percent
@@ -122,7 +122,7 @@ int main(int argc, char * argv[])
 		exit(1);
 	}
 
-	verbose = QUIET;	
+//	verbose = QUIET;	
 
 	period = pwm_read_period(name);
 
