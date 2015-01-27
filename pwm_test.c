@@ -129,6 +129,18 @@ int main(int argc, char * argv[])
 
 	printf("duty: '%ld'\n",duty);
 
+	printf("Running zuper!\n");
+	while(1) {
+		for (dutycycle=0;dutycycle<100;dutycycle++) {
+			if (pwm_write_duty_cycle(name,dutycycle) < ERROR_OK)
+				printf("Error setting pwm duty cycle for '%s'!\n",name);
+		}
+		for (dutycycle=100;dutycycle>0;dutycycle--) {
+			if (pwm_write_duty_cycle(name,dutycycle) < ERROR_OK)
+				printf("Error setting pwm duty cycle for '%s'!\n",name);
+		}
+	}
+
 	printf("Exiting!\n");
 
 	exit(0);
