@@ -665,6 +665,7 @@ int request_pwm_pin(int capemgrnum, char * pwm_pin_name)
 	if (get_pwm_pin_num(pwm_pin_name) >= ERROR_OK) {
 		if (verbose)
 			printf("PWM Pin is already currently active!\n");
+		return(0);
 	}
     
 	if (verbose)
