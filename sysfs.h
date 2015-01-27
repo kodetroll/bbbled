@@ -171,12 +171,21 @@ int request_pwm_pin(int capemgrnum, char * pwm_pin_name);
  */
 int get_pwm_num(int ocpnum,int pin);
 
+/* Function to write the duty cycle value  (in percent) to 
+ * the specified pin by reading the current period value. 
+ * Calculating the required duty value and writing to the 
+ * '/duty' branch of the sysfs pwm node. 
+ * Value returned is 0 for succesful, -1 is returned for 
+ * errors during write or open of sysfs node.
+ */
+int pwm_write_duty_cycle(char* name, int dutycycle);
+
 /* Function to write the duty cycle value to the specified pin 
  * by writing to the '/duty' branch of the sysfs pwm node. 
  * Value returned is 0 for succesful, -1 is returned for 
  * errors during write or open of sysfs node.
  */
-int pwm_write_duty(char* name, long period);
+int pwm_write_duty(char* name, long duty);
 
 /* Function to write the period value to the specified pin 
  * by writing to the '/period' branch of the sysfs pwm node. 

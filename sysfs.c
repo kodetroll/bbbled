@@ -845,6 +845,36 @@ int pwm_write_period(char* name, long period)
     return(0);
 }
 
+int pwm_write_duty_cycle(char* name, int dutycycle)
+{
+	// OCP/pwm_test_PINNAME.pin
+	//echo ${DUTY} > ${PWM}/duty
+    if (verbose) {
+		printf("pwm_write_duty\n");
+        printf("name: '%s'\n",name);
+        printf("dutycycle: '%d'\n",dutycycle);
+    }
+
+	long period = pwm_read_period(name);
+
+    if (verbose) {
+		printf("period: '%ld'\n",period);
+	}
+	
+	long duty = dutycycle * period / 100;
+	
+    if (verbose) {
+        printf("duty: '%ld'\n",duty);
+	}
+
+	if (pwm_write_duty(name,duty) < ERROR_OK) {
+        printf("Error writing duty cycle\n");
+        return(-1);
+    }
+	
+    return(0);
+}
+
 int pwm_write_duty(char* name, long duty)
 {
 	// OCP/pwm_test_PINNAME.pin
