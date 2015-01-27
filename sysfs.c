@@ -654,8 +654,6 @@ int request_pwm(int capemgrnum)
 
 int request_pwm_pin(int capemgrnum, char * pwm_pin_name)
 {
-	int tmp = verbose;
-	verbose = VERBOSE;
     if (verbose) {
 		printf("request_pwm_pin\n");
         printf("capemgrnum: '%d'\n",capemgrnum);
@@ -665,7 +663,6 @@ int request_pwm_pin(int capemgrnum, char * pwm_pin_name)
 	if (get_pwm_pin_num(pwm_pin_name) >= ERROR_OK) {
 		if (verbose)
 			printf("PWM Pin is already currently active!\n");
-		verbose = tmp;
 		return(0);
 	}
     
@@ -683,8 +680,6 @@ int request_pwm_pin(int capemgrnum, char * pwm_pin_name)
 		printf("Error requesting '%s' at node '%s'\n",valset,sysfs);
 		return(-1);
 	}
-
-	verbose = tmp;
 
     return(0);	
 }
