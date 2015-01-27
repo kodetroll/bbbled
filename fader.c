@@ -149,7 +149,7 @@ int main(int argc, char * argv[])
 	if (verbose)
 		printf("Name: '%s'\n",name);
 
-	if ((pwm_pin = init_pwm(name)) != ERROR_OK) {
+	if ((pwm_pin = init_pwm(name)) < ERROR_OK) {
 		printf("Error initializing pwm pin '%s'!\n",name);
 		exit(1);
 	}
