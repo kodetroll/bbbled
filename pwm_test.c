@@ -70,19 +70,27 @@ int main(int argc, char * argv[])
 	}
 
 	printf("Name: '%s'\n",name);
+
+	printf("Enumerating CapeMgr Number!\n");
 	
 	int cm = get_capemgr_num();
 	
-	printf("Cape Num: '%d'\n",cm);
+	printf("CapeMgr Num: '%d'\n",cm);
 
+	printf("Enumerating OCP Number!\n");
+	
 	int ocp = get_ocp_num();
 	
 	printf("OCP Num: '%d'\n",ocp);
 
+	printf("Requesting PWM (am35xx_pwm) functions!\n");
+	
 	if (request_pwm(cm) < ERROR_OK) {
 		printf("Error requesting pwm functions!\n");
 		exit(1);
 	}
+
+	printf("Requesting PWM Pin Function on Pin: '%s'!\n",name);
 
 	if (request_pwm_pin(cm,name) < ERROR_OK) {
 		printf("Error requestuing pwm pin name!\n");
@@ -90,6 +98,8 @@ int main(int argc, char * argv[])
 	}
 	
 //	verbose = VERBOSE;	
+
+	printf("Enumerating PWM Pin Number for pin '%s'!\n",name);
 	
 	int pwm_pin = get_pwm_pin_num(name);
 	
@@ -112,8 +122,6 @@ int main(int argc, char * argv[])
 		exit(1);
 	}
 	
-//	verbose = VERBOSE;	
-
 	if (dutycycle < 0)
 		dutycycle = 10; 	// in percent
 
@@ -122,17 +130,19 @@ int main(int argc, char * argv[])
 		exit(1);
 	}
 
-//	verbose = QUIET;	
+	printf("Reading period from '%s'\n",name);
 
 	period = pwm_read_period(name);
 
 	printf("period: '%ld'\n",period);
+	
+	printf("Reading duty from '%s'\n",name);
 
 	duty = pwm_read_duty(name);
 
 	printf("duty: '%ld'\n",duty);
 
-	printf("Running zuper!\n");
+	printf("Running Fader!\n");
 	while(1) {
 		for (dutycycle=0;dutycycle<100;dutycycle++) {
 			if (pwm_write_duty_cycle(name,dutycycle) < ERROR_OK)
