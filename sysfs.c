@@ -661,25 +661,25 @@ int request_pwm_pin(int capemgrnum, char * pwm_pin_name)
         printf("capemgrnum: '%d'\n",capemgrnum);
         printf("pwm_pin_name: '%s'\n",pwm_pin_name);
 	}
-    
-    sprintf(sysfs,SYSFS_CAPE "%d/slots",capemgrnum);
-    sprintf(valset,"bone_pwm_%s",pwm_pin_name);
 
-    if (verbose) {
+	if (get_pwm_pin_num(pwm_pin_name) >= ERROR_OK) {
+		if (verbose)
+			printf("PWM Pin is already currently active!\n");
+	}
+    
+	if (verbose)
+		printf("PWM Pin is not currently active, requesting!\n");
+
+	sprintf(sysfs,SYSFS_CAPE "%d/slots",capemgrnum);
+	sprintf(valset,"bone_pwm_%s",pwm_pin_name);
+
+	if (verbose) {
 		printf("sysfs: '%s'\n",sysfs);
 		printf("valset: '%s'\n",valset);
 	}
-
-	if (get_pwm_pin_num(pwm_pin_name) < ERROR_OK) {
-		if (verbose)
-			printf("PWM Pin is not currently active, requesting!\n");
-		if (write_sysfs_node(sysfs, valset) < 0) {
-			printf("Error requesting '%s' at node '%s'\n",valset,sysfs);
-			return(-1);
-		}
-	} else {
-		if (verbose)
-			printf("PWM Pin is already currently active!\n");
+	if (write_sysfs_node(sysfs, valset) < 0) {
+		printf("Error requesting '%s' at node '%s'\n",valset,sysfs);
+		return(-1);
 	}
 
 	verbose = tmp;
