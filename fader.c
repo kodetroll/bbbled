@@ -23,7 +23,6 @@ int idle_pwm(char * name, int dutycycle);
 
 int init_pwm(char * name) 
 {
-	verbose=VERBOSE;
 	if (verbose)
 		printf("Enumerating CapeMgr Number!\n");
 	
@@ -56,7 +55,6 @@ int init_pwm(char * name)
 		return(ERROR);
 	}
 	
-//	verbose = VERBOSE;	
 	if (verbose)
 		printf("Enumerating PWM Pin Number for pin '%s'!\n",name);
 	
