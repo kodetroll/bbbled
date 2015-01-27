@@ -26,7 +26,7 @@
 
 int main(int argc, char * argv[])
 {
-	int pin, state, i, val;
+	int pin, dutycycle, i, val;
 	char name[24];
 
 	// Start with debugging set to quiet
@@ -35,6 +35,8 @@ int main(int argc, char * argv[])
 	// Set default Pin # to use if one is not 
 	// supplied on the command line.
 	pin = 23;
+	
+	dutycycle = -1;
 	
 	// If debugging, print the command line args
 	if (verbose) {
@@ -50,10 +52,14 @@ int main(int argc, char * argv[])
 	if (argc > 1)
 		pin = atoi(argv[1]);
 		
+	if (argc > 2)
+		dutycycle = atoi(argv[2]);
+
 	// If debugging, show the pin# and state.
-	if (verbose) {
+	//if (verbose) {
 		printf("pin: '%d'\n",pin);
-	}
+		printf("dutycycle: '%d'\n",dutycycle);
+	//}
 
 	if (get_pwm_pin_name(pin,name) < ERROR_OK) {
 		printf("Error getting pwm pin name!\n");
@@ -105,7 +111,8 @@ int main(int argc, char * argv[])
 	
 	verbose = VERBOSE;	
 
-	int dutycycle = 10; 	// in percent
+	if (dutycycle < 0)
+		dutycycle = 10; 	// in percent
 
 	if (pwm_write_duty_cycle(name,dutycycle) < ERROR_OK) {
 		printf("Error setting pwm duty cycle for '%s'!\n",name);
