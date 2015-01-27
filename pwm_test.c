@@ -102,6 +102,17 @@ int main(int argc, char * argv[])
 		printf("Error setting pwm duty for '%s'!\n",name);
 		exit(1);
 	}
+	
+	verbose = VERBOSE;	
+
+	int dutycycle = 10; 	// in percent
+
+	if (pwm_write_duty_cycle(name,dutycycle) < ERROR_OK) {
+		printf("Error setting pwm duty cycle for '%s'!\n",name);
+		exit(1);
+	}
+
+	verbose = QUIET;	
 
 	period = pwm_read_period(name);
 
@@ -112,13 +123,6 @@ int main(int argc, char * argv[])
 	printf("duty: '%ld'\n",duty);
 
 	printf("Exiting!\n");
-	
-	int dutycycle = 10; 	// in percent
-
-	if (pwm_write_duty_cycle(name,dutycycle) < ERROR_OK) {
-		printf("Error setting pwm duty cycle for '%s'!\n",name);
-		exit(1);
-	}
 
 	exit(0);
 }
