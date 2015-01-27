@@ -92,7 +92,7 @@ int main(int argc, char * argv[])
 	printf("Requesting PWM Pin Function for Pin: '%s'!\n",name);
 
 	if (request_pwm_pin(cm,name) < ERROR_OK) {
-		printf("Error requestuing pwm pin name!\n");
+		printf("Error requesting pwm pin name!\n");
 		exit(1);
 	}
 	
