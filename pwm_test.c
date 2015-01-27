@@ -30,7 +30,7 @@ int main(int argc, char * argv[])
 	char name[24];
 
 	// Start with debugging set to quiet
-	verbose = VERBOSE;
+	verbose = QUIET;
 
 	// Set default Pin # to use if one is not 
 	// supplied on the command line.
@@ -80,7 +80,7 @@ int main(int argc, char * argv[])
 		exit(1);
 	}
 	
-	verbose = VERBOSE;	
+//	verbose = VERBOSE;	
 	
 	int pwm_pin = get_pwm_pin_num(name);
 	
@@ -103,7 +103,7 @@ int main(int argc, char * argv[])
 		exit(1);
 	}
 
-	period = pwm_read_duty(name);
+	period = pwm_read_period(name);
 
 	printf("period: '%ld'\n",period);
 
