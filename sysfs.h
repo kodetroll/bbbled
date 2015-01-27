@@ -8,13 +8,14 @@
  *
  *************************************************************************/
 
-
-#ifndef SYSFS_H
-#define SYSFS_H
+#ifndef __SYSFS_H__
+#define __SYSFS_H__
 
 #ifdef  __cplusplus
 extern "C" {
 #endif
+
+#include "conn_map.h"
 
 #define VERBOSE 1
 #define QUIET 0
@@ -210,4 +211,4 @@ long pwm_read_duty(char* name);
  */
 long pwm_read_period(char* name);
 
-#endif	// SYSFS_H
+#endif	// __SYSFS_H__
