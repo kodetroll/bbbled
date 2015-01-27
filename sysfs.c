@@ -866,9 +866,9 @@ int pwm_write_duty_cycle(char* name, int dutycycle)
 	
 	duty = period - duty;
 	
-    //if (verbose) {
+    if (verbose) {
         printf("duty: '%ld'\n",duty);
-	//}
+	}
 
 	if (pwm_write_duty(name,duty) < ERROR_OK) {
         printf("Error writing duty cycle\n");
