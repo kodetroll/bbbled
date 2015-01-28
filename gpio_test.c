@@ -38,7 +38,8 @@ int main(int argc, char * argv[])
 	state = 1;
 
 	// Start with debugging set to quiet
-	verbose = QUIET;
+	//verbose = QUIET;
+	verbose = VERBOSE;
 
 	// If debugging, print the command line args
 	if (verbose) {
