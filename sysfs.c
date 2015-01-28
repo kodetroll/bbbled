@@ -132,7 +132,7 @@ int gpio_is_exported(int pin)
 	
 	printf("l: '%d'\n",l);
 	
-    if (l != 0) {
+    if (l == 0) {
 		return(-1);
 	}
 	return(0);
