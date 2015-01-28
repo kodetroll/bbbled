@@ -127,8 +127,12 @@ int gpio_is_exported(int pin)
     }
 
     sprintf(sysfs,SYSFS_GPIO "/gpio%d",pin);
-
-    if (test_sysfs_node(sysfs) != 0) {
+    
+    int l = test_sysfs_node(sysfs);
+	
+	printf("l: '%d'\n",l);
+	
+    if (l != 0) {
 		return(-1);
 	}
 	return(0);
