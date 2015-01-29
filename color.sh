@@ -17,8 +17,8 @@ DELAY=2
 # Map the RGB color to a name
 black=0
 red=1
-grn=2
-blu=3
+green=2
+blue=3
 yellow=4
 magenta=5
 cyan=6
