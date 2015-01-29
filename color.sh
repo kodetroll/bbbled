@@ -85,43 +85,43 @@ function color () {
 
 # RED - 1
 echo "RED"
-color red
+color $red
 sleep ${DELAY}
 color 0
 
 # GREEN - 2
 echo "GREEN"
-color green
+color $green
 sleep ${DELAY}
 color 0
 
 # BLUE - 3
 echo "BLUE"
-color blue
+color $blue
 sleep ${DELAY}
 color 0
 
 # MAGENTA (RED + BLU)
 echo "MAGENTA"
-color magenta
+color $magenta
 sleep ${DELAY}
 color 0
 
 # CYAN (GRN + BLU)
 echo "CYAN"
-color cyan
+color $cyan
 sleep ${DELAY}
 color 0
 
 # YELLOW (RED + GRN)
 echo "YELLOW"
-color yellow
+color $yellow
 sleep ${DELAY}
 color 0
 
 # WHITE (RED + GRN + BLU)
 echo "WHITE"
-color white
+color $white
 sleep ${DELAY}
 color 0
 
