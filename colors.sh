@@ -42,53 +42,43 @@ function BLU () {
 
 # RED
 echo "RED"
-RED ${ON}
+./color.sh "red"
 sleep ${DELAY}
-RED ${OFF}
+./color.sh "black"
 
 # GREEN
 echo "GREEN"
-GRN ${ON}
+./color.sh "green"
 sleep ${DELAY}
-GRN ${OFF}
+./color.sh "black"
 
 # BLUE
 echo "BLUE"
-BLU ${ON}
+./color.sh "blue"
 sleep ${DELAY}
-BLU ${OFF}
+./color.sh "black"
 
 # MAGENTA (RED + BLU)
 echo "MAGENTA"
-BLU ${ON}
-RED ${ON}
+./color.sh "magenta"
 sleep ${DELAY}
-RED ${OFF}
-BLU ${OFF}
+./color.sh "black"
 
 # CYAN (GRN + BLU)
 echo "CYAN"
-BLU ${ON}
-GRN ${ON}
+./color.sh "cyan"
 sleep 2
-GRN ${OFF}
-BLU ${OFF}
+./color.sh "black"
 
 # YELLOW (RED + GRN)
 echo "YELLOW"
-RED ${ON}
-GRN ${ON}
+./color.sh "yellow"
 sleep 2
-GRN ${OFF}
-RED ${OFF}
+./color.sh "black"
 
 # WHITE (RED + GRN + BLU)
 echo "WHITE"
-RED ${ON}
-GRN ${ON}
-BLU ${ON}
+./color.sh "white"
 sleep 2
-GRN ${OFF}
-RED ${OFF}
-BLU ${OFF}
+./color.sh "black"
 
