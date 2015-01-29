@@ -84,7 +84,8 @@ function set_led_color () {
 }
 
 function get_color_index () {
-	echo "Color: $1"
+	echo "Color Name: $1"
+	
   case "$1" in
   "black") 
 	RED ${OFF}
@@ -131,50 +132,50 @@ function get_color_index () {
 
 # RED - 1
 echo "RED"
-INDEX=get_color_index "red"
-set_led_color $INDEX
+get_color_index "red"
+#set_led_color $INDEX
 sleep ${DELAY}
 set_led_color 0
 
 # GREEN - 2
 echo "GREEN"
-INDEX=get_color_index "green"
-set_led_color $INDEX
+get_color_index "green"
+#set_led_color $INDEX
 sleep ${DELAY}
 set_led_color 0
 
 # BLUE - 3
 echo "BLUE"
-INDEX=get_color_index "blue"
-set_led_color $INDEX
+get_color_index "blue"
+#set_led_color $INDEX
 sleep ${DELAY}
 set_led_color 0
 
 # MAGENTA (RED + BLU)
 echo "MAGENTA"
-INDEX=get_color_index "magenta"
-set_led_color $INDEX
+get_color_index "magenta"
+#set_led_color $INDEX
 sleep ${DELAY}
 set_led_color 0
 
 # CYAN (GRN + BLU)
 echo "CYAN"
-INDEX=get_color_index "cyan"
-set_led_color $INDEX
+get_color_index "cyan"
+#set_led_color $INDEX
 sleep ${DELAY}
 set_led_color 0
 
 # YELLOW (RED + GRN)
 echo "YELLOW"
-INDEX=get_color_index "yellow"
-set_led_color $INDEX
+get_color_index "yellow"
+#set_led_color $INDEX
 sleep ${DELAY}
 set_led_color 0
 
 # WHITE (RED + GRN + BLU)
 echo "WHITE"
-INDEX=get_color_index "white" 
-set_led_color $INDEX
+get_color_index "white" 
+#set_led_color $INDEX
 sleep ${DELAY}
 set_led_color 0
 
