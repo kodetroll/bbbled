@@ -111,17 +111,48 @@ int gpio_read_dir(int pin);
  */
 int gpio_read(int pin);
 
-
+/* Function to enumerate the old style bank the gpio pin belongs
+ * to. Not useful except for converting old style pin names to 
+ * new style. Returns an int for pin bank, 0 if unknown, -1 if
+ * there was an error converting.
+ */
 int get_pin_bank(int pin);
 
+/* Function to enumerate the old style pin number the gpio pin 
+ * belongs to. Not useful except for converting old style pin names 
+ * to new style. Returns an int for pin number, 0 if unknown, -1 if
+ * there was an error converting.
+ */
 int get_old_pin_num(int pin);
 
+/* Function to enumerate the old style pin name (gpio1_23) the gpio 
+ * pin (gpio55) maps to. Not useful except for converting old style 
+ * pin names to new style.
+ */
 int get_old_pin_name(int pin, char* name);
 
+/* Function to enumerate the cape connector that the gpio pin maps
+ * to. Useful except for converting gpio pin style names (gpio23) to
+ * pwm style (P8_13). This returns either 8 or 9 for valid gpio pins,
+ * else 0 for unknown or -1 for an error during conversion.
+ */
 int get_pin_conn(int pin);
 
+/* Function to enumerate the cape pin number that the gpio pin maps
+ * to. Useful except for converting gpio pin style names (gpio23) to
+ * pwm style (P8_13). This returns either the pin number as an int for 
+ * valid gpio pins, else 0 for unknown or -1 for an error during 
+ * conversion.
+ */
 int get_pin_num(int pin);
 
+/* Function to map the gpio style pin name (gpio23) to pwm style 
+ * (P8_13). This takes the gpio pin numeric value and returns 
+ * a string containing the pwm style pin name ('P8_13') pass through
+ * the name parameter. The return value is either the size of the 
+ * string returned, 0 for unknown, or -1 for an error during 
+ * conversion.
+ */
 int get_pwm_pin_name(int pin, char* name);
 
 /* Function to search and return the current capemgr number
@@ -132,19 +163,25 @@ int get_pwm_pin_name(int pin, char* name);
  */
 int get_capemgr_num(void);
 
-/* Function to search and return the current ocp number
- * expressed in the '/sys/devices' branch of sysfs. 
- * Value returned is enumerated value after the '/ocp.' 
- * sysfs node. -1 is returned for errors during write or 
- * open of sysfs node.
+/* Function to search and return the current ocp number expressed in 
+ * the '/sys/devices' branch of sysfs. Value returned is enumerated 
+ * value after the '/ocp.' sysfs node. -1 is returned for errors 
+ * during write or open of sysfs node.
  */
 int get_ocp_num(void);
 
+/* Function to search and return the current ocp sysfs path as found
+ * in the '/sys/devices' branch of sysfs. Value returned is a string
+ * pointer (char*).
+ */
 char* get_ocp_path(void);
 
+/* Function to create and return the current pwm pin sysfs path as found
+ * in the '/sys/devices' branch of sysfs based on the supplied pwm pin
+ * name. Value returned is a string pointer (char*).
+ */
 char* get_pwm_pin_path(char * pin_name);
 
- 
 /* Function to search and return the current pwm pin instance
  * number expressed in the '/sys/devices/ocp.N' branch of sysfs. 
  * Value returned is enumerated value after the '/pwm_test_' 

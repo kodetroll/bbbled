@@ -8,7 +8,7 @@ OFF=1
 
 # Map the LED Colors to GPIO pins
 RED=22
-BLUE=23
+BLUE=2
 GREEN=50
 
 # Set the color ON time delay (in seconds)
