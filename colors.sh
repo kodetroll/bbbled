@@ -55,16 +55,16 @@ sleep 2
 RED ${OFF}
 BLU ${OFF}
 
-# YELLOW (GRN + BLU)
-echo "YELLOW"
+# CYAN (GRN + BLU)
+echo "CYAN"
 BLU ${ON}
 GRN ${ON}
 sleep 2
 GRN ${OFF}
 BLU ${OFF}
 
-# CYAN (RED + GRN)
-echo "CYAN"
+# YELLOW (RED + GRN)
+echo "YELLOW"
 RED ${ON}
 GRN ${ON}
 sleep 2
