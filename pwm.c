@@ -14,6 +14,9 @@
 #include <fcntl.h>
 #include "sysfs.h"
 
+int init_pwm(char * name);
+int idle_pwm(char * name, int dutycycle);
+
 int init_pwm(char * name) 
 {
 	if (verbose)
@@ -92,15 +95,16 @@ int idle_pwm(char * name, int dutycycle)
 
 int main(int argc, char * argv[])
 {
-    int pin, i;
+    int pin, pwm_pin, i;
 
     pin = 23;
-    long duty = 1;
-    long period = 1;
+    long duty = 990000;
+    long period = 1000000;
+    char name[24];
 
-    VERBOSE=1;
+    verbose = VERBOSE;
 
-    if (VERBOSE) {
+    if (verbose) {
         printf("argc: %d\n",argc);
         for (i=0;i<argc;i++)
             printf("argv[%d]: '%s'\n",i,argv[i]);
@@ -109,11 +113,11 @@ int main(int argc, char * argv[])
     if (argc > 1)
         pin = atoi(argv[1]);
     if (argc > 2)
-        duty = atoi(argv[2]);
+        duty = atol(argv[2]);
     if (argc > 3)
-        period = atoi(argv[3]);
+        period = atol(argv[3]);
 
-    if (VERBOSE) {
+    if (verbose) {
         printf("pin: '%d'\n",pin);
         printf("duty: '%ld'\n",duty);
         printf("period: '%ld'\n",period);

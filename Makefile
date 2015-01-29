@@ -12,14 +12,15 @@ DEPS = sysfs.h
 #OBJ = sysfs.o gpio.o 
 OBJWR = sysfs.o gpio_write.o 
 OBJTEST = sysfs.o gpio_test.o 
-OBJPWM = sysfs.o pwm_test.o 
+OBJPWMT = sysfs.o pwm_test.o 
+OBJPWM = sysfs.o pwm.o 
 OBJFADE = sysfs.o fader.o 
 OBJTSYS = sysfs.o testsysfs.o
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-all: testsysfs gpio_write gpio_test pwm_test fader
+all: testsysfs gpio_write gpio_test pwm_test pwm fader
 
 #gpio: $(OBJ)
 #	$(CC) -o $@ $^ $(CFLAGS)
@@ -33,7 +34,10 @@ gpio_write: $(OBJWR)
 gpio_test: $(OBJTEST)
 	$(CC) -o $@ $^ $(CFLAGS)
 
-pwm_test: $(OBJPWM)
+pwm_test: $(OBJPWMT)
+	$(CC) -o $@ $^ $(CFLAGS)
+
+pwm: $(OBJPWM)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 fader: $(OBJFADE)
