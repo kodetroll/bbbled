@@ -19,6 +19,11 @@ GREEN=50
 # Set the color ON time delay (in seconds)
 DELAY=2
 
+# If $1 is available, use it as the delay
+if [ ! -z "$1" ]; then
+    DELAY=$1
+fi
+
 function LED () {
   # LED $1 STATE $2
   #echo "LED (GPIO: $1) ($2)"
