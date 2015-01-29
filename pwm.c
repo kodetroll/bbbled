@@ -14,8 +14,13 @@
 #include <fcntl.h>
 #include "sysfs.h"
 
+#define VERBOSE 1
+#define QUIET 0
+
 int init_pwm(char * name);
 int idle_pwm(char * name, int dutycycle);
+
+int verbose = QUIET;
 
 int init_pwm(char * name) 
 {
@@ -102,7 +107,7 @@ int main(int argc, char * argv[])
     long period = 1000000;
     char name[24];
 
-    verbose = VERBOSE;
+    verbose = quiet;
 
     if (verbose) {
         printf("argc: %d\n",argc);
@@ -110,17 +115,21 @@ int main(int argc, char * argv[])
             printf("argv[%d]: '%s'\n",i,argv[i]);
     }
 
-    if (argc > 1)
-        pin = atoi(argv[1]);
-    if (argc > 2)
-        duty = atol(argv[2]);
-    if (argc > 3)
-        period = atol(argv[3]);
+	i = 1;
+    if (argc > i)
+        pin = atoi(argv[i++]);
+    if (argc > i)
+        duty = atol(argv[i++]);
+    if (argc > i)
+        period = atol(argv[i++]);
+    if (argc > i)
+        verbose = atoi(argv[i++]);
 
     if (verbose) {
         printf("pin: '%d'\n",pin);
         printf("duty: '%ld'\n",duty);
         printf("period: '%ld'\n",period);
+        printf("verbose: '%d'\n",verbose);
     }
 
 	if (verbose)
@@ -144,14 +153,16 @@ int main(int argc, char * argv[])
 		exit(1);
 	}
 	
-	printf("Setting period to '%ld' on '%s'\n",period,name);
+	if (verbose)
+		printf("Setting period to '%ld' on '%s'\n",period,name);
 	
 	if (pwm_write_period(name,period) < ERROR_OK) {
 		printf("Error setting pwm period for '%s'!\n",name);
 		return(ERROR);
 	}
 	
-	printf("Setting duty to '%ld' on '%s'\n",duty,name);
+	if (verbose)
+		printf("Setting duty to '%ld' on '%s'\n",duty,name);
 	
 	if (pwm_write_duty(name,duty) < ERROR_OK) {
 		printf("Error setting pwm duty for '%s'!\n",name);

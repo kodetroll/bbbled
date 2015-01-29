@@ -17,9 +17,6 @@ extern "C" {
 
 #include "conn_map.h"
 
-#define VERBOSE 1
-#define QUIET 0
-
 #define HIGH 1
 #define LOW 0
 #define ON 1
@@ -45,7 +42,7 @@ extern "C" {
 #define ERROR -1
 
 /* Parameter to control debug printing */
-extern int verbose;
+extern int debug;
 
 
 /* Function to test whether sysfs node exists. Returns 0 for 

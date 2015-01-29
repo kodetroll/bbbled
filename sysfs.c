@@ -23,7 +23,7 @@
 char sysfs[120];
 char valset[20];
 
-int verbose = QUIET;
+int debug = OFF;
 
 int test_sysfs_node(char * sysfs)
 {
@@ -31,7 +31,7 @@ int test_sysfs_node(char * sysfs)
 	struct stat   buffer;   
 #endif
 
-    if (verbose) {
+    if (debug) {
 		printf("test_sysfs_node\n");
         printf("sysfs: '%s'\n",sysfs);
     }
@@ -54,7 +54,7 @@ int read_sysfs_node(char * sysfs, char * buffer)
 {
     int fd,len;
 	char buf[50];
-    if (verbose) {
+    if (debug) {
 		printf("read_sysfs_node\n");
         printf("sysfs: '%s'\n",sysfs);
     }
@@ -79,7 +79,7 @@ int read_sysfs_node(char * sysfs, char * buffer)
 //#endif
 	strncpy(buffer,buf,strlen(buf)-1);
 	
-    if (verbose) {
+    if (debug) {
 		printf("buf: '%s'\n",buf);
 		printf("buffer: '%s'\n",buffer);
 		printf("len: '%d'\n",len);
@@ -91,7 +91,7 @@ int write_sysfs_node(char * sysfs, char * value)
 {
     int fd;
 
-    if (verbose) {
+    if (debug) {
 		printf("write_sysfs_node\n");
         printf("sysfs: '%s'\n",sysfs);
         printf("value: '%s'\n",value);
@@ -121,7 +121,7 @@ int write_sysfs_node(char * sysfs, char * value)
 
 int gpio_is_exported(int pin)
 {
-    if (verbose) {
+    if (debug) {
 		printf("gpio_is_exported\n");
         printf("pin: '%d'\n",pin);
     }
@@ -136,7 +136,7 @@ int gpio_is_exported(int pin)
 
 int gpio_export(int pin)
 {
-    if (verbose) {
+    if (debug) {
 		printf("gpio_export\n");
         printf("pin: '%d'\n",pin);
     }
@@ -145,7 +145,7 @@ int gpio_export(int pin)
     
     sprintf(valset,"%d",pin);
 
-    if (verbose) {
+    if (debug) {
         printf("sysfs: '%s'\n",sysfs);
         printf("valset: '%s'\n",valset);
     }
@@ -160,7 +160,7 @@ int gpio_export(int pin)
 
 int gpio_unexport(int pin)
 {
-    if (verbose) {
+    if (debug) {
 		printf("gpio_unexport\n");
         printf("pin: '%d'\n",pin);
     }
@@ -168,7 +168,7 @@ int gpio_unexport(int pin)
     sprintf(sysfs,SYSFS_GPIO "/unexport");
     sprintf(valset,"%d",pin);
 
-    if (verbose) {
+    if (debug) {
         printf("sysfs: '%s'\n",sysfs);
         printf("valset: '%s'\n",valset);
     }
@@ -183,7 +183,7 @@ int gpio_unexport(int pin)
 
 int gpio_write_dir(int pin, int state)
 {
-    if (verbose) {
+    if (debug) {
 		printf("gpio_write_dir\n");
         printf("pin: '%d'\n",pin);
         printf("state: '%d'\n",state);
@@ -195,7 +195,7 @@ int gpio_write_dir(int pin, int state)
 	else
 		sprintf(valset,"in");
 
-    if (verbose) {
+    if (debug) {
         printf("sysfs: '%s'\n",sysfs);
         printf("valset: '%s'\n",valset);
     }
@@ -210,7 +210,7 @@ int gpio_write_dir(int pin, int state)
 
 int gpio_write(int pin, int state)
 {
-    if (verbose) {
+    if (debug) {
 		printf("gpio_write\n");
         printf("pin: '%d'\n",pin);
         printf("state: '%d'\n",state);
@@ -220,7 +220,7 @@ int gpio_write(int pin, int state)
     
     sprintf(valset,"%d",state);
 
-    if (verbose) {
+    if (debug) {
         printf("sysfs: '%s'\n",sysfs);
         printf("valset: '%s'\n",valset);
     }
@@ -236,14 +236,14 @@ int gpio_write(int pin, int state)
 int gpio_read_dir(int pin)
 {
 	int state,len;
-    if (verbose) {
+    if (debug) {
 		printf("gpio_read_dir\n");
         printf("pin: '%d'\n",pin);
     }
 
     sprintf(sysfs,SYSFS_GPIO "/gpio%d/direction",pin);
    
-    if (verbose) {
+    if (debug) {
         printf("sysfs: '%s'\n",sysfs);
     }
 	
@@ -254,7 +254,7 @@ int gpio_read_dir(int pin)
         return(-1);
     }
 
-    if (verbose) {
+    if (debug) {
 		printf("valset: '%s'\n",valset);
 	}
 	if (strncmp(valset,"out",3) == 0)
@@ -266,14 +266,14 @@ int gpio_read_dir(int pin)
 int gpio_read(int pin)
 {
 	int state,len;
-    if (verbose) {
+    if (debug) {
 		printf("gpio_read\n");
         printf("pin: '%d'\n",pin);
     }
 
     sprintf(sysfs,SYSFS_GPIO "/gpio%d/value",pin);
 
-    if (verbose) {
+    if (debug) {
         printf("sysfs: '%s'\n",sysfs);
     }
 	
@@ -284,7 +284,7 @@ int gpio_read(int pin)
         return(-1);
     }
 
-    if (verbose) {
+    if (debug) {
 		printf("valset: '%s'\n",valset);
 	}
 	if (strncmp(valset,"1",1) == 0)
@@ -297,14 +297,14 @@ int get_pin_bank(int pin)
 {
 	int bank;
     
-    if (verbose) {
+    if (debug) {
 		printf("get_pin_bank\n");
         printf("pin: '%d'\n",pin);
     }
 	
 	bank = pin/PIN_BANK_SIZE;
 
-    if (verbose)
+    if (debug)
         printf("bank: '%d'\n",bank);
 
 	if (bank < 0 || bank > 5) {
@@ -319,19 +319,19 @@ int get_old_pin_num(int pin)
 {
 	int bank,pinnum;
 	
-    if (verbose) {
+    if (debug) {
 		printf("get_old_pin_num\n");
         printf("pin: '%d'\n",pin);
     }
 
 	bank = get_pin_bank(pin);
 
-    if (verbose)
+    if (debug)
         printf("bank: '%d'\n",bank);
 	
 	pinnum = pin - (bank * PIN_BANK_SIZE);
 	
-    if (verbose)
+    if (debug)
         printf("pinnum: '%d'\n",pinnum);
 
 	if (pinnum < 0 || pinnum > 31) {
@@ -346,7 +346,7 @@ int get_old_pin_name(int pin, char* name)
 {
 	int bank,pinnum;
 	
-    if (verbose) {
+    if (debug) {
 		printf("get_old_pin_name\n");
         printf("pin: '%d'\n",pin);
         printf("name: '%s'\n",name);
@@ -354,7 +354,7 @@ int get_old_pin_name(int pin, char* name)
 	
 	bank = get_pin_bank(pin);
 
-    if (verbose)
+    if (debug)
         printf("bank: '%d'\n",bank);
 
 	if (bank < 0 || bank > 5) {
@@ -364,7 +364,7 @@ int get_old_pin_name(int pin, char* name)
 	
 	pinnum = get_old_pin_num(pin);
 	
-    if (verbose)
+    if (debug)
         printf("pinnum: '%d'\n",pinnum);
 
 	if (pinnum < 0 || pinnum > 31) {
@@ -374,7 +374,7 @@ int get_old_pin_name(int pin, char* name)
 
 	sprintf(name,"P%d_%d",bank,pinnum);
 
-    if (verbose) {
+    if (debug) {
         printf("name: '%s'\n",name);
     }
 	
@@ -385,14 +385,14 @@ int get_pin_conn(int pin)
 {
 	int conn;
     
-//    if (verbose) {
+//    if (debug) {
 //		printf("get_pin_conn\n");
 //        printf("pin: '%d'\n",pin);
 //    }
 
 	conn = conn_map[pin];
 	    
-//    if (verbose)
+//    if (debug)
 //        printf("conn: '%d'\n",conn);
 
 	return(conn);
@@ -402,14 +402,14 @@ int get_pin_num(int pin)
 {
 	int bank,pinnum;
 	
-//    if (verbose) {
+//    if (debug) {
 //		printf("get_pin_num\n");
 //        printf("pin: '%d'\n",pin);
 //    }
 
 	pinnum = pin_map[pin];
 
-//    if (verbose)
+//    if (debug)
 //        printf("pinnum: '%d'\n",pinnum);
 
 	return(pinnum);
@@ -419,7 +419,7 @@ int get_pwm_pin_name(int pin, char* name)
 {
 	int conn,pinnum;
 	
-    if (verbose) {
+    if (debug) {
 		printf("get_pwm_pin_name\n");
         printf("pin: '%d'\n",pin);
         //printf("name: '%s'\n",name);
@@ -427,7 +427,7 @@ int get_pwm_pin_name(int pin, char* name)
 	
 	conn = get_pin_conn(pin);
 
-    if (verbose)
+    if (debug)
         printf("conn: '%d'\n",conn);
 
 	if (conn < 8 || conn > 9) {
@@ -437,7 +437,7 @@ int get_pwm_pin_name(int pin, char* name)
 	
 	pinnum = get_pin_num(pin);
 	
-    if (verbose)
+    if (debug)
         printf("pinnum: '%d'\n",pinnum);
 
 	if (pinnum < 0 || pinnum > 46) {
@@ -447,7 +447,7 @@ int get_pwm_pin_name(int pin, char* name)
 
 	sprintf(name,"P%d_%d",conn,pinnum);
 
-    if (verbose) {
+    if (debug) {
         printf("name: '%s'\n",name);
     }
 	
@@ -462,13 +462,13 @@ int get_capemgr_num(void)
 	char * ptr;
 	struct dirent *dptr = NULL;
 	
-    if (verbose) {
+    if (debug) {
 		printf("get_capemgr_num\n");
     }
 
     sprintf(sysfs,SYSFS_DEV);
 
-    if (verbose) {
+    if (debug) {
 		printf("sysfs: '%s'\n",sysfs);
 	}
 
@@ -502,13 +502,13 @@ int get_ocp_num(void)
 	char * ptr;
 	struct dirent *dptr = NULL;
 	
-    if (verbose) {
+    if (debug) {
 		printf("get_ocp_num\n");
     }
 
     sprintf(sysfs,SYSFS_DEV);
 
-    if (verbose) {
+    if (debug) {
 		printf("sysfs: '%s'\n",sysfs);
 	}
 
@@ -540,13 +540,13 @@ char* get_ocp_path(void)
 
 	int ocp = get_ocp_num();
 	
-    if (verbose) {
+    if (debug) {
 		printf("get_ocp_path\n");
     }
 
     sprintf(valset,SYSFS_OCP "%d",ocp);
 
-    if (verbose) {
+    if (debug) {
 		printf("sysfs: '%s'\n",valset);
 	}
 
@@ -555,26 +555,26 @@ char* get_ocp_path(void)
 
 char* get_pwm_pin_path(char * pin_name)
 {
-    if (verbose) {
+    if (debug) {
 		printf("get_pwm_pin_path\n");
 		printf("pin_name: '%s'\n",pin_name);
     }
 
 	sprintf(sysfs,"%s",get_ocp_path());
 
-    if (verbose) {
+    if (debug) {
 		printf("sysfs: '%s'\n",sysfs);
 	}
 	
 	int pin_num = get_pwm_pin_num(pin_name);
 	
-    if (verbose) {
+    if (debug) {
 		printf("pin: '%d'\n",pin_num);
 	}
 	
 	sprintf(valset,"%s/pwm_test_%s.%d",sysfs,pin_name,pin_num);	
 	
-    if (verbose) {
+    if (debug) {
 		printf("valset: '%s'\n",valset);
 	}
 
@@ -589,7 +589,7 @@ int get_pwm_pin_num(char * pin_name)
 	char * ptr;
 	struct dirent *dptr = NULL;
 	
-    if (verbose) {
+    if (debug) {
 		printf("get_pwm_pin_num\n");
 		printf("pin_name: '%s'\n",pin_name);
     }
@@ -598,7 +598,7 @@ int get_pwm_pin_num(char * pin_name)
 	
     sprintf(sysfs,"%s",get_ocp_path());
 
-    if (verbose) {
+    if (debug) {
 		printf("sysfs: '%s'\n",sysfs);
 	}
 
@@ -608,7 +608,7 @@ int get_pwm_pin_num(char * pin_name)
     }
 	sprintf(tmp,"pwm_test_%s",pin_name);
 	
-    if (verbose) {
+    if (debug) {
 		printf("tmp: '%s'\n",tmp);
 	}
 	
@@ -631,7 +631,7 @@ int get_pwm_pin_num(char * pin_name)
 
 int request_pwm(int capemgrnum)
 {
-    if (verbose) {
+    if (debug) {
 		printf("request_pwm\n");
         printf("capemgrnum: '%d'\n",capemgrnum);
     }
@@ -639,7 +639,7 @@ int request_pwm(int capemgrnum)
     sprintf(sysfs,SYSFS_CAPE "%d/slots",capemgrnum);
 	sprintf(valset,"%s","am33xx_pwm");
 	
-    if (verbose) {
+    if (debug) {
 		printf("sysfs: '%s'\n",sysfs);
 		printf("valset: '%s'\n",valset);
 	}
@@ -654,25 +654,25 @@ int request_pwm(int capemgrnum)
 
 int request_pwm_pin(int capemgrnum, char * pwm_pin_name)
 {
-    if (verbose) {
+    if (debug) {
 		printf("request_pwm_pin\n");
         printf("capemgrnum: '%d'\n",capemgrnum);
         printf("pwm_pin_name: '%s'\n",pwm_pin_name);
 	}
 
 	if (get_pwm_pin_num(pwm_pin_name) >= ERROR_OK) {
-		if (verbose)
+		if (debug)
 			printf("PWM Pin is already currently active!\n");
 		return(0);
 	}
     
-	if (verbose)
+	if (debug)
 		printf("PWM Pin is not currently active, requesting!\n");
 
 	sprintf(sysfs,SYSFS_CAPE "%d/slots",capemgrnum);
 	sprintf(valset,"bone_pwm_%s",pwm_pin_name);
 
-	if (verbose) {
+	if (debug) {
 		printf("sysfs: '%s'\n",sysfs);
 		printf("valset: '%s'\n",valset);
 	}
@@ -688,7 +688,7 @@ int pwm_write_period(char* name, long period)
 {
 	// OCP/pwm_test_PINNAME.pin
 	//echo ${DUTY} > ${PWM}/duty
-    if (verbose) {
+    if (debug) {
 		printf("pwm_write_period\n");
         printf("name: '%s'\n",name);
         printf("period: '%ld'\n",period);
@@ -697,7 +697,7 @@ int pwm_write_period(char* name, long period)
 	sprintf(sysfs,"%s/period",get_pwm_pin_path(name));
 	sprintf(valset,"%ld",period);
 	
-    if (verbose) {
+    if (debug) {
 		printf("sysfs: '%s'\n",sysfs);
 		printf("valset: '%s'\n",valset);
 	}
@@ -715,7 +715,7 @@ int pwm_write_duty_cycle(char* name, int dutycycle)
 	// OCP/pwm_test_PINNAME.pin
 	//echo ${DUTY} > ${PWM}/duty
 	
-    if (verbose) {
+    if (debug) {
 		printf("pwm_write_duty\n");
         printf("name: '%s'\n",name);
         printf("dutycycle: '%d'\n",dutycycle);
@@ -723,7 +723,7 @@ int pwm_write_duty_cycle(char* name, int dutycycle)
 
 	long period = pwm_read_period(name);
 
-    if (verbose) {
+    if (debug) {
 		printf("period: '%ld'\n",period);
 	}
 	
@@ -731,7 +731,7 @@ int pwm_write_duty_cycle(char* name, int dutycycle)
 	
 	duty = period - duty;
 	
-    if (verbose) {
+    if (debug) {
         printf("duty: '%ld'\n",duty);
 	}
 
@@ -747,7 +747,7 @@ int pwm_write_duty(char* name, long duty)
 {
 	// OCP/pwm_test_PINNAME.pin
 	//echo ${DUTY} > ${PWM}/duty
-    if (verbose) {
+    if (debug) {
 		printf("pwm_write_duty\n");
         printf("name: '%s'\n",name);
         printf("duty: '%ld'\n",duty);
@@ -756,7 +756,7 @@ int pwm_write_duty(char* name, long duty)
 	sprintf(sysfs,"%s/duty",get_pwm_pin_path(name));
 	sprintf(valset,"%ld",duty);
 	
-    if (verbose) {
+    if (debug) {
 		printf("sysfs: '%s'\n",sysfs);
 		printf("valset: '%s'\n",valset);
 	}
@@ -773,14 +773,14 @@ long pwm_read_period(char* name)
 {
 	int len;
 	
-    if (verbose) {
+    if (debug) {
 		printf("pwm_read_period\n");
         printf("name: '%s'\n",name);
     }
 
 	sprintf(sysfs,"%s/period",get_pwm_pin_path(name));
 	
-    if (verbose) {
+    if (debug) {
 		printf("sysfs: '%s'\n",sysfs);
 	}
 		
@@ -791,13 +791,13 @@ long pwm_read_period(char* name)
         return(-1);
     }
 
-    if (verbose) {
+    if (debug) {
 		printf("valset: '%s'\n",valset);
 	}
 
 	long period = atol(valset);
 
-	if (verbose)
+	if (debug)
 		printf("period: '%ld'\n",period);
     
     return(period);
@@ -807,14 +807,14 @@ long pwm_read_duty(char* name)
 {
 	int len;
 	
-    if (verbose) {
+    if (debug) {
 		printf("pwm_read_duty\n");
         printf("name: '%s'\n",name);
     }
 
 	sprintf(sysfs,"%s/duty",get_pwm_pin_path(name));
 	
-    if (verbose) {
+    if (debug) {
 		printf("sysfs: '%s'\n",sysfs);
 	}
 		
@@ -825,13 +825,13 @@ long pwm_read_duty(char* name)
         return(-1);
     }
 
-    if (verbose) {
+    if (debug) {
 		printf("valset: '%s'\n",valset);
 	}
 
 	long duty = atol(valset);
 
-	if (verbose)
+	if (debug)
 		printf("duty: '%ld'\n",duty);
     
     return(duty);
