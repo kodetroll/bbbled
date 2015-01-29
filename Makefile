@@ -50,7 +50,8 @@ fader: $(OBJFADE)
 .PHONY: clean
 
 cleanall:
-	rm -f testsysfs fader gpio_write gpio_test pwm_test *.o *~ core  
+	rm -f usrled testsysfs fader gpio_write gpio_test pwm_test pwm *.o *~ core  
+
 clean:
 	rm -f *.o *~ core  
 
