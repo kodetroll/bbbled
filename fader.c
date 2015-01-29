@@ -18,6 +18,11 @@
 #include <fcntl.h>
 #include "sysfs.h"
 
+#define VERBOSE 1
+#define QUIET 0
+
+int verbose = QUIET;
+
 int init_pwm(char * name);
 int idle_pwm(char * name, int dutycycle);
 

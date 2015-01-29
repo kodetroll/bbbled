@@ -21,9 +21,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include <fcntl.h>
+
 #include "sysfs.h"
 
+#define VERBOSE 1
+#define QUIET 0
+
 //#define UNEXPORT_ON_EXIT
+
+int verbose = QUIET;
 
 int main(int argc, char * argv[])
 {

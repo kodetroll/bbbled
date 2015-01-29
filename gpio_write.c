@@ -16,6 +16,11 @@
 #include <fcntl.h>
 #include "sysfs.h"
 
+#define VERBOSE 1
+#define QUIET 0
+
+int verbose = QUIET;
+
 //#define UNEXPORT_ON_EXIT
 
 int main(int argc, char * argv[])

@@ -4,6 +4,11 @@
 
 #include "sysfs.h"
 
+#define VERBOSE 1
+#define QUIET 0
+
+int verbose = QUIET;
+
 #define SYSFS_CLASS "/sys/class"
 int main(int argc, char * argv[])
 {

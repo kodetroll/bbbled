@@ -25,7 +25,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <fcntl.h>
+
 #include "sysfs.h"
+
+#define VERBOSE 1
+#define QUIET 0
+
+int verbose = QUIET;
 
 int main(int argc, char * argv[])
 {
