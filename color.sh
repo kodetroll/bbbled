@@ -112,12 +112,12 @@ function get_color_index () {
 	GRN ${ON}
 	BLU ${OFF}
      ;;
-  "cyan") 
+  "magenta") 
 	RED ${ON}
 	GRN ${OFF}
 	BLU ${ON}
      ;;
-  "magenta") 
+  "cyan") 
 	RED ${OFF}
 	GRN ${ON}
 	BLU ${ON}

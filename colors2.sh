@@ -50,7 +50,7 @@ while [ 1 ]; do
     for color in $COLORS
     do 
         ./color.sh $color
-        sleep ${DELAY}
+        msleep ${DELAY}
     done
 done
 
