@@ -45,7 +45,7 @@ function BLU () {
   LED ${BLUE} ${1}
 }
 
-function color () {
+function set_led_color () {
 	echo "Color: $1"
   case "$1" in
   0) RED ${OFF}
@@ -83,45 +83,98 @@ function color () {
   esac
 }
 
+function get_color_index () {
+	echo "Color: $1"
+  case "$1" in
+  "black") 
+	RED ${OFF}
+	GRN ${OFF}
+	BLU ${OFF}
+     ;;
+  "red") 
+	RED ${ON}
+	GRN ${OFF}
+	BLU ${OFF}
+     ;;
+  "green") 
+	RED ${OFF}
+	GRN ${ON}
+	BLU ${OFF}
+     ;;
+  "blue") 
+	RED ${OFF}
+	GRN ${OFF}
+	BLU ${ON}
+     ;;
+  "yellow") 
+	RED ${ON}
+	GRN ${ON}
+	BLU ${OFF}
+     ;;
+  "cyan") 
+	RED ${ON}
+	GRN ${OFF}
+	BLU ${ON}
+     ;;
+  "magenta") 
+	RED ${OFF}
+	GRN ${ON}
+	BLU ${ON}
+     ;;
+  "white") 
+	RED ${ON}
+	GRN ${ON}
+	BLU ${ON}
+     ;;
+  esac
+}
+
 # RED - 1
 echo "RED"
-color $red
+INDEX=get_color_index("red")
+set_led_color $INDEX
 sleep ${DELAY}
-color 0
+set_led_color 0
 
 # GREEN - 2
 echo "GREEN"
-color $green
+INDEX=get_color_index("green")
+set_led_color $INDEX
 sleep ${DELAY}
-color 0
+set_led_color 0
 
 # BLUE - 3
 echo "BLUE"
-color $blue
+INDEX=get_color_index("blue")
+set_led_color $INDEX
 sleep ${DELAY}
-color 0
+set_led_color 0
 
 # MAGENTA (RED + BLU)
 echo "MAGENTA"
-color $magenta
+INDEX=get_color_index("magenta")
+set_led_color $INDEX
 sleep ${DELAY}
-color 0
+set_led_color 0
 
 # CYAN (GRN + BLU)
 echo "CYAN"
-color $cyan
+INDEX=get_color_index("cyan")
+set_led_color $INDEX
 sleep ${DELAY}
-color 0
+set_led_color 0
 
 # YELLOW (RED + GRN)
 echo "YELLOW"
-color $yellow
+INDEX=get_color_index("yellow")
+set_led_color $INDEX
 sleep ${DELAY}
-color 0
+set_led_color 0
 
 # WHITE (RED + GRN + BLU)
 echo "WHITE"
-color $white
+INDEX=get_color_index("white")
+set_led_color $INDEX
 sleep ${DELAY}
-color 0
+set_led_color 0
 
