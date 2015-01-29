@@ -107,7 +107,7 @@ int main(int argc, char * argv[])
     long period = 1000000;
     char name[24];
 
-    verbose = quiet;
+    verbose = QUIET;
 
     if (verbose) {
         printf("argc: %d\n",argc);
