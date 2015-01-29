@@ -27,11 +27,6 @@ echo PIN > GPIO/unexport
 Set !NODE! to !STATE!: echo !STATE! > !NODE!
 Read !STATE! from !NODE!: cat !NODE!
 
-
-
-
-
-
 Map of Cape Connector Name to GPIO Pin # (new) and GPIO_# (old):
 P8_1  =  DGND   = GND
 P8_2  =  DGND   = GND

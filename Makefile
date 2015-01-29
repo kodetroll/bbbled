@@ -16,16 +16,20 @@ OBJPWMT = sysfs.o pwm_test.o
 OBJPWM = sysfs.o pwm.o 
 OBJFADE = sysfs.o fader.o 
 OBJTSYS = sysfs.o testsysfs.o
+OBJUSR = sysfs.o usrled.o
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-all: testsysfs gpio_write gpio_test pwm_test pwm fader
+all: testsysfs usrled gpio_write gpio_test pwm_test pwm fader
 
 #gpio: $(OBJ)
 #	$(CC) -o $@ $^ $(CFLAGS)
 
 testsysfs: $(OBJTSYS)
+	$(CC) -o $@ $^ $(CFLAGS)
+
+usrled: $(OBJUSR)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 gpio_write: $(OBJWR)
