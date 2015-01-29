@@ -46,6 +46,7 @@ function BLU () {
 }
 
 function color () {
+	echo "Color: $1"
   case "$1" in
   0) RED ${OFF}
      GRN ${OFF}
