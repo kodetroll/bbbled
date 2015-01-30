@@ -316,7 +316,13 @@ int main(int argc, char * argv[])
 	i = 1;
 	
 	if (argc > i)
+		delay = atol(argv[i++]);
+
+	if (argc > i)
 		verbose = atoi(argv[i++]);
+	
+	if (verbose)
+		printf("Delay: '%ld'\n",delay);
 
 	if (init(color) != ERROR_OK) {
 		printf("Error setting initial color value ('%s') for PWM channels)!\n",color);
