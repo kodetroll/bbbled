@@ -57,7 +57,7 @@ OCP=`ls -d /sys/devices/ocp.*`
 echo "OCP Path: $OCP"
 
 # find pwm #
-PWM=`ls -d $OCP/pwm_test_$PIN.*`
+PWM=`ls -d $OCP/pwm_test_$PWM_PIN_NAME.*`
 echo "PWM Path: $PWM"
 
 calc_percent DUTY
