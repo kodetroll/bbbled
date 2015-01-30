@@ -73,15 +73,17 @@ int idle_pwm(char * name, int dutycycle)
 	
 	long period = 1000000;
 	long duty = 990000;
-	
-	printf("Setting period to '%ld' on '%s'\n",period,name);
+
+	if (verbose)
+		printf("Setting period to '%ld' on '%s'\n",period,name);
 	
 	if (pwm_write_period(name,period) < ERROR_OK) {
 		printf("Error setting pwm period for '%s'!\n",name);
 		return(ERROR);
 	}
 	
-	printf("Setting duty to '%ld' on '%s'\n",duty,name);
+	if (verbose)
+		printf("Setting duty to '%ld' on '%s'\n",duty,name);
 	
 	if (pwm_write_duty(name,duty) < ERROR_OK) {
 		printf("Error setting pwm duty for '%s'!\n",name);
@@ -91,12 +93,18 @@ int idle_pwm(char * name, int dutycycle)
 	if (dutycycle < 0)
 		dutycycle = 10; 	// in percent
 
+	if (verbose)
+		printf("Setting dutycycle to '%d' on '%s'\n",dutycycle,name);
+
 	if (pwm_write_duty_cycle(name,dutycycle) < ERROR_OK) {
 		printf("Error setting pwm duty cycle for '%s'!\n",name);
 		return(ERROR);
 	}
+
+	if (verbose)
+		printf("Idle set on '%s'\n",name);
 	
-	return(dutycycle);
+	return(0);
 }
 
 int init_pin(int pin) {

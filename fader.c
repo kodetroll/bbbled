@@ -96,10 +96,16 @@ int idle_pwm(char * name, int dutycycle)
 	if (dutycycle < 0)
 		dutycycle = 10; 	// in percent
 
+	if (verbose)
+		printf("Setting dutycycle to '%d' on '%s'\n",dutycycle,name);
+
 	if (pwm_write_duty_cycle(name,dutycycle) < ERROR_OK) {
 		printf("Error setting pwm duty cycle for '%s'!\n",name);
 		return(ERROR);
 	}
+
+	if (verbose)
+		printf("Idle set on '%s'\n",name);
 	
 	return(0);
 }
