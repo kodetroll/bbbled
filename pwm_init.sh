@@ -36,16 +36,16 @@ FREQ=$((100000000/$PERIOD))
 PWM_PIN_NAME=`./get_pwm_pin_name ${PIN}`
 PWMPIN="bone_pwm_${PWM_PIN_NAME}"
 
-#echo "PWM_PIN_NAME: $PWM_PIN_NAME"
-#echo "PWMPIN: $PWMPIN"
+echo "PWM_PIN_NAME: $PWM_PIN_NAME"
+echo "PWMPIN: $PWMPIN"
 
 CAPEMGR=`ls -d /sys/devices/bone_capemgr.*`
 
-#echo "Capemgr Path: $CAPEMGR"
+echo "Capemgr Path: $CAPEMGR"
 
 SLOTS=${CAPEMGR}/slots
 
-#echo "Slot Path: $SLOTS"
+echo "Slot Path: $SLOTS"
 
 # find ocp #
 OCP=`ls -d /sys/devices/ocp.*`
@@ -56,7 +56,7 @@ echo am33xx_pwm > $SLOTS
 
 # find pwm #
 PWMPATH="$OCP/pwm_test_$PWM_PIN_NAME.*"
-echo "PWM Path: $PWM"
+echo "PWM Path: $PWMPATH"
 
 if [ -d "$PWMPATH" ]; then
     echo "PWM already Slotted!"

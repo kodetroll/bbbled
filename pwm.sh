@@ -39,12 +39,10 @@ echo "PWM_PIN_NAME: $PWM_PIN_NAME"
 echo "PWMPIN: $PWMPIN"
 
 CAPEMGR=`ls -d /sys/devices/bone_capemgr.*`
-#SLPATH=`ls -d /sys/devices/bone_capemgr.* | awk -F '.' '{print $2}'`
 SLOTS=${CAPEMGR}/slots
 
 echo "Capemgr Path: $CAPEMGR"
 echo "Slot Path: $SLOTS"
-#exit 0
 
 # find ocp #
 OCP=`ls -d /sys/devices/ocp.*`
@@ -55,7 +53,7 @@ echo am33xx_pwm > $SLOTS
 
 # find pwm #
 PWMPATH="$OCP/pwm_test_$PWM_PIN_NAME.*"
-echo "PWM Path: $PWM"
+echo "PWM Path: $PWMPATH"
 
 if [ -d "$PWMPATH" ]; then
     echo "PWM already Slotted!"
