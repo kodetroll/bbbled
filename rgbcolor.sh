@@ -26,7 +26,7 @@ DELAY=2
 
 # Set defined LED to specified duty cycle
 function LED () {
-	local DC=100-${2}
+	local DC=$((100-${2}))
 	./setduty.sh ${1} ${DC}
 }
 
