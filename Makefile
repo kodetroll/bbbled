@@ -10,42 +10,42 @@ CC=gcc
 CFLAGS=-I.
 DEPS = sysfs.h
 #OBJ = sysfs.o gpio.o 
-OBJWR = sysfs.o gpio_write.o 
-OBJTEST = sysfs.o gpio_test.o 
-OBJPWMT = sysfs.o pwm_test.o 
-OBJPWM = sysfs.o pwm.o 
-OBJFADE = sysfs.o fader.o 
-OBJTSYS = sysfs.o testsysfs.o
-OBJUSR = sysfs.o usrled.o
-OBJG = sysfs.o get_pwm_pin_name.o
+SYSOBJ = sysfs.o 
+COLOBJ = colors.o
+DEPOBJ = $(SYSOBJ) $(COLOBJ)
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 all: get_pwm_pin_name testsysfs usrled gpio_write gpio_test pwm_test pwm fader
 
-get_pwm_pin_name: $(OBJG)
+test: testsysfs gpio_test pwm_test testcolors
+
+get_pwm_pin_name: get_pwm_pin_name.o $(DEPOBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
-testsysfs: $(OBJTSYS)
+testcolors: testcolors.o $(DEPOBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
-usrled: $(OBJUSR)
+testsysfs: testsysfs.o $(DEPOBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
-gpio_write: $(OBJWR)
+usrled: usrled.o $(DEPOBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
-gpio_test: $(OBJTEST)
+gpio_write: gpio_write.o $(DEPOBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
-pwm_test: $(OBJPWMT)
+gpio_test: gpio_test.o $(DEPOBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
-pwm: $(OBJPWM)
+pwm_test: pwm_test.o $(DEPOBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
-fader: $(OBJFADE)
+pwm: pwm.o $(DEPOBJ)
+	$(CC) -o $@ $^ $(CFLAGS)
+
+fader: fader.o $(DEPOBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 .PHONY: clean

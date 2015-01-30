@@ -194,10 +194,10 @@ int get_pwm_pin_num(char * pin_name);
 int request_pwm(int capemgrnum);
 
 /* Function to request PWM from the '/slots' node of the 
- * specified capmgr sysfs node. -1 is returned for 
+ * enumerated capemgr sysfs node. -1 is returned for 
  * errors during write or open of sysfs node.
  */
-int request_pwm_pin(int capemgrnum, char * pwm_pin_name);
+int request_pwm_pin(char * pwm_pin_name);
 
 /* Function to search and return the pwm pin name
  * expressed in the '/sys/devices' branch of sysfs. 

@@ -36,13 +36,13 @@ int init_pwm(char * name)
 	if (verbose)
 		printf("CapeMgr Num: '%d'\n",cm);
 
-	if (verbose)
-		printf("Enumerating OCP Number!\n");
-	
-	int ocp = get_ocp_num();
-	
-	if (verbose)
-		printf("OCP Num: '%d'\n",ocp);
+//	if (verbose)
+//		printf("Enumerating OCP Number!\n");
+//	
+//	int ocp = get_ocp_num();
+//	
+//	if (verbose)
+//		printf("OCP Num: '%d'\n",ocp);
 
 	if (verbose)
 		printf("Requesting PWM (am35xx_pwm) functions!\n");
@@ -55,7 +55,7 @@ int init_pwm(char * name)
 	if (verbose)
 		printf("Requesting PWM Pin Function for Pin: '%s'!\n",name);
 
-	if (request_pwm_pin(cm,name) < ERROR_OK) {
+	if (request_pwm_pin(name) < ERROR_OK) {
 		printf("Error requesting pwm pin name!\n");
 		return(ERROR);
 	}

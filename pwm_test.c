@@ -76,17 +76,17 @@ int main(int argc, char * argv[])
 
 	printf("Name: '%s'\n",name);
 
-	printf("Enumerating CapeMgr Number!\n");
+//	printf("Enumerating CapeMgr Number!\n");
 	
 	int cm = get_capemgr_num();
 	
 	printf("CapeMgr Num: '%d'\n",cm);
 
-	printf("Enumerating OCP Number!\n");
+//	printf("Enumerating OCP Number!\n");
 	
-	int ocp = get_ocp_num();
+//	int ocp = get_ocp_num();
 	
-	printf("OCP Num: '%d'\n",ocp);
+//	printf("OCP Num: '%d'\n",ocp);
 
 	printf("Requesting PWM (am35xx_pwm) functions!\n");
 	
@@ -97,7 +97,7 @@ int main(int argc, char * argv[])
 
 	printf("Requesting PWM Pin Function for Pin: '%s'!\n",name);
 
-	if (request_pwm_pin(cm,name) < ERROR_OK) {
+	if (request_pwm_pin(name) < ERROR_OK) {
 		printf("Error requesting pwm pin name!\n");
 		exit(1);
 	}
