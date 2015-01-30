@@ -4,6 +4,7 @@
 
 #include "sysfs.h"
 
+// Usage: $0 <SYSFS NODE> <VERBOSE {0|1}>
 #define VERBOSE 1
 #define QUIET 0
 
@@ -12,26 +13,37 @@ int verbose = QUIET;
 #define SYSFS_CLASS "/sys/class"
 int main(int argc, char * argv[])
 {
+	int i =1;
 	char sysfs[120];
 	char test[20];
 
-	if (argc > 1) {
-		sprintf(test,"%s",argv[1]);
-	}
-	else
+	if (argc > i)
+		sprintf(test,"%s",argv[i++]);
+	if (argc > i)
+		verbose = atoi(argv[i++]);
+
+
+	if (i < 2)
 	{
 		printf("Enter test sysfs node: ");
 		scanf("%19s",test);
 	}
-	printf("test: '%s'\n",test);
 
-	sprintf(sysfs,SYSFS_CLASS "/%s",test);
+	if (verbose)
+		printf("test: '%s'\n",test);
 
-	printf("sysfs: '%s'\n",sysfs);
+	//sprintf(sysfs,SYSFS_CLASS "/%s",test);
+	sprintf(sysfs,"%s",test);
+	
+	if (verbose)
+		printf("sysfs: '%s'\n",sysfs);
 
 	int H = test_sysfs_node(sysfs);
 
-	printf("H: %d\n",H);
+	if (verbose)
+		printf("H: %d\n",H);
+	else
+		printf("%d",H);
 
 	if (H == 1)
 		exit(0);
