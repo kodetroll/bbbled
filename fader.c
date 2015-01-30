@@ -101,7 +101,7 @@ int idle_pwm(char * name, int dutycycle)
 		return(ERROR);
 	}
 	
-	return(dutycycle);
+	return(0);
 }
 
 int main(int argc, char * argv[])
