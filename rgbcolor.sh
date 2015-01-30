@@ -27,7 +27,7 @@ DELAY=2
 # Set defined LED to specified duty cycle
 function LED () {
 	local DC=100-${2}
-	./setduty,sh ${1} ${DC}
+	./setduty.sh ${1} ${DC}
 }
 
 # Set RED LED PWM Duty Cycle
@@ -55,11 +55,11 @@ function set_color () {
 # check to see if we are running as sudo (root), if not, bail!
 check_root
 
-./pwm_init ${REDLED}
+./pwm_init.sh ${REDLED}
 Red 0
-./pwm_init ${GRNLED}
+./pwm_init.sh ${GRNLED}
 Grn 0
-./pwm_init ${BLULED}
+./pwm_init.sh ${BLULED}
 Blu 0
 
 Color_Red=$1
