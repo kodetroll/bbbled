@@ -26,11 +26,11 @@ int main(int argc, char * argv[])
 	if (i < 2)
 	{
 		printf("Enter test sysfs node: ");
-		scanf("%19s",test);
+		scanf("%19s",sysfs);
 	}
 
 	if (verbose)
-		printf("sysfs: '%s'\n",test);
+		printf("sysfs: '%s'\n",sysfs);
 
 	int H = test_sysfs_node(sysfs);
 
