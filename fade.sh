@@ -15,8 +15,8 @@ UTYPE="<PIN#>"
 # check to see if we are running as sudo (root), if not, bail!
 check_root
 
-# Sleep time (blink on/off time)
-TIME=2
+# Sleep time (fade on/off time) in mS
+DELAY=100
 
 PIN=$1
 # Check to see if a valid pin# argument has been supplied
@@ -32,8 +32,10 @@ echo "Press CTRL-C to stop"
 while [ 1 ]; do
     for DC in $UP; do
         ./setduty.sh ${PIN} ${DC}
+		msleep ${DELAY}
     done
     for DC in $DN; do
         ./setduty.sh ${PIN} ${DC}
+		msleep ${DELAY}
     done
 done

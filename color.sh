@@ -17,7 +17,7 @@ ON=0
 OFF=1
 
 # Map the LED Colors to GPIO pins
-RED=22
+RED=23
 BLUE=2
 GREEN=50
 
