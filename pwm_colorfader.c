@@ -32,7 +32,9 @@ int init_pwm(char * name);
 int idle_pwm(char * name, int dutycycle);
 int init_pin(int pin);
 int set_led(int pin, unsigned char value);
-int set_color(char * color) ;
+int set_color_by_name(char * color);
+int set_color_rgb(unsigned char red, unsigned char grn, unsigned char blu);
+int init(char * color);
 
 int init_pwm(char * name) 
 {
@@ -178,7 +180,7 @@ int set_led(int pin, unsigned char value)
 	return(ERROR_OK);
 }
 
-int set_color(char * color) 
+int set_color_by_name(char * color) 
 {
 	unsigned char red,green,blue;
 
@@ -213,11 +215,83 @@ int set_color(char * color)
 	return(ERROR_OK);
 }
 
+int set_color_rgb(unsigned char red, unsigned char green, unsigned char blue)
+{
+
+	if (verbose)
+		printf("Setting Red LED (gpio%d) to '0x%02x'\n",REDLED,red);
+		
+	if (set_led(REDLED,red)) {
+		printf("Error setting color value for RED LED ('gpio%d')!\n",REDLED);
+		return(ERROR);
+	}
+
+	if (verbose)
+		printf("Setting Green LED (gpio%d) to '0x%02x'\n",GRNLED,green);
+
+	if (set_led(GRNLED,green)) {
+		printf("Error setting color value for GRN LED ('gpio%d)'!\n",GRNLED);
+		return(ERROR);
+	}
+
+	if (verbose)
+		printf("Setting Blue LED (gpio%d) to '0x%02x'\n",BLULED,blue);
+
+	if (set_led(BLULED,blue)) {
+		printf("Error setting color value for BLU LED ('gpio%d')!\n",BLULED);
+		return(ERROR);
+	}
+
+	return(ERROR_OK);
+}
+
+int init(char * color)
+{
+	unsigned char red,green,blue;
+
+	if (verbose)
+		printf("Initializing PWM Channel to '%s'!\n",color);
+
+	if (verbose)
+		printf("Initializing RED LED pin 'gpio%d'!\n",REDLED);
+		
+	if (init_pin(REDLED) != ERROR_OK) {
+		printf("Error initializing RED LED pin 'gpio%d'!\n",REDLED);
+		return(ERROR);
+	}
+	
+	if (verbose)
+		printf("Initializing GRN LED pin 'gpio%d'!\n",GRNLED);
+
+	if (init_pin(GRNLED) != ERROR_OK) {
+		printf("Error initializing GRN LED pin 'gpio%d'!\n",GRNLED);
+		return(ERROR);
+	}
+
+	if (verbose)
+		printf("Initializing BLU LED pin 'gpio%d'!\n",BLULED);
+
+	if (init_pin(BLULED) != ERROR_OK) {
+		printf("Error initializing BLU LED pin 'gpio%d'!\n",BLULED);
+		return(ERROR);
+	}
+
+	if (verbose)
+		printf("Setting color value ('%s') for PWM Channel!\n",color);
+	
+	if (set_color_by_name(color)) {
+		printf("Error setting color value ('%s') for PWM Channel!\n",color);
+		return(ERROR);
+	}
+
+	return(ERROR_OK);
+}
+	
 int main(int argc, char * argv[])
 {
 	int pin, pwm_pin, dutycycle, i, val, delay;
 	char color[24];
-	unsigned char red,green,blue;
+	unsigned char red,green,blue=0;
 
 	// Start with debugging set to quiet
 	verbose = QUIET;
@@ -225,6 +299,8 @@ int main(int argc, char * argv[])
 	// Set default Pin # to use if one is not 
 	// supplied on the command line.
 	delay = 100000;
+	
+	sprintf(color,"%s","black");
 	
 	// If debugging, print the command line args
 	if (verbose) {
@@ -238,47 +314,47 @@ int main(int argc, char * argv[])
 	// verify that the argument is valid for use 
 	// with atoi()
 	i = 1;
-	if (argc > i)
-		sprintf(color,"%s",argv[i++]);
-		
+	
 	if (argc > i)
 		verbose = atoi(argv[i++]);
 
-	if (verbose)
-		printf("color: '%s'\n",color);
-
-	if (verbose)
-		printf("Initializing RED LED pin 'gpio%d'!\n",REDLED);
-		
-	if (init_pin(REDLED) != ERROR_OK) {
-		printf("Error initializing RED LED pin 'gpio%d'!\n",REDLED);
+	if (init(color) != ERROR_OK) {
+		printf("Error setting initial color value ('%s') for PWM channels)!\n",color);
 		exit(1);
+	}
+
+	while(1)
+	{
+		
+		for (red=0;red<255;red++) {
+			set_color_rgb(red,green,blue);
+			usleep(delay);
+		}
+
+		for (green=0;green<255;green++) {
+			set_color_rgb(red,green,blue);
+			usleep(delay);
+		}
+
+		for (red=green;red>0;red--) {
+			set_color_rgb(red,green,blue);
+			usleep(delay);
+		}
+		
+		for (blue=0;blue<255;blue++) {
+			set_color_rgb(red,green,blue);
+			usleep(delay);
+		}
+
+		for (green=blue;green>0;green--) {
+			set_color_rgb(red,green,blue);
+			usleep(delay);
+		}
+
 	}
 	
-	if (verbose)
-		printf("Initializing GRN LED pin 'gpio%d'!\n",GRNLED);
-
-	if (init_pin(GRNLED) != ERROR_OK) {
-		printf("Error initializing GRN LED pin 'gpio%d'!\n",GRNLED);
-		exit(1);
-	}
-
-	if (verbose)
-		printf("Initializing BLU LED pin 'gpio%d'!\n",BLULED);
-
-	if (init_pin(BLULED) != ERROR_OK) {
-		printf("Error initializing BLU LED pin 'gpio%d'!\n",BLULED);
-		exit(1);
-	}
-
-	if (set_color(color) != ERROR_OK) {
-		printf("Error setting color '%s'!\n",color);
-		exit(1);
-	}
-		
 	if (verbose)
 		printf("Exiting!\n");
 
 	exit(0);
 }
-
