@@ -704,7 +704,7 @@ int pwm_pin_run(char * pwm_pin_name)
 	if (debug)
 		printf("PWM Pin is currently active!\n");
 
-	sprintf(sysfs,"%s",get_pwm_pin_path(pwm_pin_name));
+	sprintf(sysfs,"%s/run",get_pwm_pin_path(pwm_pin_name));
 	sprintf(valset,"%d",1);
 
 	if (debug) {
