@@ -54,13 +54,13 @@ echo "Requesting PWM from Slots"
 echo am33xx_pwm > $SLOTS
 
 # find pwm #
-PWMPATH=$OCP/pwm_test_$PIN.*
+PWMPATH="$OCP/pwm_test_$PWM_PIN_NAME.*"
 echo "PWM Path: $PWM"
 
 if [ -d "$PWMPATH" ]; then
     echo "PWM already Slotted!"
 else
-    echo "Requesting PWM Pin '$PIN' from Slots"
+    echo "Requesting PWM Pin '$PWM_PIN_NAME' from Slots"
     echo ${PWMPIN} > $SLOTS
 fi
 
