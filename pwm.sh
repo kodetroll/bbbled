@@ -65,7 +65,7 @@ else
 fi
 
 # find pwm #
-PWM=`ls -d $OCP/pwm_test_$PIN.*`
+PWM=`ls -d $OCP/pwm_test_$PWM_PIN_NAME.*`
 echo "PWM Path: $PWM"
 
 #exit 0
