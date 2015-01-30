@@ -104,7 +104,7 @@ int init_pin(int pin) {
 	int pwm_pin, dutycycle;
 	char name[24];
 		
-	dutycycle = 100;
+	dutycycle = 99;
 	if (verbose)
 		printf("Calculating PWM Pin Name from GPIO Pin Number!\n");
 
