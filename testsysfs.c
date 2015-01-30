@@ -18,7 +18,7 @@ int main(int argc, char * argv[])
 	char test[20];
 
 	if (argc > i)
-		sprintf(test,"%s",argv[i++]);
+		sprintf(sysfs,"%s",argv[i++]);
 	if (argc > i)
 		verbose = atoi(argv[i++]);
 
@@ -30,13 +30,7 @@ int main(int argc, char * argv[])
 	}
 
 	if (verbose)
-		printf("test: '%s'\n",test);
-
-	//sprintf(sysfs,SYSFS_CLASS "/%s",test);
-	sprintf(sysfs,"%s",test);
-	
-	if (verbose)
-		printf("sysfs: '%s'\n",sysfs);
+		printf("sysfs: '%s'\n",test);
 
 	int H = test_sysfs_node(sysfs);
 
