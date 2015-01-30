@@ -1,5 +1,5 @@
 #!/bin/bash
-# colors.sh - A bash script that cycles through the 8 possible 
+# gcolors.sh - A bash script that cycles through the 8 possible 
 # colors for an RGB driven from GPIO pins. Each pin has 2 possible
 # states (no PWM), ON and OFF, with 3 colors of LED, results in
 # 2^3 possible colors. These colors are named as they are driven.

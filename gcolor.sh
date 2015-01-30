@@ -1,5 +1,5 @@
 #!/bin/bash
-# color.sh - A bash script that lights an RGB LED based on the 
+# gcolor.sh - A bash script that lights an RGB LED based on the 
 # provided color name
 #
 # (C) 2015 KB4OID Labs, a division of Kodetroll Heavy Industries
