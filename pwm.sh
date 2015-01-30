@@ -32,7 +32,12 @@ echo "Setting Period to '$PERIOD'"
 echo "Setting Duty to '$DUTY' ($PER%)"
 
 PWM_PIN_NAME=`./get_pwm_pin_name ${PIN}`
-PWMPIN=bone_pwm_${PWM_PIN_NAME}
+PWMPIN="bone_pwm_${PWM_PIN_NAME}"
+
+echo "PIN: $PIN"
+echo "PWM_PIN_NAME: $PWM_PIN_NAME"
+echo "PWMPIN: $PWMPIN"
+
 CAPEMGR=`ls -d /sys/devices/bone_capemgr.*`
 #SLPATH=`ls -d /sys/devices/bone_capemgr.* | awk -F '.' '{print $2}'`
 SLOTS=${CAPEMGR}/slots

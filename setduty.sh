@@ -71,6 +71,6 @@ echo ${DUTY} > ${PWM}/duty
 echo "Setting Period to '$PERIOD'"
 echo ${PERIOD} > ${PWM}/period
 
-echo "Setting PWM Channel '$PIN' to RUN"
-echo 1 > ${PWM}/run
+#echo "Setting PWM Channel '$PIN' to RUN"
+#echo 1 > ${PWM}/run
 
