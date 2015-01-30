@@ -17,34 +17,32 @@ ON=0
 OFF=1
 
 # Map the LED Colors to GPIO pins
-RED=23
-BLUE=2
-GREEN=50
+REDLED=23
+BLULED=2
+GRNLED=50
 
 # Set the color ON time delay (in seconds)
 DELAY=2
 
 # Set defined LED to specified duty cycle
 function LED () {
-	./setduty,sh ${1} ${2}
+	local DC=100-${2}
+	./setduty,sh ${1} ${DC}
 }
 
 # Set RED LED PWM Duty Cycle
 function Red () {
-	# RED $1
-	LED ${RED} ${1}
+	LED ${REDLED} ${1}
 }
 
 # Set GRN LED PWM Duty Cycle
 function Grn () {
-	# GRN $1
-	LED ${GREEN} ${1}
+	LED ${GRNLED} ${1}
 }
 
 # Set BLU LED PWM Duty Cycle
 function Blu () {
-	# BLU $1
-	LED ${BLUE} ${1}
+	LED ${BLULED} ${1}
 }
 
 # Set RGB LED states
@@ -57,9 +55,12 @@ function set_color () {
 # check to see if we are running as sudo (root), if not, bail!
 check_root
 
-./pwm_init ${RED}
-./pwm_init ${GRN}
-./pwm_init ${BLU}
+./pwm_init ${REDLED}
+Red 0
+./pwm_init ${GRNLED}
+Grn 0
+./pwm_init ${BLULED}
+Blu 0
 
 Color_Red=$1
 if [ -z "$Color_Red" ]; then
