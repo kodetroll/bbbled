@@ -66,21 +66,21 @@ Color_Red=$1
 if [ -z "$Color_Red" ]; then
 	echo "No RED value specified"
     usage
-    exit(1)
+    exit 1
 fi
 
 Color_Green=$1
 if [ -z "$Color_Green" ]; then
 	echo "No GREEN value specified"
     usage
-    exit(1)
+    exit 1
 fi
 
 Color_Blue=$1
 if [ -z "$Color_Blue" ]; then
     echo "No BLUE value specified"
     usage
-    exit(1)
+    exit 1
 fi
 
 # Set RGB LED states
