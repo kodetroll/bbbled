@@ -201,18 +201,27 @@ int main(int argc, char * argv[])
 	if (verbose)
 		printf("color: '%s'\n",color);
 
+	if (verbose)
+		printf("Initializing RED LED pin 'gpio%d'!\n",REDLED);
+		
 	if (init_pin(REDLED) != ERROR_OK) {
-		printf("Error initializing RED LED pin 'gpio%d'!\n",pin);
+		printf("Error initializing RED LED pin 'gpio%d'!\n",REDLED);
 		exit(1);
 	}
 	
+	if (verbose)
+		printf("Initializing GRN LED pin 'gpio%d'!\n",GRNLED);
+
 	if (init_pin(GRNLED) != ERROR_OK) {
-		printf("Error initializing GRN LED pin 'gpio%d'!\n",pin);
+		printf("Error initializing GRN LED pin 'gpio%d'!\n",GRNLED);
 		exit(1);
 	}
 
+	if (verbose)
+		printf("Initializing BLU LED pin 'gpio%d'!\n",BLULED);
+
 	if (init_pin(BLULED) != ERROR_OK) {
-		printf("Error initializing BLU LED pin 'gpio%d'!\n",pin);
+		printf("Error initializing BLU LED pin 'gpio%d'!\n",BLULED);
 		exit(1);
 	}
 
