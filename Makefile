@@ -17,19 +17,16 @@ DEPOBJ = $(SYSOBJ) $(COLOBJ)
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-all: get_pwm_pin_name testsysfs usrled gpio_write gpio_test \
-	pwm_test pwm fader pwm_setcolor
+all: tests pwms gpios
 
-test: testsysfs gpio_test pwm_test testcolors
+gpios: usrled gpio_write gpio_test
 
-get_pwm_pin_name: get_pwm_pin_name.o $(DEPOBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+pwms: get_pwm_pin_name pwm_test pwm fader pwm_setcolor
 
-testcolors: testcolors.o $(DEPOBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+tests: testsysfs testcolors
 
-testsysfs: testsysfs.o $(DEPOBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+#################
+# gpios
 
 usrled: usrled.o $(DEPOBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
@@ -40,23 +37,38 @@ gpio_write: gpio_write.o $(DEPOBJ)
 gpio_test: gpio_test.o $(DEPOBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
+#################
+# pwms
+
+get_pwm_pin_name: get_pwm_pin_name.o $(DEPOBJ)
+	$(CC) -o $@ $^ $(CFLAGS)
+
 pwm_test: pwm_test.o $(DEPOBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 pwm: pwm.o $(DEPOBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
+fader: fader.o $(DEPOBJ)
+	$(CC) -o $@ $^ $(CFLAGS)
+
 pwm_setcolor: pwm_setcolor.o $(DEPOBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
-fader: fader.o $(DEPOBJ)
+#################
+# tests
+
+testcolors: testcolors.o $(DEPOBJ)
+	$(CC) -o $@ $^ $(CFLAGS)
+
+testsysfs: testsysfs.o $(DEPOBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 .PHONY: clean
 
 cleanall:
-	rm -f get_pwm_pin_name usrled testsysfs fader gpio_write gpio_test pwm_test pwm *.o *~ core  
-
+	rm -f usrled gpio_write gpio_test get_pwm_pin_name pwm_test pwm \
+		fader pwm_setcolor testsysfs testcolors *.o *~ core  
 clean:
 	rm -f *.o *~ core  
 
