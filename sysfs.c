@@ -661,8 +661,8 @@ int request_pwm_pin(char * pwm_pin_name)
 
 	int capemgrnum = get_capemgr_num();
 
-	printf("capemgrnum: '%d'\n",capemgrnum);
-
+	if (debug)
+		printf("capemgrnum: '%d'\n",capemgrnum);
 
 	if (get_pwm_pin_num(pwm_pin_name) >= ERROR_OK) {
 		if (debug)
