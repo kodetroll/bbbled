@@ -38,9 +38,9 @@ check_pinarg $PIN
 PWM_PIN_NAME=`./get_pwm_pin_name ${PIN}`
 PWMPIN="bone_pwm_${PWM_PIN_NAME}"
 
-#echo "PIN: $PIN"
-#echo "PWM_PIN_NAME: $PWM_PIN_NAME"
-#echo "PWMPIN: $PWMPIN"
+echo "PIN: $PIN"
+echo "PWM_PIN_NAME: $PWM_PIN_NAME"
+echo "PWMPIN: $PWMPIN"
 
 echo "Duty Cycle: $DUTYCYCLE %"
 L=$(($DUTYCYCLE * $PERIOD / 100))
@@ -51,7 +51,6 @@ echo "Setting Duty to '$DUTY' ($PER%)"
 
 echo "Duty Cycle: $PER %"
 echo "Modulation Freq: $FREQ"
-
 
 # find ocp #
 OCP=`ls -d /sys/devices/ocp.*`
