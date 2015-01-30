@@ -298,7 +298,7 @@ int main(int argc, char * argv[])
 
 	// Set default Pin # to use if one is not 
 	// supplied on the command line.
-	delay = 100000;
+	delay = 10000;
 	
 	sprintf(color,"%s","black");
 	
@@ -325,28 +325,33 @@ int main(int argc, char * argv[])
 
 	while(1)
 	{
-		
+
+		printf("March red up");
 		for (red=0;red<255;red++) {
 			set_color_rgb(red,green,blue);
 			usleep(delay);
 		}
 
+		printf("March green up");
 		for (green=0;green<255;green++) {
 			set_color_rgb(red,green,blue);
 			usleep(delay);
 		}
 
-		for (red=green;red>0;red--) {
+		printf("March red down");
+		for (red=255;red>0;red--) {
 			set_color_rgb(red,green,blue);
 			usleep(delay);
 		}
 		
+		printf("March blue up");
 		for (blue=0;blue<255;blue++) {
 			set_color_rgb(red,green,blue);
 			usleep(delay);
 		}
 
-		for (green=blue;green>0;green--) {
+		printf("March green down");
+		for (green=255;green>0;green--) {
 			set_color_rgb(red,green,blue);
 			usleep(delay);
 		}
