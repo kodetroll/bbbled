@@ -17,7 +17,8 @@ DEPOBJ = $(SYSOBJ) $(COLOBJ)
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-all: get_pwm_pin_name testsysfs usrled gpio_write gpio_test pwm_test pwm fader
+all: get_pwm_pin_name testsysfs usrled gpio_write gpio_test \
+	pwm_test pwm fader pwm_setcolor
 
 test: testsysfs gpio_test pwm_test testcolors
 
@@ -43,6 +44,9 @@ pwm_test: pwm_test.o $(DEPOBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 pwm: pwm.o $(DEPOBJ)
+	$(CC) -o $@ $^ $(CFLAGS)
+
+pwm_setcolor: pwm_setcolor.o $(DEPOBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 fader: fader.o $(DEPOBJ)
