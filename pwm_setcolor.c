@@ -24,6 +24,8 @@
 #define BLULED  2
 #define GRNLED 50
 
+#define LED_IS_COMMON_ANODE	
+
 int verbose = QUIET;
 
 int init_pwm(char * name);
