@@ -134,6 +134,9 @@ int main(int argc, char * argv[])
 	if (argc > i)
 		delay = atoi(argv[i++]);
 	
+	if (argc > i)
+		verbose = atoi(argv[i++]);
+
 	if (verbose) {
 		printf("GPIO pin #: '%d'\n",pin);
 		printf("delay: '%d'\n",delay);
