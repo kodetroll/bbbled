@@ -1,6 +1,7 @@
 #!/bin/bash
 # pwmtest.sh - A script to test PWM of an LED attached to the specified 
-# GPIO pin.
+# GPIO pin. Not functional as it uses devices that dont exist in 3.8
+# sysfs (AFAICT)
 #
 # (C) 2015 KB4OID Labs, a division of Kodetroll Heavy Industries
 #
@@ -9,29 +10,23 @@
 # Based on code from http://www.circuidipity.com/bbb-led.html
 #
 # Use CTRL-C to stop the script. Use unxport.sh to unexport the pin.
+#
+# Usage: 'pwmtest.sh <PIN#>'
+#
+UTYPE="<PIN#>"
 
 BASE="/sys/class/pwm"
 
 # Sleep time (blink on/off time)
 TIME=2
 
-function usage () {
-    echo "Usage: $0 <GPIO#>"
-}
-
 # check to see if we are running as sudo (root), if not, bail!
-if ! id | grep -q root; then
-        echo "must be run as root"
-        exit
-fi
-
-if [ -z "$1" ]; then
-    echo "No GPIO pin specified, exiting!"
-    usage
-    exit 0
-fi
+check_root
 
 PIN=$1
+# Check to see if a valid pin# argument has been supplied
+check_pinarg $PIN
+
 # define the GPIO PIN
 PWMPIN="$BASE/ehrpwm.1"
 

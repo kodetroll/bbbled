@@ -38,14 +38,14 @@ int test_sysfs_node(char * sysfs)
 
 #ifdef TEST_USES_STAT	
 
-  return (stat (sysfs, &buffer) == 0);
+  return (stat (sysfs, &buffer) == ERROR_OK);
 
 #else
   
-  if (access(sysfs, F_OK ) == -1)
-		return(-1);
+  if (access(sysfs, F_OK ) == ERROR)
+		return(ERROR);
 		
-	return(0);
+	return(ERROR_OK);
 #endif
 
 }
@@ -61,9 +61,9 @@ int read_sysfs_node(char * sysfs, char * buffer)
 
 //#ifdef USE_FCNTL
     fd = open(sysfs, O_RDONLY);
-    if (fd < 0) {
+    if (fd < ERROR_OK) {
         fprintf(stderr, "Error opening node '%s'\n",sysfs);
-        return(-1);
+        return(ERROR);
     }
     len = read (fd, &buf, sizeof(buf));
     close(fd);
@@ -71,7 +71,7 @@ int read_sysfs_node(char * sysfs, char * buffer)
 //    FILE* f = fopen(sysfs, "w");
 //    if (f == NULL) {
 //        fprintf(stderr, "Error writing node '%s'\n",sysfs);
-//        return(-1);
+//        return(ERROR);
 //    }
 //
 //    len = fread(buf,1,sizeof(buf),f);
@@ -99,9 +99,9 @@ int write_sysfs_node(char * sysfs, char * value)
 
 #ifdef USE_FCNTL
     fd = open(sysfs, O_WRONLY);
-    if (fd < 0) {
+    if (fd < ERROR_OK) {
         fprintf(stderr, "Error writing node '%s'\n",sysfs);
-        return(-1);
+        return(ERROR);
     }
     write (fd, &value, strlen(value));
     close(fd);
@@ -109,14 +109,14 @@ int write_sysfs_node(char * sysfs, char * value)
     FILE* f = fopen(sysfs, "w");
     if (f == NULL) {
         fprintf(stderr, "Error writing node '%s'\n",sysfs);
-        return(-1);
+        return(ERROR);
     }
 
     fprintf(f, "%s", value);
     fprintf(f, "\n");
     fclose(f);
 #endif
-    return(0);
+    return(ERROR_OK);
 }
 
 int gpio_is_exported(int pin)
@@ -129,9 +129,9 @@ int gpio_is_exported(int pin)
     sprintf(sysfs,SYSFS_GPIO "/gpio%d",pin);
 	
     if (test_sysfs_node(sysfs) == 0) {
-		return(-1);
+		return(ERROR);
 	}
-	return(0);
+	return(ERROR_OK);
 }
 
 int gpio_export(int pin)
@@ -152,10 +152,10 @@ int gpio_export(int pin)
 
     if (write_sysfs_node(sysfs, valset) < 0) {
         printf("Error exporting pin '%d' to node '%s/export'\n",pin,SYSFS_GPIO);
-        return(-1);
+        return(ERROR);
     }
 
-    return(0);
+    return(ERROR_OK);
 }
 
 int gpio_unexport(int pin)
@@ -175,10 +175,10 @@ int gpio_unexport(int pin)
 
     if (write_sysfs_node(sysfs, valset) < 0) {
         printf("Error unexporting pin '%d' to node '%s/unexport'\n",pin,SYSFS_GPIO);
-        return(-1);
+        return(ERROR);
     }
 
-    return(0);
+    return(ERROR_OK);
 }
 
 int gpio_write_dir(int pin, int state)
@@ -202,10 +202,10 @@ int gpio_write_dir(int pin, int state)
 
     if (write_sysfs_node(sysfs, valset) < 0) {
         printf("Error writing to pin '%d' at node '%s'\n",pin,SYSFS_GPIO);
-        return(-1);
+        return(ERROR);
     }
 
-    return(0);
+    return(ERROR_OK);
 }
 
 int gpio_write(int pin, int state)
@@ -227,10 +227,10 @@ int gpio_write(int pin, int state)
 
     if (write_sysfs_node(sysfs, valset) < 0) {
         printf("Error writing to pin '%d' at node '%s'\n",pin,SYSFS_GPIO);
-        return(-1);
+        return(ERROR);
     }
 
-    return(0);
+    return(ERROR_OK);
 }
 
 int gpio_read_dir(int pin)
@@ -251,7 +251,7 @@ int gpio_read_dir(int pin)
 	
     if ((len = read_sysfs_node(sysfs, valset)) < 0) {
         printf("Error reading pin '%d' at node '%s'\n",pin,SYSFS_GPIO);
-        return(-1);
+        return(ERROR);
     }
 
     if (debug) {
@@ -260,7 +260,7 @@ int gpio_read_dir(int pin)
 	if (strncmp(valset,"out",3) == 0)
 		return(1);
 
-    return(0);
+    return(ERROR_OK);
 }
 
 int gpio_read(int pin)
@@ -281,7 +281,7 @@ int gpio_read(int pin)
 	
     if ((len = read_sysfs_node(sysfs, valset)) < 0) {
         printf("Error reading pin '%d' at node '%s'\n",pin,SYSFS_GPIO);
-        return(-1);
+        return(ERROR);
     }
 
     if (debug) {
@@ -290,7 +290,7 @@ int gpio_read(int pin)
 	if (strncmp(valset,"1",1) == 0)
 		return(1);
 
-    return(0);
+    return(ERROR_OK);
 }
 
 int get_pin_bank(int pin)
@@ -309,7 +309,7 @@ int get_pin_bank(int pin)
 
 	if (bank < 0 || bank > 5) {
 		printf("Pin # '%d' Invalid, Bank '%d' out of range!\n",pin,bank);
-		exit(-1);
+		return(ERROR);
 	}
 
 	return(bank);
@@ -336,7 +336,7 @@ int get_old_pin_num(int pin)
 
 	if (pinnum < 0 || pinnum > 31) {
 		printf("Pin # '%d' Invalid, pinnum '%d' out of range!\n",pin,pinnum);
-		exit(-1);
+		return(ERROR);
 	}
 
 	return(pinnum);
@@ -359,7 +359,7 @@ int get_old_pin_name(int pin, char* name)
 
 	if (bank < 0 || bank > 5) {
 		printf("Pin # '%d' Invalid, Bank '%d' out of range!\n",pin,bank);
-		exit(-1);
+		return(ERROR);
 	}
 	
 	pinnum = get_old_pin_num(pin);
@@ -369,7 +369,7 @@ int get_old_pin_name(int pin, char* name)
 
 	if (pinnum < 0 || pinnum > 31) {
 		printf("Pin # '%d' Invalid, pinnum '%d' out of range!\n",pin,pinnum);
-		exit(-1);
+		return(ERROR);
 	}
 
 	sprintf(name,"P%d_%d",bank,pinnum);
@@ -378,7 +378,7 @@ int get_old_pin_name(int pin, char* name)
         printf("name: '%s'\n",name);
     }
 	
-	return(0);
+	return(ERROR_OK);
 }
 
 int get_pin_conn(int pin)
@@ -432,7 +432,7 @@ int get_pwm_pin_name(int pin, char* name)
 
 	if (conn < 8 || conn > 9) {
 		printf("Pin # '%d' Invalid, conn '%d' out of range!\n",pin,conn);
-		exit(-1);
+		return(ERROR);
 	}
 	
 	pinnum = get_pin_num(pin);
@@ -442,7 +442,7 @@ int get_pwm_pin_name(int pin, char* name)
 
 	if (pinnum < 0 || pinnum > 46) {
 		printf("Pin # '%d' Invalid, pinnum '%d' out of range!\n",pin,pinnum);
-		exit(-1);
+		return(ERROR);
 	}
 
 	sprintf(name,"P%d_%d",conn,pinnum);
@@ -451,12 +451,12 @@ int get_pwm_pin_name(int pin, char* name)
         printf("name: '%s'\n",name);
     }
 	
-	return(0);
+	return(ERROR_OK);
 }
 
 int get_capemgr_num(void)
 {
-	int n = -1;
+	int n = ERROR;
 	DIR *dp = NULL;
 	char tmp[20];
 	char * ptr;
@@ -474,7 +474,7 @@ int get_capemgr_num(void)
 
 	if ((dp = opendir(sysfs)) == NULL) {
         printf("Error opening sysfs node '%s'\n",sysfs);
-        return(-1);
+        return(ERROR);
     }
 	sprintf(tmp,"%s","bone_capemgr.");
 	
@@ -496,7 +496,7 @@ int get_capemgr_num(void)
 
 int get_ocp_num(void)
 {
-	int n = -1;
+	int n = ERROR;
 	DIR *dp = NULL;
 	char tmp[20];
 	char * ptr;
@@ -514,7 +514,7 @@ int get_ocp_num(void)
 
 	if ((dp = opendir(sysfs)) == NULL) {
         printf("Error opening sysfs node '%s'\n",sysfs);
-        return(-1);
+        return(ERROR);
     }
 	sprintf(tmp,"%s","ocp.");
 	
@@ -583,7 +583,7 @@ char* get_pwm_pin_path(char * pin_name)
 
 int get_pwm_pin_num(char * pin_name)
 {
-	int n = -1;
+	int n = ERROR;
 	DIR *dp = NULL;
 	char tmp[20];
 	char * ptr;
@@ -604,7 +604,7 @@ int get_pwm_pin_num(char * pin_name)
 
 	if ((dp = opendir(sysfs)) == NULL) {
         printf("Error opening sysfs node '%s'\n",sysfs);
-        return(-1);
+        return(ERROR);
     }
 	sprintf(tmp,"pwm_test_%s",pin_name);
 	
@@ -646,10 +646,10 @@ int request_pwm(int capemgrnum)
 
     if (write_sysfs_node(sysfs, valset) < 0) {
         printf("Error requesting '%s' at node '%s'\n",valset,sysfs);
-        return(-1);
+        return(ERROR);
     }
 
-    return(0);	
+    return(ERROR_OK);	
 }
 
 int request_pwm_pin(int capemgrnum, char * pwm_pin_name)
@@ -663,7 +663,7 @@ int request_pwm_pin(int capemgrnum, char * pwm_pin_name)
 	if (get_pwm_pin_num(pwm_pin_name) >= ERROR_OK) {
 		if (debug)
 			printf("PWM Pin is already currently active!\n");
-		return(0);
+		return(ERROR_OK);
 	}
     
 	if (debug)
@@ -678,10 +678,74 @@ int request_pwm_pin(int capemgrnum, char * pwm_pin_name)
 	}
 	if (write_sysfs_node(sysfs, valset) < 0) {
 		printf("Error requesting '%s' at node '%s'\n",valset,sysfs);
-		return(-1);
+		return(ERROR);
 	}
 
-    return(0);	
+    return(ERROR_OK);	
+}
+
+int pwm_pin_run(char * pwm_pin_name)
+{
+    if (debug) {
+		printf("pwm_pin_run\n");
+        printf("pwm_pin_name: '%s'\n",pwm_pin_name);
+	}
+
+	if (get_pwm_pin_num(pwm_pin_name) < ERROR_OK) {
+//		if (debug)
+			printf("PWM Pin is NOT already currently active!\n");
+		return(ERROR);
+	}
+    
+	if (debug)
+		printf("PWM Pin is currently active!\n");
+
+	sprintf(sysfs,"%s",get_pwm_pin_path(pwm_pin_name));
+	sprintf(valset,"%d",1);
+
+	if (debug) {
+		printf("sysfs: '%s'\n",sysfs);
+		printf("valset: '%s'\n",valset);
+	}
+	
+	if (write_sysfs_node(sysfs, valset) < 0) {
+		printf("Error requesting '%s' at node '%s'\n",valset,sysfs);
+		return(ERROR);
+	}
+
+    return(ERROR_OK);	
+}
+
+int pwm_pin_stop(char * pwm_pin_name)
+{
+    if (debug) {
+		printf("pwm_pin_stop\n");
+        printf("pwm_pin_name: '%s'\n",pwm_pin_name);
+	}
+
+	if (get_pwm_pin_num(pwm_pin_name) < ERROR_OK) {
+//		if (debug)
+			printf("PWM Pin is NOT already currently active!\n");
+		return(ERROR);
+	}
+    
+	if (debug)
+		printf("PWM Pin is currently active!\n");
+
+	sprintf(sysfs,"%s",get_pwm_pin_path(pwm_pin_name));
+	sprintf(valset,"%d",0);
+
+	if (debug) {
+		printf("sysfs: '%s'\n",sysfs);
+		printf("valset: '%s'\n",valset);
+	}
+	
+	if (write_sysfs_node(sysfs, valset) < 0) {
+		printf("Error requesting '%s' at node '%s'\n",valset,sysfs);
+		return(ERROR);
+	}
+
+    return(ERROR_OK);	
 }
 
 int pwm_write_period(char* name, long period)
@@ -704,10 +768,36 @@ int pwm_write_period(char* name, long period)
 	
     if (write_sysfs_node(sysfs, valset) < 0) {
         printf("Error writing '%s' to node '%s'\n",valset,sysfs);
-        return(-1);
+        return(ERROR);
     }
 	
-    return(0);
+    return(ERROR_OK);
+}
+
+int pwm_write_duty(char* name, long duty)
+{
+	// OCP/pwm_test_PINNAME.pin
+	//echo ${DUTY} > ${PWM}/duty
+    if (debug) {
+		printf("pwm_write_duty\n");
+        printf("name: '%s'\n",name);
+        printf("duty: '%ld'\n",duty);
+    }
+
+	sprintf(sysfs,"%s/duty",get_pwm_pin_path(name));
+	sprintf(valset,"%ld",duty);
+	
+    if (debug) {
+		printf("sysfs: '%s'\n",sysfs);
+		printf("valset: '%s'\n",valset);
+	}
+	
+    if (write_sysfs_node(sysfs, valset) < 0) {
+        printf("Error writing '%s' to node '%s'\n",valset,sysfs);
+        return(ERROR);
+    }
+	
+    return(ERROR_OK);
 }
 
 int pwm_write_duty_cycle(char* name, int dutycycle)
@@ -737,36 +827,10 @@ int pwm_write_duty_cycle(char* name, int dutycycle)
 
 	if (pwm_write_duty(name,duty) < ERROR_OK) {
         printf("Error writing duty cycle\n");
-        return(-1);
+        return(ERROR);
     }
 	
-    return(0);
-}
-
-int pwm_write_duty(char* name, long duty)
-{
-	// OCP/pwm_test_PINNAME.pin
-	//echo ${DUTY} > ${PWM}/duty
-    if (debug) {
-		printf("pwm_write_duty\n");
-        printf("name: '%s'\n",name);
-        printf("duty: '%ld'\n",duty);
-    }
-
-	sprintf(sysfs,"%s/duty",get_pwm_pin_path(name));
-	sprintf(valset,"%ld",duty);
-	
-    if (debug) {
-		printf("sysfs: '%s'\n",sysfs);
-		printf("valset: '%s'\n",valset);
-	}
-	
-    if (write_sysfs_node(sysfs, valset) < 0) {
-        printf("Error writing '%s' to node '%s'\n",valset,sysfs);
-        return(-1);
-    }
-	
-    return(0);
+    return(ERROR_OK);
 }
 
 long pwm_read_period(char* name)
@@ -788,7 +852,7 @@ long pwm_read_period(char* name)
 	
     if ((len = read_sysfs_node(sysfs, valset)) < 0) {
         printf("Error reading node '%s'\n",sysfs);
-        return(-1);
+        return(ERROR);
     }
 
     if (debug) {
@@ -822,7 +886,7 @@ long pwm_read_duty(char* name)
 	
     if ((len = read_sysfs_node(sysfs, valset)) < 0) {
         printf("Error reading node '%s'\n",sysfs);
-        return(-1);
+        return(ERROR);
     }
 
     if (debug) {

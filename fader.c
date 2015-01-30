@@ -114,7 +114,7 @@ int main(int argc, char * argv[])
 	// supplied on the command line.
 	pin = 23;
 	
-	delay = -1;
+	delay = 100000;
 	
 	// If debugging, print the command line args
 	if (verbose) {
@@ -127,15 +127,13 @@ int main(int argc, char * argv[])
 	// a pin number. Note, no attempt is made to
 	// verify that the argument is valid for use 
 	// with atoi()
-	if (argc > 1)
-		pin = atoi(argv[1]);
+	i = 1;
+	if (argc > i)
+		pin = atoi(argv[i++]);
 		
-	if (argc > 2)
-		delay = atoi(argv[2]);
-
-	if (delay < 0)
-		delay = 100000;
-		
+	if (argc > i)
+		delay = atoi(argv[i++]);
+	
 	if (verbose) {
 		printf("GPIO pin #: '%d'\n",pin);
 		printf("delay: '%d'\n",delay);
@@ -152,14 +150,27 @@ int main(int argc, char * argv[])
 	if (verbose)
 		printf("Name: '%s'\n",name);
 
+	if (verbose)
+		printf("Initializing PWM on '%s'\n",name);
+
 	if ((pwm_pin = init_pwm(name)) < ERROR_OK) {
 		printf("Error initializing pwm pin '%s'!\n",name);
 		exit(1);
 	}
 	
-	
+	if (verbose)
+		printf("Setting idle_pwm dutycycles on '%s'\n",name);
+
 	if ((idle_pwm(name, dutycycle)) != ERROR_OK) {
 		printf("Error setting pwm pin '%s' to idle!\n",name);
+		exit(1);
+	}
+
+	if (verbose)
+		printf("Setting pwm run ON on '%s'\n",name);
+
+	if (pwm_pin_run(name) < ERROR_OK) {
+		printf("Error setting pwm run to ON for '%s'!\n",name);
 		exit(1);
 	}
 

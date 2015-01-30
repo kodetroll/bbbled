@@ -1,6 +1,6 @@
 # functions.sh - Function include file for use with BBB LED Tool suite
 #
-# Usage: '. functions.sh'
+# Usage: '. ./functions.sh'
 #
 # (C) 2015 KB4OID Labs, A division of Kodetroll Heavy Industries
 #
@@ -10,6 +10,7 @@
 #
 # Some functions have code based on examples from:
 # http://www.circuidipity.com/bbb-led.html
+#
 
 GPIO="/sys/class/gpio"
 
@@ -22,27 +23,7 @@ function file_exists () {
 
 # Basic usage format
 function usage () {
-    local N="$1"
-    if [ -z "$N" ]; then N=1;fi
-    if [ $N -eq 1 ]; then usage1; fi
-    if [ $N -eq 2 ]; then usage2; fi
-    if [ $N -eq 3 ]; then usage3; fi
-}
-
-function usage1 () {
-    echo "Usage: $0 <GPIO#>"
-}
-
-function usage2 () {
-    echo "Usage: $0 <GPIO#> <STATE>"
-}
-
-function usage3 () {
-    echo "Usage: $0 <GPIO#> <DIR>"
-}
-
-function usage4 () {
-    echo "Usage: $0 <LED> <STATE>"
+    echo "Usage: $0 ${UTYPE}"
 }
 
 # Check to see if the GPIO pin is already exported
@@ -228,6 +209,24 @@ function check_root() {
         echo "must be run as root"
         exit 1
     fi
+}
+
+# PWM Pin Functions
+
+# dc * period = period - duty
+# (dc * period) - period = -duty
+# period - (dc * period) = duty
+
+function calc_percent () {
+	# duty cycle = (period-duty)/period
+    if [ -z "$1" ]; then
+        DT=$(($PERIOD/10))
+    else
+        DT=$1
+    fi
+    PER=$(($PERIOD-$DT))
+    PER=$(($PER*100/$PERIOD))
+    FREQ=$((100000000/$PERIOD))
 }
 
 # END of functions.sh

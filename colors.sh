@@ -6,6 +6,14 @@
 # LED used with this demo is Common Anode, so a 1 on the GPIO pin
 # turns the LED off and a 0 turns it on. This inverse logic is
 # reflected in the choice of variable substitutions.
+#
+# (C) 2015 KB4OID Labs, a division of Kodetroll Heavy Industries
+#
+# Author: Kodetroll
+# Date: January 2015
+#
+UTYPE=""
+. ./functions.sh
 
 # Common Anode LEDs so ON is LOW, OFF is HIGH
 ON=0
@@ -20,25 +28,29 @@ GREEN=50
 DELAY=2
 
 function LED () {
-  # LED $1 STATE $2
-  #echo "LED (GPIO: $1) ($2)"
-  ./gpio_write ${1} ${2}
+	# LED $1 STATE $2
+	./gpio_write ${1} ${2}
 }
 
 function RED () {
-  # LED $1 STATE $2
-  LED ${RED} ${1}
+	# RED $1
+	LED ${RED} ${1}
 }
 
 function GRN () {
-  # LED $1 STATE $2
-  LED ${GREEN} ${1}
+	# GRN $1
+	LED ${GREEN} ${1}
 }
 
 function BLU () {
-  # LED $1 STATE $2
-  LED ${BLUE} ${1}
+	# BLU $1
+	LED ${BLUE} ${1}
 }
+
+# check to see if we are running as sudo (root), if not, bail!
+check_root
+
+# Cycle through the colors
 
 # RED
 echo "RED"
@@ -82,3 +94,4 @@ echo "WHITE"
 sleep 2
 ./color.sh "black"
 
+# end of colors.sh

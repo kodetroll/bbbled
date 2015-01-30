@@ -6,6 +6,16 @@
 # LED used with this demo is Common Anode, so a 1 on the GPIO pin
 # turns the LED off and a 0 turns it on. This inverse logic is
 # reflected in the choice of variable substitutions.
+#
+# (C) 2015 KB4OID Labs, a division of Kodetroll Heavy Industries
+#
+# Author: Kodetroll
+# Date: January 2015
+#
+# Usage: 'colors2.sh <DELAY>"
+#
+UTYPE="<DELAY>"
+. ./functions.sh
 
 # Common Anode LEDs so ON is LOW, OFF is HIGH
 ON=0
@@ -15,6 +25,9 @@ OFF=1
 RED=22
 BLUE=23
 GREEN=50
+
+# check to see if we are running as sudo (root), if not, bail!
+check_root
 
 # Set the color ON time delay (in seconds)
 DELAY=2

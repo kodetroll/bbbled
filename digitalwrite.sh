@@ -6,9 +6,9 @@
 # Author: Kodetroll
 # Date: January 2015
 # Based on code from http://www.circuidipity.com/bbb-led.html
-UTYPE=2
+#
+UTYPE="<PIN#> <STATE>"
 . ./functions.sh
-#GPIO="/sys/class/gpio"
 
 # check to see if we are running as sudo (root), if not, bail!
 check_root

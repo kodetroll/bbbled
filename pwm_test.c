@@ -48,7 +48,7 @@ int main(int argc, char * argv[])
 	dutycycle = -1;
 	
 	// If debugging, print the command line args
-	if (verbose) {
+	if (debug) {
 		printf("argc: %d\n",argc);
 		for (i=0;i<argc;i++)
 			printf("argv[%d]: '%s'\n",i,argv[i]);
@@ -58,11 +58,11 @@ int main(int argc, char * argv[])
 	// a pin number. Note, no attempt is made to
 	// verify that the argument is valid for use 
 	// with atoi()
-	if (argc > 1)
-		pin = atoi(argv[1]);
-		
-	if (argc > 2)
-		dutycycle = atoi(argv[2]);
+	i = 1;
+	if (argc > i)
+		pin = atoi(argv[i++]);				// 1st cmd arg
+	if (argc > i)
+		dutycycle = atoi(argv[i++]);		// 2nd cmd arg
 
 	printf("GPIO pin #: '%d'\n",pin);
 	printf("dutycycle(%%): '%d'\n",dutycycle);
@@ -126,7 +126,12 @@ int main(int argc, char * argv[])
 		printf("Error setting pwm duty for '%s'!\n",name);
 		exit(1);
 	}
-	
+
+	if (pwm_pin_run(name) < ERROR_OK) {
+		printf("Error setting pwm run to ON for '%s'!\n",name);
+		exit(1);
+	}
+
 	if (dutycycle < 0)
 		dutycycle = 10; 	// in percent
 

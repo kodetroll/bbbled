@@ -10,7 +10,8 @@
 # Use CTRL-C to stop the script. Use unxport.sh to unexport the pin.
 # Note that this script sets the direction register of the pin to OUTPUT
 # and then toggles the value between 0 & 1
-UTYPE=1
+#
+UTYPE="<PIN#>"
 . ./functions.sh
 
 # check to see if we are running as sudo (root), if not, bail!
@@ -27,18 +28,18 @@ check_pinarg $PIN
 if ! check_exported $PIN ; then xport $PIN; fi
 
 # set direction to OUT
-setdir 44 out
+setdir ${PIN} out
 
 echo "Use CTRL-C to stop the script. Use 'unxport.sh $PIN' to unexport the pin."
 
 while [ true ]; do
     # set GPIO pin to high ('1') - ON
-    digwr $PIN 1
-    sleep $TIME
+    digwr ${PIN} 1
+    sleep ${TIME}
 
     # set GPIO pin to low ('0') - OFF
-    digwr $PIN 0
-    sleep $TIME
+    digwr ${PIN} 0
+    sleep ${TIME}
 done
 
 # Done

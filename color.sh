@@ -1,6 +1,16 @@
 #!/bin/bash
 # color.sh - A bash script that lights an RGB LED based on the 
-# provided color number
+# provided color name
+#
+# (C) 2015 KB4OID Labs, a division of Kodetroll Heavy Industries
+#
+# Author: Kodetroll
+# Date: January 2015
+#
+# Usage: 'color.sh <COLORNAME>'
+#
+UTYPE="<COLOR NAME>"
+. ./functions.sh
 
 # Common Anode LEDs so ON is LOW, OFF is HIGH
 ON=0
@@ -24,110 +34,77 @@ magenta=5
 cyan=6
 white=7
 
+# Set defined LED to specified state
 function LED () {
-  # LED $1 STATE $2
-  #echo "LED (GPIO: $1) ($2)"
-  ./gpio_write ${1} ${2}
+	# LED $1 STATE $2
+	./gpio_write ${1} ${2}
 }
 
+# Set RED Led State 
 function RED () {
-  # LED $1 STATE $2
-  LED ${RED} ${1}
+	# RED $1
+	LED ${RED} ${1}
 }
 
 function GRN () {
-  # LED $1 STATE $2
-  LED ${GREEN} ${1}
+	# GRN $1
+	LED ${GREEN} ${1}
 }
 
 function BLU () {
-  # LED $1 STATE $2
-  LED ${BLUE} ${1}
+	# BLU $1
+	LED ${BLUE} ${1}
 }
 
-function set_led_color () {
-	echo "Color: $1"
-  case "$1" in
-  0) RED ${OFF}
-     GRN ${OFF}
-     BLU ${OFF}
-     ;;
-  1) RED ${ON}
-     GRN ${OFF}
-     BLU ${OFF}
-     ;;
-  2) RED ${OFF}
-     GRN ${ON}
-     BLU ${OFF}
-     ;;
-  3) RED ${OFF}
-     GRN ${OFF}
-     BLU ${ON}
-     ;;
-  4) RED ${ON}
-     GRN ${ON}
-     BLU ${OFF}
-     ;;
-  5) RED ${ON}
-     GRN ${OFF}
-     BLU ${ON}
-     ;;
-  6) RED ${OFF}
-     GRN ${ON}
-     BLU ${ON}
-     ;;
-  7) RED ${ON}
-     GRN ${ON}
-     BLU ${ON}
-     ;;
-  esac
-}
-
-function get_color_index () {
+function set_color () {
 	echo "Color Name: $1"
 	
-  case "$1" in
-  "black") 
-	RED ${OFF}
-	GRN ${OFF}
-	BLU ${OFF}
-     ;;
-  "red") 
-	RED ${ON}
-	GRN ${OFF}
-	BLU ${OFF}
-     ;;
-  "green") 
-	RED ${OFF}
-	GRN ${ON}
-	BLU ${OFF}
-     ;;
-  "blue") 
-	RED ${OFF}
-	GRN ${OFF}
-	BLU ${ON}
-     ;;
-  "yellow") 
-	RED ${ON}
-	GRN ${ON}
-	BLU ${OFF}
-     ;;
-  "magenta") 
-	RED ${ON}
-	GRN ${OFF}
-	BLU ${ON}
-     ;;
-  "cyan") 
-	RED ${OFF}
-	GRN ${ON}
-	BLU ${ON}
-     ;;
-  "white") 
-	RED ${ON}
-	GRN ${ON}
-	BLU ${ON}
-     ;;
-  esac
+	case "$1" in
+		"black") 
+			RED ${OFF}
+			GRN ${OFF}
+			BLU ${OFF}
+		;;
+		"red") 
+			RED ${ON}
+			GRN ${OFF}
+			BLU ${OFF}
+		;;
+		"green") 
+			RED ${OFF}
+			GRN ${ON}
+			BLU ${OFF}
+		;;
+		"blue") 
+			RED ${OFF}
+			GRN ${OFF}
+			BLU ${ON}
+		;;
+		"yellow") 
+			RED ${ON}
+			GRN ${ON}
+			BLU ${OFF}
+		;;
+		"magenta") 
+			RED ${ON}
+			GRN ${OFF}
+			BLU ${ON}
+		;;
+		"cyan") 
+			RED ${OFF}
+			GRN ${ON}
+			BLU ${ON}
+		;;
+		"white") 
+			RED ${ON}
+			GRN ${ON}
+			BLU ${ON}
+		;;
+	esac
 }
 
-get_color_index $1
+# check to see if we are running as sudo (root), if not, bail!
+check_root
+
+# Set RGB LED states by parsing color name
+set_color $1

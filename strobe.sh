@@ -7,7 +7,8 @@
 # Author: Kodetroll
 # Date: January 2015
 # Based on code from http://www.circuidipity.com/bbb-led.html
-UTYPE=1
+#
+UTYPE="<PIN#>"
 . ./functions.sh
 
 # check to see if we are running as sudo (root), if not, bail!
@@ -21,16 +22,12 @@ check_pinarg $PIN
 if ! check_exported $PIN ; then xport $PIN; fi
 
 # set direction to OUT
-setdir 44 out
+setdir ${PIN} out
 
+# Flip Pin State
 ./toggle.sh $PIN
 
+# Flip Pin State
 ./toggle.sh $PIN
-
-# set to high
-#digwr $PIN 1
-
-# set to low
-#digwr $PIN 0
 
 # Done

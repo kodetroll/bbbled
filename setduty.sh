@@ -1,31 +1,47 @@
 #!/bin/bash
+# setduty.sh - A script to set the dutycycle of a specified PWM pin.
+#
+# (C) 2015 KB4OID Labs, a division of Kodetroll Heavy Industries
+#
+# Author: Kodetroll
+# Date: January 2015
+#
+# Usage: 'setduty.sh <PIN#> <DUTYCYCLE>"
+#
+UTYPE="<PIN#> <DUTYCYCLE>"
+. ./functions.sh
+
 # PERIOD of 100 is 20 mhz
 PERIOD=1000
 DUTY=100
-# dc * period = period - duty
-# (dc * period) - period = -duty
-# period - (dc * period) = duty
 
-function calc_percent () {
-# duty cycle = (period-duty)/period
-    if [ -z "$1" ]; then
-        DT=$(($PERIOD/10))
-    else
-        DT=$1
-    fi
-    PER=$(($PERIOD-$DT))
-    PER=$(($PER*100/$PERIOD))
-    FREQ=$((100000000/$PERIOD))
-}
+PIN=23
 
-#calc_percent
+# check to see if we are running as sudo (root), if not, bail!
+#check_root
 
 #echo "Duty Cycle: $PER %"
 #echo "Modulation Freq: $FREQ"
 echo "Setting Period to '$PERIOD'"
 #echo "Setting Duty to '$DUTY' ($PER%)"
 
-DUTYCYCLE=$1
+if [ -z "$2" ]; then
+	DUTYCYCLE=1
+else
+	DUTYCYCLE=$2
+fi
+
+PIN=$1
+# Check to see if a valid pin# argument has been supplied
+check_pinarg $PIN
+
+PWM_PIN_NAME=`./get_pwm_pin_name ${PIN}`
+PWMPIN="bone_pwm_${PWM_PIN_NAME}"
+
+#echo "PIN: $PIN"
+#echo "PWM_PIN_NAME: $PWM_PIN_NAME"
+#echo "PWMPIN: $PWMPIN"
+
 echo "Duty Cycle: $DUTYCYCLE %"
 L=$(($DUTYCYCLE * $PERIOD / 100))
 echo "L: $L"
@@ -36,8 +52,6 @@ echo "Setting Duty to '$DUTY' ($PER%)"
 echo "Duty Cycle: $PER %"
 echo "Modulation Freq: $FREQ"
 
-PIN=P8_13
-PWMPIN=bone_pwm_${PIN}
 
 # find ocp #
 OCP=`ls -d /sys/devices/ocp.*`

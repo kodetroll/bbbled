@@ -17,14 +17,15 @@ OBJPWM = sysfs.o pwm.o
 OBJFADE = sysfs.o fader.o 
 OBJTSYS = sysfs.o testsysfs.o
 OBJUSR = sysfs.o usrled.o
+OBJG = sysfs.o get_pwm_pin_name.o
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-all: testsysfs usrled gpio_write gpio_test pwm_test pwm fader
+all: get_pwm_pin_name testsysfs usrled gpio_write gpio_test pwm_test pwm fader
 
-#gpio: $(OBJ)
-#	$(CC) -o $@ $^ $(CFLAGS)
+get_pwm_pin_name: $(OBJG)
+	$(CC) -o $@ $^ $(CFLAGS)
 
 testsysfs: $(OBJTSYS)
 	$(CC) -o $@ $^ $(CFLAGS)
@@ -50,7 +51,7 @@ fader: $(OBJFADE)
 .PHONY: clean
 
 cleanall:
-	rm -f usrled testsysfs fader gpio_write gpio_test pwm_test pwm *.o *~ core  
+	rm -f get_pwm_pin_name usrled testsysfs fader gpio_write gpio_test pwm_test pwm *.o *~ core  
 
 clean:
 	rm -f *.o *~ core  

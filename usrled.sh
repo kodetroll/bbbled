@@ -4,21 +4,26 @@
 #
 # (C) 2015 KB4OID Labs, a division of Kodetroll Heavy Industries.
 #
-UTYPE=4
+UTYPE="<USRLED#> <STATE>"
 . ./functions.sh
 
+# check to see if we are running as sudo (root), if not, bail!
 check_root
 
-check_ledarg $1
+PIN=$1
+# Check to see if a valid pin# argument has been supplied
+check_ledarg $PIN
 
+# Check to see if a valid led state argument has been supplied
 check_ledstatearg $2
 
-LED="usr$1"
+LED="usr$PIN"
 STATE="none"
 SYSFS="/sys/class/leds/beaglebone:green:${LED}/trigger"
 if [ "$2" = "1" ]; then
     STATE="default-on"
 fi
+
 if [ -e "$SYSFS" ] ; then
     echo "Sending '$STATE' to '$SYSFS'"
     echo "$STATE" > ${SYSFS}
