@@ -333,48 +333,48 @@ int main(int argc, char * argv[])
 	while(1)
 	{
 
-		printf("March red up");
+		printf("March red up - ");
 		for (red=0;red<255;red++) {
 			set_color_rgb(red,green,blue);
 			usleep(delay);
 		}
 
-		printf("March green up");
+		printf("March green up - ");
 		for (green=0;green<255;green++) {
 			set_color_rgb(red,green,blue);
 			usleep(delay);
 		}
 
-		printf("March blue up");
+		printf("March blue up - ");
 		for (blue=0;blue<255;blue++) {
 			set_color_rgb(red,green,blue);
 			usleep(delay);
 		}
 
-		printf("Stay");
+		printf("Stay - ");
 		for (i=0;i<255;i++) {
 			usleep(delay);
 		}
 
-		printf("March red down");
+		printf("March red down - ");
 		for (red=255;red>0;red--) {
 			set_color_rgb(red,green,blue);
 			usleep(delay);
 		}
 		
-		printf("March green down");
+		printf("March green down - ");
 		for (green=255;green>0;green--) {
 			set_color_rgb(red,green,blue);
 			usleep(delay);
 		}
 
-		printf("March blue down");
+		printf("March blue down - ");
 		for (blue=255;blue>0;blue--) {
 			set_color_rgb(red,green,blue);
 			usleep(delay);
 		}
 
-		printf("Stay");
+		printf("Stay - ");
 		for (i=0;i<255;i++) {
 			usleep(delay);
 		}
