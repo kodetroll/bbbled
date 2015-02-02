@@ -1,5 +1,5 @@
 /*************************************************************************
- * pwm_setcolor.c - A c program to set color of the RGB LED using the
+ * pwm_colorfader.c - A c program to fade colors of an RGB LED using the
  * pwm subsystem.
  *
  * (C) 2015 KB4OID Labs, A division of Kodetroll Heavy Industries
@@ -289,7 +289,8 @@ int init(char * color)
 	
 int main(int argc, char * argv[])
 {
-	int pin, pwm_pin, dutycycle, i, val, delay;
+	int pin, pwm_pin, dutycycle, i, val;
+	long delay;
 	char color[24];
 	unsigned char red,green,blue=0;
 
@@ -344,24 +345,39 @@ int main(int argc, char * argv[])
 			usleep(delay);
 		}
 
-		printf("March red down");
-		for (red=255;red>0;red--) {
-			set_color_rgb(red,green,blue);
-			usleep(delay);
-		}
-		
 		printf("March blue up");
 		for (blue=0;blue<255;blue++) {
 			set_color_rgb(red,green,blue);
 			usleep(delay);
 		}
 
+		printf("Stay");
+		for (i=0;i<255;i++) {
+			usleep(delay);
+		}
+
+		printf("March red down");
+		for (red=255;red>0;red--) {
+			set_color_rgb(red,green,blue);
+			usleep(delay);
+		}
+		
 		printf("March green down");
 		for (green=255;green>0;green--) {
 			set_color_rgb(red,green,blue);
 			usleep(delay);
 		}
 
+		printf("March blue down");
+		for (blue=255;blue>0;blue--) {
+			set_color_rgb(red,green,blue);
+			usleep(delay);
+		}
+
+		printf("Stay");
+		for (i=0;i<255;i++) {
+			usleep(delay);
+		}
 	}
 	
 	if (verbose)
