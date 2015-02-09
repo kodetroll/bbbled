@@ -33,7 +33,8 @@
 // Define each color channels Max and Min PWM value
 #define RED_MAX 255
 #define RED_MIN 0
-#define GRN_MAX 255
+#define GRN_MAX 100
+
 #define GRN_MIN 0
 #define BLU_MAX 255
 #define BLU_MIN 0
