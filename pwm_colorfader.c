@@ -33,7 +33,7 @@
 // Define each color channels Max and Min PWM value
 #define RED_MAX 255
 #define RED_MIN 0
-#define GRN_MAX 150
+#define GRN_MAX 255
 #define GRN_MIN 0
 #define BLU_MAX 255
 #define BLU_MIN 0
@@ -358,48 +358,48 @@ int main(int argc, char * argv[])
 	while(1)
 	{
 		printf("March red up - ");
-		for (red=RED_MIN;red<RED_MAX;red++) {
-			set_color_rgb(red,green,blue);
+		for (red = RED_MIN; red < RED_MAX; red++) {
+			set_color_rgb(red, green, blue);
 			usleep(delay);
 		}
 
 		printf("March green up - ");
-		for (green=GRN_MIN;green<GRN_MAX;green++) {
-			set_color_rgb(red,green,blue);
+		for (green = GRN_MIN; green < GRN_MAX; green++) {
+			set_color_rgb(red, green, blue);
 			usleep(delay);
 		}
 
 		printf("March blue up - ");
-		for (blue=BLU_MIN;blue<BLU_MAX;blue++) {
-			set_color_rgb(red,green,blue);
+		for (blue = BLU_MIN; blue < BLU_MAX; blue++) {
+			set_color_rgb(red, green, blue);
 			usleep(delay);
 		}
 
 		printf("Stay - ");
-		for (i=STAY_MIN;i<STAY_MAX;i++) {
+		for (i = STAY_MIN; i < STAY_MAX; i++) {
 			usleep(delay);
 		}
 
 		printf("March red down - ");
-		for (red=RED_MAX;red>RED_MIN;red--) {
-			set_color_rgb(red,green,blue);
+		for (red = RED_MAX; red > RED_MIN; red--) {
+			set_color_rgb(red, green, blue);
 			usleep(delay);
 		}
 		
 		printf("March green down - ");
-		for (green=GRN_MAX;green>GRN_MIN;green--) {
-			set_color_rgb(red,green,blue);
+		for (green = GRN_MAX; green > GRN_MIN; green--) {
+			set_color_rgb(red, green, blue);
 			usleep(delay);
 		}
 
 		printf("March blue down - ");
-		for (blue=BLU_MAX;blue>BLU_MIN;blue--) {
-			set_color_rgb(red,green,blue);
+		for (blue= BLU_MAX; blue > BLU_MIN; blue--) {
+			set_color_rgb(red, green, blue);
 			usleep(delay);
 		}
 
 		printf("Stay - ");
-		for (i=STAY_MIN;i<STAY_MAX;i++) {
+		for (i = STAY_MIN; i < STAY_MAX; i++) {
 			usleep(delay);
 		}
 	}
