@@ -1,6 +1,7 @@
 /*************************************************************************
- * pwm_colorfader.c - A c program to fade colors of an RGB LED using the
- * pwm subsystem.
+ * pwm_colorfader.c - A c program to fade colors of an RGB LED attached
+ * to PWM channels of the Beagle Bone Black board using the sysfs pwm 
+ * subsystem.
  *
  * (C) 2015 KB4OID Labs, A division of Kodetroll Heavy Industries
  * Author: Kodetroll
@@ -19,12 +20,25 @@
 #define VERBOSE 1
 #define QUIET 0
 
-// Map the LED Colors to GPIO pins
+// Map the LED Colors to GPIO pins. These values are converted to
+// sysfs pin mappings in the sysfs module. 
 #define REDLED 23
 #define BLULED  2
 #define GRNLED 50
 
+// This defines that the PWM channel is driven low to turn ON the RGB
+// LED (Common Anode).
 #define LED_IS_COMMON_ANODE	
+
+// Define each color channels Max and Min PWM value
+#define RED_MAX 255
+#define RED_MIN 0
+#define GRN_MAX 150
+#define GRN_MIN 0
+#define BLU_MAX 255
+#define BLU_MIN 0
+#define STAY_MAX 255
+#define STAY_MIN 0
 
 int verbose = QUIET;
 
@@ -36,6 +50,7 @@ int set_color_by_name(char * color);
 int set_color_rgb(unsigned char red, unsigned char grn, unsigned char blu);
 int init(char * color);
 
+// Initialize the PWM subsystem for the specified pin
 int init_pwm(char * name) 
 {
 	if (verbose)
@@ -73,6 +88,7 @@ int init_pwm(char * name)
 	return(pwm_pin);
 }
 
+// Set the specified PWM pin to the specified dutycycle
 int idle_pwm(char * name, int dutycycle)
 {
 	
@@ -112,6 +128,7 @@ int idle_pwm(char * name, int dutycycle)
 	return(0);
 }
 
+// Initialize the specified pin to PWM mode and turn on
 int init_pin(int pin) {
 
 	int pwm_pin, dutycycle;
@@ -156,8 +173,10 @@ int init_pin(int pin) {
 	return(ERROR_OK);
 }
 
+// Set the specified PWM channel to the desired duty cycle value
 int set_led(int pin, unsigned char value)
 {
+	// Convert channel value from eight bit value to percent (0-100)
 	int dutycycle = value * 100 / 255;
 	char name[24];
 		
@@ -170,9 +189,11 @@ int set_led(int pin, unsigned char value)
 	}
 	
 #ifdef LED_IS_COMMON_ANODE	
+	// If LED is common Anode, invert the duty cycle (e.g. 90% becomes 10%)
 	dutycycle = (100 - dutycycle);
 #endif
 	
+	// Write the duty cycle value to the specified channel
 	if (pwm_write_duty_cycle(name,dutycycle) < ERROR_OK) {
 		printf("Error setting pwm duty cycle for '%s'!\n",name);
 		return(ERROR);
@@ -180,6 +201,8 @@ int set_led(int pin, unsigned char value)
 	return(ERROR_OK);
 }
 
+// Convert a string value color name to it's RGB equivalent (in hex)
+// e.g. BLACK becomes 0x00, 0x00, 0x00/
 int set_color_by_name(char * color) 
 {
 	unsigned char red,green,blue;
@@ -215,6 +238,7 @@ int set_color_by_name(char * color)
 	return(ERROR_OK);
 }
 
+// Set the LED PWM channels to the specified RGB values
 int set_color_rgb(unsigned char red, unsigned char green, unsigned char blue)
 {
 
@@ -245,6 +269,7 @@ int set_color_rgb(unsigned char red, unsigned char green, unsigned char blue)
 	return(ERROR_OK);
 }
 
+// Initialize the PWM channels and set the starting value to OFF
 int init(char * color)
 {
 	unsigned char red,green,blue;
@@ -332,50 +357,49 @@ int main(int argc, char * argv[])
 
 	while(1)
 	{
-
 		printf("March red up - ");
-		for (red=0;red<255;red++) {
+		for (red=RED_MIN;red<RED_MAX;red++) {
 			set_color_rgb(red,green,blue);
 			usleep(delay);
 		}
 
 		printf("March green up - ");
-		for (green=0;green<255;green++) {
+		for (green=GRN_MIN;green<GRN_MAX;green++) {
 			set_color_rgb(red,green,blue);
 			usleep(delay);
 		}
 
 		printf("March blue up - ");
-		for (blue=0;blue<255;blue++) {
+		for (blue=BLU_MIN;blue<BLU_MAX;blue++) {
 			set_color_rgb(red,green,blue);
 			usleep(delay);
 		}
 
 		printf("Stay - ");
-		for (i=0;i<255;i++) {
+		for (i=STAY_MIN;i<STAY_MAX;i++) {
 			usleep(delay);
 		}
 
 		printf("March red down - ");
-		for (red=255;red>0;red--) {
+		for (red=RED_MAX;red>RED_MIN;red--) {
 			set_color_rgb(red,green,blue);
 			usleep(delay);
 		}
 		
 		printf("March green down - ");
-		for (green=255;green>0;green--) {
+		for (green=GRN_MAX;green>GRN_MIN;green--) {
 			set_color_rgb(red,green,blue);
 			usleep(delay);
 		}
 
 		printf("March blue down - ");
-		for (blue=255;blue>0;blue--) {
+		for (blue=BLU_MAX;blue>BLU_MIN;blue--) {
 			set_color_rgb(red,green,blue);
 			usleep(delay);
 		}
 
 		printf("Stay - ");
-		for (i=0;i<255;i++) {
+		for (i=STAY_MIN;i<STAY_MAX;i++) {
 			usleep(delay);
 		}
 	}
