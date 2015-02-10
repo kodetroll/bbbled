@@ -365,19 +365,19 @@ int main(int argc, char * argv[])
 		printf("March red up - ");
 		for (red = RED_MIN; red < RED_MAX; red++) {
 			set_color_rgb(red, green, blue);
-			usleep(delay);
+			usleep(delay * RGAM);
 		}
 
 		printf("March green up - ");
 		for (green = GRN_MIN; green < GRN_MAX; green++) {
 			set_color_rgb(red, green, blue);
-			usleep(delay);
+			usleep(delay * GGAM);
 		}
 
 		printf("March blue up - ");
 		for (blue = BLU_MIN; blue < BLU_MAX; blue++) {
 			set_color_rgb(red, green, blue);
-			usleep(delay);
+			usleep(delay * BGAM);
 		}
 
 		printf("Stay - ");
@@ -388,19 +388,19 @@ int main(int argc, char * argv[])
 		printf("March red down - ");
 		for (red = RED_MAX; red > RED_MIN; red--) {
 			set_color_rgb(red, green, blue);
-			usleep(delay);
+			usleep(delay * RGAM);
 		}
 		
 		printf("March green down - ");
 		for (green = GRN_MAX; green > GRN_MIN; green--) {
 			set_color_rgb(red, green, blue);
-			usleep(delay);
+			usleep(delay * GGAM);
 		}
 
 		printf("March blue down - ");
 		for (blue= BLU_MAX; blue > BLU_MIN; blue--) {
 			set_color_rgb(red, green, blue);
-			usleep(delay);
+			usleep(delay * BGAM);
 		}
 
 		printf("Stay - ");
