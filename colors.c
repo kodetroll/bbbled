@@ -5,6 +5,12 @@
 #include "colors.h"
 #include "color_defs.h"
 
+
+int get_num_colors(void)
+{
+	return(NUM_COLORS);
+}
+
 int get_color_index(char * name)
 {
 	int i;

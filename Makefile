@@ -21,7 +21,8 @@ all: tests pwms gpios
 
 gpios: usrled gpio_write gpio_test
 
-pwms: get_pwm_pin_name pwm_test pwm fader pwm_setrgb pwm_setcolor pwm_colorfader
+pwms: get_pwm_pin_name pwm_test pwm fader pwm_setrgb pwm_setcolor \
+	pwm_colorfader pwm_colorfader2
 
 tests: testsysfs testcolors
 
@@ -59,6 +60,9 @@ pwm_setrgb: pwm_setrgb.o $(DEPOBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 pwm_colorfader: pwm_colorfader.o $(DEPOBJ)
+	$(CC) -o $@ $^ $(CFLAGS)
+
+pwm_colorfader2: pwm_colorfader2.o $(DEPOBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 #################

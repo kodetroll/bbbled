@@ -18,6 +18,7 @@ extern "C" {
 #define ERROR -1
 #define ERROR_OK 0
 
+int get_num_colors(void);
 int get_color_index(char * name);
 int get_red_from_name(char * name);
 int get_grn_from_name(char * name);
