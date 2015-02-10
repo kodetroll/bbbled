@@ -25,6 +25,11 @@
 #define BLULED  2
 #define GRNLED 50
 
+// Gamma correction
+#define RGAM 5
+#define GGAM 4
+#define BGAM 2
+
 #define LED_IS_COMMON_ANODE	
 
 int verbose = QUIET;
@@ -179,8 +184,20 @@ int set_led(int pin, unsigned char value)
 	return(ERROR_OK);
 }
 
-int set_color(unsigned char red,unsigned char green,unsigned char blue) 
+int set_color(unsigned char r,unsigned char g,unsigned char b) 
 {
+	unsigned char red,green,blue;
+	
+	if (verbose)
+		printf("Raw R G B: 0x%02x 0x%02x 0x%02x\n",r,g,b);
+
+	red = r / RGAM;
+	green = g / GGAM;
+	blue = b / BGAM;
+
+	if (verbose)
+		printf("Gamma R G B: 0x%02x 0x%02x 0x%02x\n",red,green,blue);
+	
 	if (verbose)
 		printf("Setting Red LED (gpio%d) to '0x%02x'\n",REDLED,red);
 		
