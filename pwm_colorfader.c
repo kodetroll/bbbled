@@ -26,17 +26,21 @@
 #define BLULED  2
 #define GRNLED 50
 
+// Gamma correction
+#define RGAM 5
+#define GGAM 4
+#define BGAM 2
+
 // This defines that the PWM channel is driven low to turn ON the RGB
 // LED (Common Anode).
 #define LED_IS_COMMON_ANODE	
 
 // Define each color channels Max and Min PWM value
-#define RED_MAX 255
+#define RED_MAX 255 / RGAM
 #define RED_MIN 0
-#define GRN_MAX 100
-
+#define GRN_MAX 255 / GGAM
 #define GRN_MIN 0
-#define BLU_MAX 255
+#define BLU_MAX 255 / BGAM
 #define BLU_MIN 0
 #define STAY_MAX 255
 #define STAY_MIN 0

@@ -19,11 +19,19 @@
 #define VERBOSE 1
 #define QUIET 0
 
-// Map the LED Colors to GPIO pins
+// Map the LED Colors to GPIO pins. These values are converted to
+// sysfs pin mappings in the sysfs module. 
 #define REDLED 23
 #define BLULED  2
 #define GRNLED 50
 
+// Gamma correction
+#define RGAM 5
+#define GGAM 4
+#define BGAM 2
+
+// This defines that the PWM channel is driven low to turn ON the RGB
+// LED (Common Anode).
 #define LED_IS_COMMON_ANODE	
 
 int verbose = QUIET;
@@ -180,11 +188,23 @@ int set_led(int pin, unsigned char value)
 
 int set_color(char * color) 
 {
+	unsigned char r,g,b;
+
 	unsigned char red,green,blue;
 
-	red = get_red_from_name(color);
-	green = get_grn_from_name(color);
-	blue = get_blu_from_name(color);
+	r = get_red_from_name(color);
+	g = get_grn_from_name(color);
+	b = get_blu_from_name(color);
+
+	if (verbose)
+		printf("Raw R G B: 0x%02x 0x%02x 0x%02x\n",r,g,b);
+
+	red = r / RGAM;
+	green = g / GGAM;
+	blue = b / BGAM;
+
+	if (verbose)
+		printf("Gamma R G B: 0x%02x 0x%02x 0x%02x\n",red,green,blue);
 
 	if (verbose)
 		printf("Setting Red LED (gpio%d) to '0x%02x'\n",REDLED,red);

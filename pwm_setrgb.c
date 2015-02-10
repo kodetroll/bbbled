@@ -20,7 +20,8 @@
 #define VERBOSE 1
 #define QUIET 0
 
-// Map the LED Colors to GPIO pins
+// Map the LED Colors to GPIO pins. These values are converted to
+// sysfs pin mappings in the sysfs module. 
 #define REDLED 23
 #define BLULED  2
 #define GRNLED 50
@@ -30,6 +31,8 @@
 #define GGAM 4
 #define BGAM 2
 
+// This defines that the PWM channel is driven low to turn ON the RGB
+// LED (Common Anode).
 #define LED_IS_COMMON_ANODE	
 
 int verbose = QUIET;
