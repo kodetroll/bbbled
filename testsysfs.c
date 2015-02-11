@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <fcntl.h>
 
 #include "sysfs.h"
 
@@ -11,6 +12,7 @@
 int verbose = QUIET;
 
 #define SYSFS_CLASS "/sys/class"
+
 int main(int argc, char * argv[])
 {
 	int i =1;
@@ -21,7 +23,6 @@ int main(int argc, char * argv[])
 		sprintf(sysfs,"%s",argv[i++]);
 	if (argc > i)
 		verbose = atoi(argv[i++]);
-
 
 	if (i < 2)
 	{
